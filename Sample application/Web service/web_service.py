@@ -41,6 +41,7 @@ productionMode = os.name != "nt"
 bottle.debug(not productionMode)
 PICTURE_DIRECTORY = "/tmp/mobiprint-picture-upload" if productionMode else fromRelativePath("picture-upload")
 DATABASE_FILENAME = "/tmp/mobiprint-web-service-db.json" if productionMode else fromRelativePath("database", "mobiprint-web-service-db.json")
+PICTURE_QUOTA = 300 * 2**20
 
 # Picture filenames are always named <id>.<sha1>.jpg
 PICTURE_REGEX = re.compile(r"^[1-9]\d{0,9}\.[a-f0-9]{40}\.jpg$")
@@ -200,6 +201,10 @@ def uploadPicture():
 
         with pictureWriteLock:
             jpgFilenames = [filename for filename in os.listdir(PICTURE_DIRECTORY) if PICTURE_REGEX.match(filename)]
+
+            consumedSize = sum(map(lambda filename: os.path.getsize(os.path.join(PICTURE_DIRECTORY, filename)), jpgFilenames))
+            if consumedSize + length > PICTURE_QUOTA:
+                abort(500, "Quota exceeded")
 
             for filename in jpgFilenames:
                 if filename[-44:-4] == sha1:
