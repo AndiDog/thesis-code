@@ -145,6 +145,13 @@ def submitOrder(id):
 
             order = matchingOrders[0]
 
+            if not order["pictureIds"]:
+                # The way this service is currently implemented, this can't happen (new order is created with at least
+                # one picture in it), but as this is defined as an expected error, let's leave it here
+                abort(400, "Order contains no pictures")
+            if order["submissionDate"] is not None:
+                abort(400, "Order already submitted")
+
             # Remove second fragment from date string (result e.g. "2012-04-16T13:24:29+00:00")
             order["submissionDate"] = re.sub(r"\.\d+(\+\d\d:\d\d)$", r"\1", tzDatetimeNow().isoformat())
 
