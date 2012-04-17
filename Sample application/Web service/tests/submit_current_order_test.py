@@ -18,7 +18,7 @@ currentOrder = filteredOrders[0]
 
 response, content = client.request("http://localhost:8087/order/%d/submit/" % currentOrder["id"],
                                    "POST",
-                                   body = urlencode({"username" : "user", "password" : "pass"}),
+                                   body = urlencode({"username" : "user", "password" : "pass", "storeId" : 3}),
                                    headers = {"Content-Type": "application/x-www-form-urlencoded"})
 assert response.status == 200 and response["content-type"] == "application/json", (response, content)
 print json.loads(content)

@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 """
 Web service implementation for the sample application MobiPrint, written using the Bottle web framework.
 
@@ -63,6 +64,51 @@ HOMEPAGE = """
 </html>
 """.strip()
 
+STORES = (
+    {
+        "id" : 1,
+        "name" : "MallMart",
+        "address" : u"Marienplatz 1, München",
+        "lat" : 48.137168,
+        "lng" : 11.57562
+    },
+    {
+        "id" : 2,
+        "name" : "LITTLE",
+        "address" : u"Leopoldstraße 144, München",
+        "lat" : 48.168998,
+        "lng" : 11.586521
+    },
+    {
+        "id" : 3,
+        "name" : "F-Markt",
+        "address" : u"Maria-Probst-Straße 6, München",
+        "lat" : 48.191382,
+        "lng" : 11.586113
+    },
+    {
+        "id" : 4,
+        "name" : "S'Rädle",
+        "address" : "Michelbacher Str. 1, Zaberfeld",
+        "lat" : 49.058429,
+        "lng" : 8.926263
+    },
+    {
+        "id" : 5,
+        "name" : "Boop Konsum",
+        "address" : "Kungsholmsgatan 22, Stockholm",
+        "lat" : 59.330212,
+        "lng" : 18.052983
+    },
+    {
+        "id" : 6,
+        "name" : "Rainsbury's",
+        "address" : "Fox Den Road, Stoke Gifford, Bristol",
+        "lat" : 51.506939,
+        "lng" : -2.552884
+    },
+)
+
 def checkId(id):
     if not (1 <= id < 2**31):
         abort(400, "Invalid picture ID")
@@ -123,14 +169,47 @@ def thumbnail(id):
     stream.seek(0)
     return stream
 
+@route("/stores/by-location/")
+def stores():
+    lat, lng = request.GET.get("lat", None), request.GET.get("lng", None)
+
+    if lat is None or lng is None:
+        abort(400, "Missing parameter lat or lng")
+
+    try:
+        lat = float(lat)
+        lng = float(lng)
+    except ValueError:
+        abort(400, "Invalid format of lat or lng parameter")
+
+    if not (-90 <= lat <= 90) or not (-180 <= lng <= 180):
+        abort(400, "Latitude or longitude invalid, probably not specified in degrees")
+
+    distanceStoreTuples = [((store["lat"] - lat)**2 + (store["lng"] - lng)**2, store) for store in STORES]
+    distanceStoreTuples.sort()
+
+    # Cache for 1 hour
+    response.set_header("Expires", time.strftime("%a, %d %b %Y %H:%M:%S GMT", (datetime.datetime.utcnow() + datetime.timedelta(hours = 1)).timetuple()))
+
+    return {"stores" : [t[1] for t in distanceStoreTuples[:5]]}
+
 @post("/order/<id:int>/submit/")
 def submitOrder(id):
     checkId(id)
 
-    username, password = request.POST.get("username", None), request.POST.get("password", None)
+    username, password, storeId = (request.POST.get("username", None),
+                                   request.POST.get("password", None),
+                                   request.POST.get("storeId", None))
 
-    if not username or not password:
-        abort(400, "Missing username or password parameter")
+    if not username or not password or storeId is None:
+        abort(400, "Missing username, password, or storeId parameter")
+
+    try:
+        storeId = int(storeId)
+    except ValueError:
+        abort(400, "Invalid store ID")
+
+    checkId(storeId)
 
     with dbWriteLock:
         with open(DATABASE_FILENAME, "r+b") as f:
@@ -154,6 +233,7 @@ def submitOrder(id):
 
             # Remove second fragment from date string (result e.g. "2012-04-16T13:24:29+00:00")
             order["submissionDate"] = re.sub(r"\.\d+(\+\d\d:\d\d)$", r"\1", tzDatetimeNow().isoformat())
+            order["storeId"] = storeId
 
             f.seek(0)
             json.dump(db, f, sort_keys = True, indent = 2)
@@ -245,6 +325,7 @@ def uploadPicture():
 
                     order = {"id" : orderId,
                              "pictureIds" : [pictureId],
+                             "storeId" : None,
                              "submissionDate" : None}
                     db["orders"].append(order)
                     dbChanged = True
