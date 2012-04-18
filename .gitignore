@@ -1,3 +1,4 @@
+*.git.ignore
 .DS_Store
 *.swp
 *~.nib
@@ -8,6 +9,7 @@ build/
 *.mode1v3
 *.mode2v3
 *._*
+/*.bat
 xcuserdata
 xcuserdatad
 xcworkspacedata
