@@ -27,6 +27,7 @@ function OldOrdersTab()
             return
         }
 
+        var _this = this
         // Get actual list of old orders from web service
         var client = Ti.Network.createHTTPClient({
             onload: function(e) {
@@ -35,7 +36,7 @@ function OldOrdersTab()
 
                 Ti.App.Properties.setList('orders', [orders, moment()])
 
-                this.updateOrdersListUi()
+                _this.updateOrdersListUi()
             },
             onerror: function(e) {
                 Ti.API.error(e.error);
