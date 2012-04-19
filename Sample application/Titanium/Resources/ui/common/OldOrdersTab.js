@@ -31,7 +31,23 @@ function OldOrdersTab() {
 
     self.add(table)
 
-    return self;
-};
+    // Get actual list of old orders from web service
+    var client = Ti.Network.createHTTPClient({
+        onload: function(e) {
+            var list = JSON.parse(this.responseText)
 
-module.exports = OldOrdersTab;
+            alert('Success: have ' + list['orders'].length + ' order(s)')
+        },
+        onerror: function(e) {
+            Ti.API.debug(e.error);
+            alert('Error retrieving list of old orders');
+        },
+        timeout: 5000
+    })
+    client.open('GET', Ti.App.globals.webServiceBaseUri + 'orders/')
+    client.send()
+
+    return self
+}
+
+module.exports = OldOrdersTab

@@ -17,6 +17,9 @@ if (Ti.version < 1.8 ) {
 
 // This is a single context application with mutliple windows in a stack
 (function() {
+    Ti.App.globals = {}
+    Ti.App.globals.webServiceBaseUri = 'http://andidogs.dyndns.org/thesis-mobiprint-web-service/'
+
     //determine platform and form factor and render approproate components
     var osname = Ti.Platform.osname,
         version = Ti.Platform.version,
