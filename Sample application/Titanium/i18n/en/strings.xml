@@ -3,5 +3,6 @@
     <string name="oldOrders">Old orders</string>
     <string name="addPictures">Add pictures</string>
     <string name="currentOrder">Current order</string>
+    <string name="numPictures">%d pictures</string>
     <string name="oldOrdersInTotal">There are %d old orders in total:</string>
 </resources>

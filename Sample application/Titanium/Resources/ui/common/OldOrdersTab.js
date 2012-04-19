@@ -1,3 +1,5 @@
+var moment = require('lib/moment')
+
 function OldOrdersTab() {
     var self = Ti.UI.createWindow({
         title: L('oldOrders'),
@@ -35,12 +37,38 @@ function OldOrdersTab() {
     var client = Ti.Network.createHTTPClient({
         onload: function(e) {
             var list = JSON.parse(this.responseText)
+            var orders = list['orders']
+            var tableData = []
 
-            alert('Success: have ' + list['orders'].length + ' order(s)')
+            table.setHeaderTitle(String.format(L('oldOrdersInTotal'), orders.length))
+
+            // Clear table entries
+            table.setData([])
+
+            for(var i = 0; i < orders.length; ++i)
+            {
+                var row = Titanium.UI.createTableViewRow({
+                    title: moment(orders[i].submissionDate).format("dddd, MMMM Do YYYY"),
+                    hasDetail: true
+                })
+
+                var labelLeft = Ti.UI.createLabel({
+                    left: 10,
+                    text: moment(orders[i].submissionDate).format("dddd, MMMM Do YYYY")
+                })
+                var labelRight = Ti.UI.createLabel({
+                    right: 10,
+                    text: String.format(L('numPictures'), orders[i].pictureIds.length)
+                })
+
+                row.add(labelLeft)
+                row.add(labelRight)
+                table.appendRow(row)
+            }
         },
         onerror: function(e) {
-            Ti.API.debug(e.error);
-            alert('Error retrieving list of old orders');
+            Ti.API.error(e.error);
+            alert('Error retrieving list of old orders: ' + e.error)
         },
         timeout: 5000
     })
