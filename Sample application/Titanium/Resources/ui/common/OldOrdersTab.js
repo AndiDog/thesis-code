@@ -1,6 +1,85 @@
 var moment = require('lib/moment')
 
-function OldOrdersTab() {
+function OldOrdersTab()
+{
+    if(!(this instanceof OldOrdersTab))
+        return new OldOrdersTab()
+
+    this.updateOrdersList = function(forceReload, forceUiRendering)
+    {
+        var cachedEntry = Ti.App.Properties.getList('orders', null)
+
+        // Check correct property format
+        if(cachedEntry.length != 2)
+        {
+            Ti.App.Properties.setList('orders', null)
+            cachedEntry = null
+        }
+
+        // No need to reload or update UI if we still have a cached entry and reloading is not enforced
+        if(cachedEntry != null && !forceReload && !forceUiRendering)
+            return
+
+        // If only UI should be rendered from cached data
+        if(cachedEntry != null && !forceReload)
+        {
+            this.updateOrdersListUi()
+            return
+        }
+
+        // Get actual list of old orders from web service
+        var client = Ti.Network.createHTTPClient({
+            onload: function(e) {
+                var list = JSON.parse(this.responseText)
+                var orders = list['orders']
+
+                Ti.App.Properties.setList('orders', [orders, moment()])
+
+                this.updateOrdersListUi()
+            },
+            onerror: function(e) {
+                Ti.API.error(e.error);
+                // TODO: replace by notification?!
+                alert('Error retrieving list of old orders: ' + e.error)
+            },
+            timeout: 5000
+        })
+        client.open('GET', Ti.App.globals.webServiceBaseUri + 'orders/')
+        client.send()
+    }
+
+    this.updateOrdersListUi = function()
+    {
+        var orders = Ti.App.Properties.getList('orders', [[], null])[0]
+        var tableData = []
+
+        this.table.setHeaderTitle(String.format(L('oldOrdersInTotal'), orders.length))
+
+        // Clear table entries
+        this.table.setData([])
+
+        for(var i = 0; i < orders.length; ++i)
+        {
+            var row = Titanium.UI.createTableViewRow({
+                title: moment(orders[i].submissionDate).format("dddd, MMMM Do YYYY"),
+                hasDetail: true
+            })
+
+            var labelLeft = Ti.UI.createLabel({
+                left: 10,
+                text: moment(orders[i].submissionDate).format("dddd, MMMM Do YYYY")
+            })
+            var labelRight = Ti.UI.createLabel({
+                right: 10,
+                text: String.format(L('numPictures'), orders[i].pictureIds.length)
+            })
+
+            row.add(labelLeft)
+            row.add(labelRight)
+            this.table.appendRow(row)
+        }
+    }
+
     var self = Ti.UI.createWindow({
         title: L('oldOrders'),
         backgroundColor: '#000'
@@ -25,55 +104,15 @@ function OldOrdersTab() {
         testData[i] = {title: 'Row ' + (i+1),
                        hasDetail: true}
 
-    var table = new Titanium.UI.createTableView({
+    this.table = new Titanium.UI.createTableView({
         headerTitle: String.format(L('oldOrdersInTotal'), testData.length),
         data: testData,
         scrollable: true
     })
 
-    self.add(table)
+    self.add(this.table)
 
-    // Get actual list of old orders from web service
-    var client = Ti.Network.createHTTPClient({
-        onload: function(e) {
-            var list = JSON.parse(this.responseText)
-            var orders = list['orders']
-            var tableData = []
-
-            table.setHeaderTitle(String.format(L('oldOrdersInTotal'), orders.length))
-
-            // Clear table entries
-            table.setData([])
-
-            for(var i = 0; i < orders.length; ++i)
-            {
-                var row = Titanium.UI.createTableViewRow({
-                    title: moment(orders[i].submissionDate).format("dddd, MMMM Do YYYY"),
-                    hasDetail: true
-                })
-
-                var labelLeft = Ti.UI.createLabel({
-                    left: 10,
-                    text: moment(orders[i].submissionDate).format("dddd, MMMM Do YYYY")
-                })
-                var labelRight = Ti.UI.createLabel({
-                    right: 10,
-                    text: String.format(L('numPictures'), orders[i].pictureIds.length)
-                })
-
-                row.add(labelLeft)
-                row.add(labelRight)
-                table.appendRow(row)
-            }
-        },
-        onerror: function(e) {
-            Ti.API.error(e.error);
-            alert('Error retrieving list of old orders: ' + e.error)
-        },
-        timeout: 5000
-    })
-    client.open('GET', Ti.App.globals.webServiceBaseUri + 'orders/')
-    client.send()
+    this.updateOrdersList(false, true)
 
     return self
 }
