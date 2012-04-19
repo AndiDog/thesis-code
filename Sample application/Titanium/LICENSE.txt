@@ -1,3 +1,8 @@
+The MobiPrint icon is taken from the Tango Desktop Project (http://tango.freedesktop.org/) and released to the Public Domain.
+
+The following license applies to the MobiPrint application and all other files for which no other license is specified:
+
+
 The MIT License (MIT)
 
 Copyright (c) 2012 Andreas Sommer
