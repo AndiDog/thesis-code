@@ -20,9 +20,9 @@
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>
     <statusbar-hidden>false</statusbar-hidden>
-    <fullscreen>false</fullscreen>
-    <navbar-hidden>false</navbar-hidden>
-    <analytics>true</analytics>
+    <fullscreen>true</fullscreen>
+    <navbar-hidden>true</navbar-hidden>
+    <analytics>false</analytics>
     <guid>2ccb33a9-c5b8-4d27-b111-993eef4ce063</guid>
     <property name="ti.ui.defaultunit">system</property>
     <iphone>
