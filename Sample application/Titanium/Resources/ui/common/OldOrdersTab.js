@@ -23,7 +23,7 @@ function OldOrdersTab()
         // If only UI should be rendered from cached data
         if(cachedEntry != null && !forceReload)
         {
-            this.updateOrdersListUi()
+            this.updateOrdersListUi(forceUiRendering)
             return
         }
 
@@ -36,7 +36,7 @@ function OldOrdersTab()
 
                 Ti.App.Properties.setList('orders', [orders, moment()])
 
-                _this.updateOrdersListUi()
+                _this.updateOrdersListUi(forceUiRendering)
             },
             onerror: function(e) {
                 Ti.API.error(e.error);
@@ -49,13 +49,13 @@ function OldOrdersTab()
         client.send()
     }
 
-    this.updateOrdersListUi = function()
+    this.updateOrdersListUi = function(forceUiRendering)
     {
         var orders = Ti.App.Properties.getList('orders', [[], null])[0]
         var tableData = []
 
         // Do not update/repaint list if nothing changed
-        if(JSON.stringify(orders) == Ti.App.Properties.getString('ordersInUi', null))
+        if(!forceUiRendering && JSON.stringify(orders) == Ti.App.Properties.getString('ordersInUi', null))
             return
 
         this.table.setHeaderTitle(String.format(L('oldOrdersInTotal'), orders.length))
