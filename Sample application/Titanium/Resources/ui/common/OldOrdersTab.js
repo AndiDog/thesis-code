@@ -10,7 +10,7 @@ function OldOrdersTab()
         var cachedEntry = Ti.App.Properties.getList('orders', null)
 
         // Check correct property format
-        if(cachedEntry.length != 2)
+        if(cachedEntry != null && cachedEntry.length != 2)
         {
             Ti.App.Properties.setList('orders', null)
             cachedEntry = null
