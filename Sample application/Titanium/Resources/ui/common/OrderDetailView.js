@@ -1,3 +1,25 @@
+var imageDimensionsCache = {}
+
+function getImageDimensions(filename)
+{
+    if(filename in imageDimensionsCache)
+        return imageDimensionsCache[filename]
+
+    if(!Ti.Filesystem.getFile(filename).exists())
+        return {width: 0, height: 0}
+
+    var view = Ti.UI.createImageView({
+        image: filename,
+        width: 'auto',
+        height: 'auto'
+    })
+    var img = view.toImage()
+
+    ret = {width: img.width, height: img.height}
+    imageDimensionsCache[filename] = ret
+    return ret
+}
+
 function OrderDetailView()
 {
     if(!(this instanceof OrderDetailView))
@@ -21,33 +43,21 @@ function OrderDetailView()
 
         // Center all pictures horizontally by applying correct 'left' position to left-most picture (assumes xGrid > 1)
         leftmostLeft = Math.floor((width - ((xGrid - 1) * (cx + spacing) + cx)) / 2)
-        Ti.API.info('leftmostLeft:'+leftmostLeft)
 
         var numberOfPictures = this.numberOfPictures
 
         var tableData = []
-
-        var colorSet = ["#D44646",
-                        "#46D463",
-                        "#46D4BE",
-                        "#C2D446",
-                        "#D446D5",
-                        "#4575D5",
-                        "#E39127",
-                        "#879181",
-                        "#E291D4"]
-
-        var colorSetIndex = 0
         var cellIndex = 0
 
         while(cellIndex < numberOfPictures)
         {
-            var rowHeight = cy + 28
+            var rowExtra = 28
+            var rowHeight = cy + rowExtra
 
             var row = Ti.UI.createTableViewRow({
                 className: "thumbnail",
                 layout: "horizontal",
-                height: rowHeight
+                height: rowHeight // will be set again later (may get smaller)
             })
 
             for(var x = 0; x < xGrid && cellIndex < numberOfPictures; ++x)
@@ -56,20 +66,47 @@ function OrderDetailView()
                     left: x == 0 ? leftmostLeft : spacing,
                     top: 0,
                     width: cx,
-                    height: cy + 50,
+                    height: cy + 50, // will be set again later if images are smaller inheight
                     layout: 'vertical'
                 })
 
+                var filename = 'file:///mnt/sdcard/Download/test.jpg'
+                var dim = getImageDimensions(filename)
+                var imageWidth, imageHeight
+
+                if(dim.width == 0 && dim.height == 0)
+                {
+                    // File not recognized as image
+                    imageWidth = cx
+                    imageHeight = cy
+
+                    Ti.API.error('Could not read image ' + filename)
+                }
+                else if(dim.width > dim.height)
+                {
+                    imageWidth = cx
+                    imageHeight = Math.round(cx * dim.height / dim.width)
+                }
+                else
+                {
+                    imageHeight = cy
+                    imageWidth = Math.round(cy * dim.width / dim.height)
+                }
+
+                view.setHeight(imageHeight + 50)
+                if(imageHeight + rowExtra < rowHeight)
+                    rowHeight = imageHeight + rowExtra
+
                 var image = Ti.UI.createImageView({
                     customData: cellIndex.toString(),
-                    image: '/images/test-thumbnail.jpg',
-                    width: cx,
-                    height: cy
+                    image: filename,
+                    top: 0,
+                    width: imageWidth,
+                    height: imageHeight
                 })
 
                 var view2 = Ti.UI.createView({
                     left: 0,
-                    top: 0,
                     width: cx,
                     layout: 'horizontal'
                 })
@@ -86,7 +123,8 @@ function OrderDetailView()
                     text: 'Picture #' + cellIndex.toString(),
                     left: 5,
                     top: 0,
-                    height: 'auto'
+                    height: 'auto',
+                    touchEnabled: false
                 })
 
                 view.add(image)
@@ -97,12 +135,9 @@ function OrderDetailView()
                 row.add(view)
 
                 ++cellIndex;
-                ++colorSetIndex;
-
-                if(colorSetIndex >= colorSet.length)
-                    colorSetIndex = 0
             }
 
+            row.setHeight(rowHeight)
             tableData.push(row)
         }
 
@@ -131,10 +166,10 @@ function OrderDetailView()
 
     this.headerLabel = Ti.UI.createLabel({
         text: String.format(L('orderContainsNPictures'), this.numberOfPictures),
-        //font: { fontSize: 14 },
         width: Ti.UI.FILL,
         height: 'auto',
-        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
+        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+        touchEnabled: false
     })
     self.add(this.headerLabel)
 
