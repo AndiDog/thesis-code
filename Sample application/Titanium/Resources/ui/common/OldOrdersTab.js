@@ -55,7 +55,7 @@ function OldOrdersTab()
         var tableData = []
 
         // Do not update/repaint list if nothing changed
-        if(!forceUiRendering && JSON.stringify(orders) == Ti.App.Properties.getString('ordersInUi', null))
+        if(!forceUiRendering && JSON.stringify(orders) == this.ordersInUi)
             return
 
         this.table.setHeaderTitle(String.format(L('oldOrdersInTotal'), orders.length))
@@ -84,7 +84,7 @@ function OldOrdersTab()
             this.table.appendRow(row)
         }
 
-        Ti.App.Properties.setString('ordersInUi', JSON.stringify(orders))
+        this.ordersInUi = JSON.stringify(orders)
     }
 
     var self = Ti.UI.createWindow({
@@ -99,6 +99,7 @@ function OldOrdersTab()
 
     self.add(this.table)
 
+    this.ordersInUi = null
     this.updateOrdersList(false, true)
 
     // Update orders list every 10 minutes
