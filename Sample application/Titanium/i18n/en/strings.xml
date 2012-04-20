@@ -5,4 +5,5 @@
     <string name="currentOrder">Current order</string>
     <string name="numPictures">%d pictures</string>
     <string name="oldOrdersInTotal">There are %d old orders in total:</string>
+    <string name="orderContainsNPictures">The order contains %d pictures:</string>
 </resources>

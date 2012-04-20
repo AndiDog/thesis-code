@@ -1,13 +1,12 @@
 function ApplicationTabGroup(Window) {
-    var OldOrdersTab = require('ui/common/OldOrdersTab');
+    var OldOrdersTab = require('ui/common/OldOrdersTab')
+    var OrderDetailView = require('ui/common/OrderDetailView')
 
-    //create module instance
     var self = Ti.UI.createTabGroup();
 
-    //create app tabs
     var win1 = new OldOrdersTab(),
         win2 = new Window(L('addPictures')),
-        win3 = new Window(L('currentOrder'));
+        win3 = new OrderDetailView();
 
     var tab1 = Ti.UI.createTab({
         title: L('oldOrders'),
