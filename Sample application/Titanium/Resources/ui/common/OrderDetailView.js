@@ -52,7 +52,7 @@ function OrderDetailView()
         while(cellIndex < numberOfPictures)
         {
             var rowExtra = 28
-            var rowHeight = cy + rowExtra
+            var rowHeight = 0
 
             var row = Ti.UI.createTableViewRow({
                 className: "thumbnail",
