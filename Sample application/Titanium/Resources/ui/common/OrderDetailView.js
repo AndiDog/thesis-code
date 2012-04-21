@@ -1,3 +1,4 @@
+var thumbnailDownloadCache = require('/lib/ThumbnailDownloadCache')
 var imageDimensionsCache = {}
 
 function getImageDimensions(filename)
@@ -20,10 +21,10 @@ function getImageDimensions(filename)
     return ret
 }
 
-function OrderDetailView()
+function OrderDetailView(order)
 {
     if(!(this instanceof OrderDetailView))
-        return new OrderDetailView()
+        return new OrderDetailView(order)
 
     this.recreateLayout = function()
     {
@@ -44,7 +45,7 @@ function OrderDetailView()
         // Center all pictures horizontally by applying correct 'left' position to left-most picture (assumes xGrid > 1)
         leftmostLeft = Math.floor((width - ((xGrid - 1) * (cx + spacing) + cx)) / 2)
 
-        var numberOfPictures = this.numberOfPictures
+        var numberOfPictures = this.order.pictureIds.length
 
         var tableData = []
         var cellIndex = 0
@@ -70,7 +71,7 @@ function OrderDetailView()
                     layout: 'vertical'
                 })
 
-                var filename = 'file:///mnt/sdcard/Download/test.jpg'
+                var filename = thumbnailDownloadCache.getFilename(this.order.pictureIds[cellIndex])
                 var dim = getImageDimensions(filename)
                 var imageWidth, imageHeight
 
@@ -94,12 +95,13 @@ function OrderDetailView()
                 }
 
                 view.setHeight(imageHeight + 50)
-                if(imageHeight + rowExtra < rowHeight)
+                if(imageHeight + rowExtra > rowHeight)
                     rowHeight = imageHeight + rowExtra
 
                 var image = Ti.UI.createImageView({
                     customData: cellIndex.toString(),
                     image: filename,
+                    defaultImage: '/images/test-thumbnail.jpg',
                     top: 0,
                     width: imageWidth,
                     height: imageHeight
@@ -162,10 +164,8 @@ function OrderDetailView()
 
     this.window = self
 
-    this.numberOfPictures = 50
-
     this.headerLabel = Ti.UI.createLabel({
-        text: String.format(L('orderContainsNPictures'), this.numberOfPictures),
+        text: String.format(L('orderContainsNPictures'), order.pictureIds.length),
         width: Ti.UI.FILL,
         height: 'auto',
         textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
@@ -173,6 +173,7 @@ function OrderDetailView()
     })
     self.add(this.headerLabel)
 
+    this.order = order
     this.table = null
     this.recreateLayout()
 
@@ -182,6 +183,17 @@ function OrderDetailView()
         // TODO: only do this if tab is active
         _this.recreateLayout()
     })
+
+    for(var i = 0; i < order.pictureIds.length; ++i)
+    {
+        setTimeout((function(pictureId) { return function() {
+            thumbnailDownloadCache.downloadThumbnail(
+                pictureId,
+                function() {
+                    Ti.API.info('Thumbnail download onSuccess callback called (id=' + pictureId + ')')
+                })
+        }})(order.pictureIds[i]), 1)
+    }
 
     return self
 }

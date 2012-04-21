@@ -6,7 +6,7 @@ function ApplicationTabGroup(Window) {
 
     var win1 = new OldOrdersTab(),
         win2 = new Window(L('addPictures')),
-        win3 = new OrderDetailView();
+        win3 = new OrderDetailView({'pictureIds' : [1,2,3]})
 
     var tab1 = Ti.UI.createTab({
         title: L('oldOrders'),
