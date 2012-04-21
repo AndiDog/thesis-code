@@ -162,7 +162,7 @@ def thumbnail(id):
     stats = os.stat(matchingFilename)
 
     response.set_header("Content-Length", stream.len)
-    response.set_header("Expires", "Sun, 17-Jan-2038 19:14:07 GMT")
+    response.set_header("Expires", "Sun, 17 Jan 2038 19:14:07 GMT")
     response.set_header("Last-Modified", time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(stats.st_mtime)))
     response.content_type = "image/jpeg"
 
