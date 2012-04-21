@@ -2,8 +2,12 @@ import httplib2
 import json
 from urllib import urlencode
 
+with open("config.json") as f:
+    baseUri = str(json.load(f)["baseUri"])
+    assert baseUri.endswith("/")
+
 client = httplib2.Http()
-response, content = client.request("http://localhost:8087/orders/")
+response, content = client.request(baseUri + "orders/")
 assert response.status == 200 and response["content-type"] == "application/json", (response, content)
 res = json.loads(content)
 
@@ -16,7 +20,7 @@ if not filteredOrders:
 
 currentOrder = filteredOrders[0]
 
-response, content = client.request("http://localhost:8087/order/%d/submit/" % currentOrder["id"],
+response, content = client.request(baseUri + "order/%d/submit/" % currentOrder["id"],
                                    "POST",
                                    body = urlencode({"username" : "user", "password" : "pass", "storeId" : 3}),
                                    headers = {"Content-Type": "application/x-www-form-urlencoded"})

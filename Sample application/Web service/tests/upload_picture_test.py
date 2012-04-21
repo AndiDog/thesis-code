@@ -3,6 +3,11 @@ import os
 import random
 import string
 import sys
+import json
+
+with open("config.json") as f:
+    baseUri = str(json.load(f)["baseUri"])
+    assert baseUri.endswith("/")
 
 assert len(sys.argv) == 2, "Usage: Pass a JPEG picture filename as argument"
 filename = sys.argv[1]
@@ -31,10 +36,8 @@ with open(filename, "rb") as f:
     body = getMultipartFileData(boundary, "picture", f)
     body += "\r\n--%s--\r\n" % boundary
 
-    #with open("body.txt", "wb") as out: out.write(body)
-
     client = httplib2.Http()
-    response, content = client.request("http://localhost:8087/pictures/",
+    response, content = client.request(baseUri + "pictures/",
                                        "PUT",
                                        body = body,
                                        headers = { "Content-Type" : "multipart/form-data; boundary=" + boundary,
