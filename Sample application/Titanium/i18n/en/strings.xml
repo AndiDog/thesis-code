@@ -6,4 +6,7 @@
     <string name="numPictures">%d pictures</string>
     <string name="oldOrdersInTotal">There are %d old orders in total:</string>
     <string name="orderContainsNPictures">The order contains %d pictures:</string>
+    <string name="printed">Printed</string>
+    <string name="uploaded">Uploaded</string>
+    <string name="uploading">Uploading</string>
 </resources>

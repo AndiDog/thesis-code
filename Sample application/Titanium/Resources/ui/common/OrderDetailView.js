@@ -1,4 +1,6 @@
+var pictureUpload = require('/lib/PictureUpload')
 var thumbnailDownloadCache = require('/lib/ThumbnailDownloadCache')
+
 var imageDimensionsCache = {}
 
 function getImageDimensions(filename)
@@ -25,6 +27,28 @@ function OrderDetailView(order)
 {
     if(!(this instanceof OrderDetailView))
         return new OrderDetailView(order)
+
+    this.getPictureState = function(pictureId)
+    {
+        if(pictureUpload.isUploading(pictureId))
+            return 'uploading'
+        else if(this.order.submissionDate == null)
+            return 'uploaded'
+        else
+            return 'printed'
+    }
+
+    this.getPictureStateText = function(state)
+    {
+        if(state == 'printed')
+            return L('printed')
+        else if(state == 'uploaded')
+            return L('uploaded')
+        else if(state == 'uploading')
+            return L('uploading')
+        else
+            throw "Invalid state " + state
+    }
 
     this.recreateLayout = function()
     {
@@ -113,8 +137,10 @@ function OrderDetailView(order)
                     layout: 'horizontal'
                 })
 
+                var state = this.getPictureState(this.order.pictureIds[cellIndex])
+
                 var statusImage = Ti.UI.createImageView({
-                    image: '/images/uploaded.png',
+                    image: '/images/' + state + '.png',
                     top: 1,
                     width: 17,
                     height: 17
@@ -122,12 +148,19 @@ function OrderDetailView(order)
 
                 var label = Ti.UI.createLabel({
                     font: { fontSize: 14 },
-                    text: 'Picture #' + cellIndex.toString(),
+                    text: this.getPictureStateText(state),
                     left: 5,
                     top: 0,
                     height: 'auto',
                     touchEnabled: false
                 })
+
+                var _this = this
+                setInterval(function(statusImage, label, pictureId) { return function() {
+                    var status = _this.getPictureState(pictureId)
+                    statusImage.setImage('/images/' + status + '.png')
+                    label.setText(_this.getPictureStateText(status))
+                }}(statusImage, label, this.order.pictureIds[cellIndex]), 5000)
 
                 view.add(image)
                 view2.add(statusImage)
