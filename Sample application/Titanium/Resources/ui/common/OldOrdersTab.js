@@ -51,12 +51,17 @@ function OldOrdersTab()
 
     this.updateOrdersListUi = function(forceUiRendering)
     {
-        var orders = Ti.App.Properties.getList('orders', [[], null])[0]
+        var ordersCached = Ti.App.Properties.getList('orders', [[], null])[0]
         var tableData = []
 
         // Do not update/repaint list if nothing changed
-        if(!forceUiRendering && JSON.stringify(orders) == this.ordersInUi)
+        if(!forceUiRendering && JSON.stringify(ordersCached) == this.ordersInUi)
             return
+
+        var orders = []
+        for(var i = 0; i < ordersCached.length; ++i)
+            if(ordersCached[i].submissionDate != null)
+                orders.push(ordersCached[i])
 
         this.table.setHeaderTitle(String.format(L('oldOrdersInTotal'), orders.length))
 
@@ -84,7 +89,7 @@ function OldOrdersTab()
             this.table.appendRow(row)
         }
 
-        this.ordersInUi = JSON.stringify(orders)
+        this.ordersInUi = JSON.stringify(ordersCached)
     }
 
     var self = Ti.UI.createWindow({
