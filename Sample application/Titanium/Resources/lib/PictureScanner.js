@@ -21,7 +21,7 @@ function PictureScanner()
         {
             var subPath = path + Ti.Filesystem.separator + list[i].toString()
 
-            if(subPath.slice(-4) == '.jpg')
+            if(subPath.slice(-4).toLowerCase() == '.jpg')
             {
                 if(typeof(results[path]) == 'undefined')
                     results[path] = []
