@@ -10,6 +10,7 @@
     <string name="orderContainsNPictures">The order contains %d pictures:</string>
     <string name="pictureFoldersInTotal">There are %d folders with pictures:</string>
     <string name="printed">Printed</string>
+    <string name="selectForPrinting">Select image for printing:</string>
     <string name="uploaded">Uploaded</string>
     <string name="uploading">Uploading</string>
 </resources>

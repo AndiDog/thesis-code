@@ -1,3 +1,5 @@
+var pictureScanner = require('/lib/PictureScanner')
+
 function AddPicturesTab()
 {
     if(!(this instanceof AddPicturesTab))
@@ -23,11 +25,11 @@ function AddPicturesTab()
 
             var labelLeft = Ti.UI.createLabel({
                 left: 10,
-                text: folder.path.replace(/.+[\/\\]/, '')
+                text: /[^\/\\]+$/.exec(folder.path)[0]
             })
             var labelRight = Ti.UI.createLabel({
                 right: 10,
-                text: String.format(L('numPictures'), folder.pictureCount)
+                text: String.format(L('numPictures'), folder.pictureFilenames.length)
             })
 
             row.add(labelLeft)
@@ -35,9 +37,6 @@ function AddPicturesTab()
             this.table.appendRow(row)
         }
     }
-
-    this.folders = [{path: '/mnt/sdcard/Pictures/Barcelona', pictureCount: 173},
-                    {path: '/mnt/sdcard/Pictures\\Bandon', pictureCount: 0}]
 
     var self = Ti.UI.createWindow({
         title: L('addPictures'),
@@ -55,19 +54,32 @@ function AddPicturesTab()
 
         var path = e.row.customData.path
 
-        Ti.API.info('Clicked on '+path)
+        Ti.API.info('Clicked on picture folder with path ' + path)
 
         var AddPicturesFromFolderView = require('/ui/common/AddPicturesFromFolderView')
-        var view = new AddPicturesFromFolderView(path)
+
+        var scanResults = {}
+        pictureScanner.scanSingleDirectory(path, scanResults)
+        var view = new AddPicturesFromFolderView(scanResults[path])
 
         view.open()
     })
 
     self.add(this.table)
 
-    this.updateFoldersList()
-
     this.window = self
+
+    var _this = this
+    setTimeout(function() {
+        var scanResults = pictureScanner.scan()
+
+        _this.folders = []
+
+        for(var directory in scanResults)
+            _this.folders.push({path: directory, pictureFilenames: scanResults[directory]})
+
+        _this.updateFoldersList()
+    }, 1000)
 
     return self
 }

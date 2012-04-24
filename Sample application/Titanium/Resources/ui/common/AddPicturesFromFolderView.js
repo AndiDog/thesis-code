@@ -1,4 +1,4 @@
-function AddPicturesFromFolderView(path)
+function AddPicturesFromFolderView(filenames)
 {
     if(!(this instanceof AddPicturesFromFolderView))
         return new AddPicturesFromFolderView(path)
@@ -7,11 +7,7 @@ function AddPicturesFromFolderView(path)
     {
         var tableData = []
 
-        // TODO: replace test data
-        var filenames = ['file:///mnt/sdcard/Download/W5GJ3.jpg',
-                         'file:///mnt/sdcard/Download/W5GJ3.jpg',
-                         'file:///mnt/sdcard/Download/W5GJ3.jpg',
-                         'file:///mnt/sdcard/Download/W5GJ3.jpg']
+        var filenames = this.filenames
 
         for(var i = 0; i < filenames.length; ++i)
         {
@@ -32,8 +28,9 @@ function AddPicturesFromFolderView(path)
             })
 
             var label = Ti.UI.createLabel({
-                text: 'Select image for printing:',
-                touchEnabled: false
+                text: L('selectForPrinting'),
+                touchEnabled: false,
+                left: 10
             })
 
             var checkbox = Ti.UI.createSwitch({
@@ -41,6 +38,13 @@ function AddPicturesFromFolderView(path)
                 style: Ti.UI.Android.SWITCH_STYLE_CHECKBOX,
                 value: false
             })
+
+            checkbox.addEventListener('change', function(filename) { return function(e) {
+                if(e.value)
+                    Ti.API.info('Selected picture ' + filename)
+                else
+                    Ti.API.info('Deselected picture ' + filename)
+            }}(filename))
 
             row.add(image)
             view.add(label)
@@ -51,7 +55,7 @@ function AddPicturesFromFolderView(path)
         }
     }
 
-    this.path = path
+    this.filenames = filenames
 
     var self = Ti.UI.createWindow({
         title: L('addPictures'),
