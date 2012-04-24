@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <string name="add">Add</string>
+    <string name="back">Back</string>
     <string name="oldOrders">Old orders</string>
     <string name="addPictures">Add pictures</string>
     <string name="currentOrder">Current order</string>
     <string name="numPictures">%d pictures</string>
     <string name="oldOrdersInTotal">There are %d old orders in total:</string>
     <string name="orderContainsNPictures">The order contains %d pictures:</string>
+    <string name="pictureFoldersInTotal">There are %d folders with pictures:</string>
     <string name="printed">Printed</string>
     <string name="uploaded">Uploaded</string>
     <string name="uploading">Uploading</string>
