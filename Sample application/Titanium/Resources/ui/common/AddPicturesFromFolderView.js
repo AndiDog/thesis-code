@@ -113,9 +113,11 @@ function AddPicturesFromFolderView(folderPath, filenames)
             alert(L('noPicturesSelected'))
         else
         {
-            alert(String.format(L('willUploadNPictures'), count))
-
             self.close()
+
+            setTimeout(function() {
+                alert(String.format(L('willUploadNPictures'), count))
+            }, 20)
         }
     })
 
