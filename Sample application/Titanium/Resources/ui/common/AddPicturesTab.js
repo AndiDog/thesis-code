@@ -9,27 +9,29 @@ function AddPicturesTab()
     {
         var tableData = []
 
-        this.table.setHeaderTitle(String.format(L('pictureFoldersInTotal'), this.folders.length))
+        var folderCount = 0
+        for(var key in this.folders)
+            ++folderCount
+
+        this.table.setHeaderTitle(String.format(L('pictureFoldersInTotal'), folderCount))
 
         // Clear table entries
         this.table.setData([])
 
-        for(var i = 0; i < this.folders.length; ++i)
+        for(var folderPath in this.folders)
         {
-            var folder = this.folders[i]
-
             var row = Titanium.UI.createTableViewRow({
-                customData: {path: folder.path},
+                customData: {path: folderPath},
                 hasDetail: true
             })
 
             var labelLeft = Ti.UI.createLabel({
                 left: 10,
-                text: /[^\/\\]+$/.exec(folder.path)[0]
+                text: /[^\/\\]+$/.exec(folderPath)[0]
             })
             var labelRight = Ti.UI.createLabel({
                 right: 10,
-                text: String.format(L('numPictures'), folder.pictureFilenames.length)
+                text: String.format(L('numPictures'), this.folders[folderPath])
             })
 
             row.add(labelLeft)
@@ -59,7 +61,7 @@ function AddPicturesTab()
         var AddPicturesFromFolderView = require('/ui/common/AddPicturesFromFolderView')
 
         var scanResults = {}
-        pictureScanner.scanSingleDirectory(path, scanResults)
+        pictureScanner.scanSingleDirectory(path, scanResults, 1)
         var view = new AddPicturesFromFolderView(path, scanResults[path])
 
         view.open({modal: true})
@@ -71,12 +73,8 @@ function AddPicturesTab()
 
     var _this = this
     setTimeout(function() {
-        var scanResults = pictureScanner.scan()
-
-        _this.folders = []
-
-        for(var directory in scanResults)
-            _this.folders.push({path: directory, pictureFilenames: scanResults[directory]})
+        // path -> number of pictures
+        _this.folders = pictureScanner.scan()
 
         _this.updateFoldersList()
     }, 1000)
