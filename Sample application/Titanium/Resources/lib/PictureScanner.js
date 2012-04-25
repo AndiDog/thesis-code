@@ -32,7 +32,6 @@ function PictureScanner()
                 atfsys.OptimiseMemory()
 
             var subPath = path + Ti.Filesystem.separator + list[i].toString()
-            Ti.API.info('found subpath: '+subPath)
 
             // Check extension .jpg and size (<= 2MB, or check for undefined/null on unsupported platforms)
             if(subPath.slice(-4).toLowerCase() == '.jpg')
@@ -42,7 +41,6 @@ function PictureScanner()
                     if(typeof(results[path]) == 'undefined')
                         results[path] = countOnly ? 0 : []
 
-                    Ti.API.info('jpeg '+path+' '+subPath+ ' '+countOnly)
                     if(countOnly)
                         results[path]++
                     else

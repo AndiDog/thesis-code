@@ -205,7 +205,6 @@ function OrderDetailView(order, isCurrentOrder)
                     {
                         if(!pictureUpload.isUploading(filename) && label.text != _this.getPictureStateText('uploaded'))
                         {
-                            Ti.API.info('fail1')
                             Ti.API.info('Changing uploading picture to uploaded state (' + filename + ')')
                             statusImage.setImage('/images/uploaded.png')
                             label.setText(_this.getPictureStateText('uploaded'))
