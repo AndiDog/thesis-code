@@ -61,13 +61,10 @@ function OldOrdersTab()
         var orders = []
         for(var i = 0; i < ordersCached.length; ++i)
             if(ordersCached[i].submissionDate != null)
-            {
-                Ti.API.info('old'+i)
                 orders.push(ordersCached[i])
-            }
             else
             {
-                Ti.API.info('new'+i)
+                Ti.API.info('firing update-current-order')
                 Ti.App.fireEvent('update-current-order', {order: ordersCached[i]})
             }
 
@@ -129,6 +126,9 @@ function OldOrdersTab()
 
     Ti.App.addEventListener('force-order-list-update', function() {
         _this.updateOrdersList(true, true)
+    })
+    Ti.App.addEventListener('force-update-current-order', function() {
+        _this.updateOrdersList(false, false, true)
     })
 
     return self

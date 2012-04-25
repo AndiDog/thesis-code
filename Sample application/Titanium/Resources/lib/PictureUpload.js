@@ -31,13 +31,11 @@ function PictureUpload()
             onload: function(e) {
                 Ti.API.info('Picture ' + filename + ' successfully uploaded')
 
-                setTimeout(function() { // DEBUG
-                    _this.uploadingFilenames[filename] = false
-                }, 15000)
-
-                // TODO: retrieve thumbnail now?! (by updating order)
+                _this.uploadingFilenames[filename] = false
             },
             onerror: function(e) {
+                _this.uploadingFilenames[filename] = false
+
                 alert('Failed to upload picture: ' + e.error + ' (mind that the maximum allowed picture size is 2MB)')
             },
             timeout: 5000
@@ -47,6 +45,8 @@ function PictureUpload()
         client.send({picture: blob})
 
         this.uploadingFilenames[filename] = true
+
+        Ti.App.fireEvent('force-update-current-order')
     }
 
     // Pictures that are currently being uploaded
