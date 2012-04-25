@@ -5,7 +5,7 @@ function OldOrdersTab()
     if(!(this instanceof OldOrdersTab))
         return new OldOrdersTab()
 
-    this.updateOrdersList = function(forceReload, forceUiRendering)
+    this.updateOrdersList = function(forceReload, forceUiRendering, forceUpdateCurrentOrderEvent)
     {
         var cachedEntry = Ti.App.Properties.getList('orders', null)
 
@@ -17,7 +17,7 @@ function OldOrdersTab()
         }
 
         // No need to reload or update UI if we still have a cached entry and reloading is not enforced
-        if(cachedEntry != null && !forceReload && !forceUiRendering)
+        if(cachedEntry != null && !forceReload && !forceUiRendering && !forceUpdateCurrentOrderEvent)
             return
 
         // If only UI should be rendered from cached data
@@ -35,6 +35,9 @@ function OldOrdersTab()
                 var orders = list['orders']
 
                 Ti.App.Properties.setList('orders', [orders, moment()])
+
+                for(var i = 0; i < orders.length; ++i)
+                    Ti.App.fireEvent('update-order-' + orders[i].id, {order: orders[i]})
 
                 _this.updateOrdersListUi(forceUiRendering)
             },
@@ -54,14 +57,23 @@ function OldOrdersTab()
         var ordersCached = Ti.App.Properties.getList('orders', [[], null])[0]
         var tableData = []
 
-        // Do not update/repaint list if nothing changed
-        if(!forceUiRendering && JSON.stringify(ordersCached) == this.ordersInUi)
-            return
-
+        // Always send update-current-order event even if nothing changed
         var orders = []
         for(var i = 0; i < ordersCached.length; ++i)
             if(ordersCached[i].submissionDate != null)
+            {
+                Ti.API.info('old'+i)
                 orders.push(ordersCached[i])
+            }
+            else
+            {
+                Ti.API.info('new'+i)
+                Ti.App.fireEvent('update-current-order', {order: ordersCached[i]})
+            }
+
+        // Do not update/repaint list if nothing changed
+        if(!forceUiRendering && JSON.stringify(ordersCached) == this.ordersInUi)
+            return
 
         this.table.setHeaderTitle(String.format(L('oldOrdersInTotal'), orders.length))
 
@@ -90,6 +102,8 @@ function OldOrdersTab()
         }
 
         this.ordersInUi = JSON.stringify(ordersCached)
+
+        // TODO: update current order tab
     }
 
     var self = Ti.UI.createWindow({
@@ -111,7 +125,11 @@ function OldOrdersTab()
     var _this = this
     setInterval(function() {
         _this.updateOrdersList(true, false)
-    }, 600000)
+    }, 60000)
+
+    Ti.App.addEventListener('force-order-list-update', function() {
+        _this.updateOrdersList(true, true)
+    })
 
     return self
 }

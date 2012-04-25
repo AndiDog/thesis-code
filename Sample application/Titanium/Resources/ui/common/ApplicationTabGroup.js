@@ -5,9 +5,18 @@ function ApplicationTabGroup(Window) {
 
     var self = Ti.UI.createTabGroup();
 
+    var dummyCurrentOrder = {
+        id: -1, // will not trigger any order-update-* events
+        pictureIds: [],
+        storeId: null,
+        submissionDate: null
+    }
+
+    // Create this first so that it can listen to update-order-* events
+    var win3 = new OrderDetailView(dummyCurrentOrder, true) // currentOrder
+
     var win1 = new OldOrdersTab(),
-        win2 = new AddPicturesTab(),
-        win3 = new OrderDetailView({'pictureIds' : [1,2,3]})
+        win2 = new AddPicturesTab()
 
     var tab1 = Ti.UI.createTab({
         title: L('oldOrders'),
