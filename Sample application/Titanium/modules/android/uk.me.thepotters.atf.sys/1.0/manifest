@@ -1,0 +1,17 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0
+description: Andy's Titanium Framework System module 
+author: Andy Potter 
+license: Free to use (but not modify), usage is entirely at your own risk, no warrant is provided, implied or otherwise. 
+copyright: Copyright (c) 2012 by Andy Potter 
+
+
+# these should not be edited
+name: atfsys
+moduleid: uk.me.thepotters.atf.sys
+guid: 123976c9-f6e3-4a65-aec2-e547b1becb3e
+platform: android
+minsdk: 1.6.0

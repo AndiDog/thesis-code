@@ -1,0 +1,29 @@
+<h1>atfsys Module</h1>
+<h2>Description</h2>
+<p>Part of my in-house framework this very simple module contains a few Android system utilities (Kill My Process &amp; Force Garbage Collection). I find these essential when producing apps for Android.</p>
+<h2>Accessing the atfsys Module</h2>
+<p>To access this module from JavaScript, you would do the following:</p>
+<pre><code>var atfsys = require("uk.me.thepotters.atf.sys");
+</code></pre>
+<p>The atfsys variable is a reference to the Module object.  <br />
+</p>
+<h2>Reference</h2>
+<p>Only two functions supported at the moment:</p>
+<h3>OptimiseMemory()</h3>
+<p>Triggers the Force Garbage collection thread within the module. There is a 25ms debounce on this
+function to prevent multiple calls from triggering too many garbage collects.</p>
+<h3>KillMyProcess()</h3>
+<p>Calls into Android kernel to force termination of the process hosting your activity. It is strongly
+recommended that you call the 'finish' method of the current activity before calling this function.</p>
+<h2>Usage</h2>
+<p>// Include module
+var atfsys = require('uk.me.thepotters.atf.sys');</p>
+<p>// Optimise memory i.e. Force Garbage collection
+atfsys.OptimiseMemory();</p>
+<p>// Kill our process right now
+atfsys.KillMyProcess();</p>
+<h2>Author</h2>
+<p>Andy Potter</p>
+<h2>License</h2>
+<p>Copyright 2012 by Andy Potter
+Free to use (but not to modify), usage is entirely at your own risk, no warranty is provided, implied or otherwise.</p>

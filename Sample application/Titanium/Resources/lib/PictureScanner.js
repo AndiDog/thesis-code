@@ -1,3 +1,4 @@
+var atfsys = require('uk.me.thepotters.atf.sys')
 var moment = require('/lib/moment')
 
 function PictureScanner()
@@ -5,8 +6,14 @@ function PictureScanner()
     if(!(this instanceof PictureScanner))
         return new PictureScanner()
 
-    this.scanSingleDirectory = function(path, results)
+    this.scanSingleDirectory = function(path, results, currentDepth, countOnly)
     {
+        if(currentDepth > 3)
+        {
+            Ti.API.info('Stopping picture scan at directory depth ' + currentDepth)
+            return
+        }
+
         // Do not test Unix-style hidden directories (e.g. file:///sdcard/DCIM/.thumbnails)
         if(/[\/\\]\.[^\/\\]+[\/\\]?$/.test(path))
             return
@@ -17,20 +24,33 @@ function PictureScanner()
         if(list == null)
             return
 
+        atfsys.OptimiseMemory()
+
         for(var i = 0; i < list.length; ++i)
         {
+            if(i % 100 == 99)
+                atfsys.OptimiseMemory()
+
             var subPath = path + Ti.Filesystem.separator + list[i].toString()
+            Ti.API.info('found subpath: '+subPath)
 
             // Check extension .jpg and size (<= 2MB, or check for undefined/null on unsupported platforms)
-            if(subPath.slice(-4).toLowerCase() == '.jpg' && (Ti.Filesystem.getFile(subPath).size <= 2097152 || !Ti.Filesystem.getFile(subPath).size))
+            if(subPath.slice(-4).toLowerCase() == '.jpg')
             {
-                if(typeof(results[path]) == 'undefined')
-                    results[path] = []
+                if(true)//if(Ti.Filesystem.getFile(subPath).size <= 2097152 || !Ti.Filesystem.getFile(subPath).size)
+                {
+                    if(typeof(results[path]) == 'undefined')
+                        results[path] = countOnly ? 0 : []
 
-                results[path].push(subPath)
+                    Ti.API.info('jpeg '+path+' '+subPath+ ' '+countOnly)
+                    if(countOnly)
+                        results[path]++
+                    else
+                        results[path].push(subPath)
+                }
             }
-            else
-                this.scanSingleDirectory(subPath, results)
+            else //if(Ti.Filesystem.getFile(subPath).isDirectory()) // TODO: marked Android only
+                this.scanSingleDirectory(subPath, results, currentDepth + 1, countOnly)
         }
     }
 
@@ -51,20 +71,18 @@ function PictureScanner()
             return cachedEntry[0]
         }
 
-        var root = 'file:///sdcard'
-        var results = {} // path -> list of filenames
+        var root = 'file:///sdcard/DCIM'
+        var results = {} // path -> picture count
 
-        this.scanSingleDirectory(root, results)
+        this.scanSingleDirectory(root, results, 1, true)
 
         Ti.API.debug('Picture scan results:')
         Ti.API.debug('---')
 
         for(var key in results)
         {
-            Ti.API.debug('> '+key)
-
-            for(var i = 0; i < results[key].length; ++i)
-                Ti.API.debug('   '+results[key][i])
+            Ti.API.debug('> ' + key)
+            Ti.API.debug('   ' + results[key] + ' pictures found')
         }
 
         Ti.API.debug('---')
