@@ -38,7 +38,7 @@ function PictureUpload()
                 // TODO: retrieve thumbnail now?! (by updating order)
             },
             onerror: function(e) {
-                alert('Failed to upload picture: ' + e.error)
+                alert('Failed to upload picture: ' + e.error + ' (mind that the maximum allowed picture size is 2MB)')
             },
             timeout: 5000
         })

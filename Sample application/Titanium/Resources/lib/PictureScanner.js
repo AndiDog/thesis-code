@@ -21,7 +21,8 @@ function PictureScanner()
         {
             var subPath = path + Ti.Filesystem.separator + list[i].toString()
 
-            if(subPath.slice(-4).toLowerCase() == '.jpg')
+            // Check extension .jpg and size (<= 2MB, or check for undefined/null on unsupported platforms)
+            if(subPath.slice(-4).toLowerCase() == '.jpg' && (Ti.Filesystem.getFile(subPath).size <= 2097152 || !Ti.Filesystem.getFile(subPath).size))
             {
                 if(typeof(results[path]) == 'undefined')
                     results[path] = []
