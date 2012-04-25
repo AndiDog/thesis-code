@@ -60,7 +60,7 @@ function AddPicturesTab()
 
         var scanResults = {}
         pictureScanner.scanSingleDirectory(path, scanResults)
-        var view = new AddPicturesFromFolderView(scanResults[path])
+        var view = new AddPicturesFromFolderView(path, scanResults[path])
 
         view.open({modal: true})
     })

@@ -1,7 +1,9 @@
-function AddPicturesFromFolderView(filenames)
+var pictureUpload = require('/lib/PictureUpload')
+
+function AddPicturesFromFolderView(folderPath, filenames)
 {
     if(!(this instanceof AddPicturesFromFolderView))
-        return new AddPicturesFromFolderView(path)
+        return new AddPicturesFromFolderView(folderPath, filenames)
 
     this.updatePictures = function()
     {
@@ -39,7 +41,10 @@ function AddPicturesFromFolderView(filenames)
                 value: false
             })
 
+            var _this = this
             checkbox.addEventListener('change', function(filename) { return function(e) {
+                _this.selectedFilenames[filename] = e.value
+
                 if(e.value)
                     Ti.API.info('Selected picture ' + filename)
                 else
@@ -55,10 +60,13 @@ function AddPicturesFromFolderView(filenames)
         }
     }
 
+    var _this = this
+
     this.filenames = filenames
+    this.selectedFilenames = {}
 
     var self = Ti.UI.createWindow({
-        title: L('addPictures'),
+        title: String.format(L('addPicturesFromFolderX'), /[^\/\\]+$/.exec(folderPath)[0]),
         backgroundColor: '#000'
     })
 
@@ -88,6 +96,27 @@ function AddPicturesFromFolderView(filenames)
     })
     addButton.addEventListener('click', function() {
         Ti.API.info('Add button clicked')
+
+        var count = 0
+
+        for(var filename in _this.selectedFilenames)
+            if(_this.selectedFilenames[filename])
+            {
+                ++count
+                Ti.API.info('Will upload selected picture ' + filename)
+                setTimeout(function(filename) { return function() {
+                    pictureUpload.upload(filename)
+                }}(filename), 400)
+            }
+
+        if(!count)
+            alert(L('noPicturesSelected'))
+        else
+        {
+            alert(String.format(L('willUploadNPictures'), count))
+
+            self.close()
+        }
     })
 
     var verticalView = Ti.UI.createView({

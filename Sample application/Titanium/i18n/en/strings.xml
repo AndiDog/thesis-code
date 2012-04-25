@@ -4,7 +4,9 @@
     <string name="back">Back</string>
     <string name="oldOrders">Old orders</string>
     <string name="addPictures">Add pictures</string>
+    <string name="addPicturesFromFolderX">Add pictures (%s)</string>
     <string name="currentOrder">Current order</string>
+    <string name="noPicturesSelected">You did not select any pictures.</string>
     <string name="numPictures">%d pictures</string>
     <string name="oldOrdersInTotal">There are %d old orders in total:</string>
     <string name="orderContainsNPictures">The order contains %d pictures:</string>
@@ -13,4 +15,5 @@
     <string name="selectForPrinting">Select image for printing:</string>
     <string name="uploaded">Uploaded</string>
     <string name="uploading">Uploading</string>
+    <string name="willUploadNPictures">%d pictures will be uploaded. Check the current order tab for the status.</string>
 </resources>
