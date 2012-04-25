@@ -26,6 +26,7 @@ function PictureScanner()
 
         atfsys.OptimiseMemory()
 
+        // Below, some statements were removed (marked "MEM") because they can cause memory problems in Titanium
         for(var i = 0; i < list.length; ++i)
         {
             if(i % 100 == 99)
@@ -36,7 +37,8 @@ function PictureScanner()
             // Check extension .jpg and size (<= 2MB, or check for undefined/null on unsupported platforms)
             if(subPath.slice(-4).toLowerCase() == '.jpg')
             {
-                if(true)//if(Ti.Filesystem.getFile(subPath).size <= 2097152 || !Ti.Filesystem.getFile(subPath).size)
+                // MEM if(Ti.Filesystem.getFile(subPath).size <= 2097152 || !Ti.Filesystem.getFile(subPath).size)
+                if(true)
                 {
                     if(typeof(results[path]) == 'undefined')
                         results[path] = countOnly ? 0 : []
@@ -47,7 +49,7 @@ function PictureScanner()
                         results[path].push(subPath)
                 }
             }
-            else //if(Ti.Filesystem.getFile(subPath).isDirectory()) // TODO: marked Android only
+            else // MEM if(Ti.Filesystem.getFile(subPath).isDirectory()) // isDirectory() marked Android only
                 this.scanSingleDirectory(subPath, results, currentDepth + 1, countOnly)
         }
     }
