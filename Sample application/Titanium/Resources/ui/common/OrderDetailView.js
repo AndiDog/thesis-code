@@ -122,15 +122,21 @@ function OrderDetailView(order, isCurrentOrder)
                     layout: 'vertical'
                 })
 
-                var filename
+                var filename, imageWidth, imageHeight
                 if(cellIndex < numberOfOrderPictures)
+                {
                     filename = thumbnailDownloadCache.getFilename(this.order.pictureIds[cellIndex])
+                    var dim = getImageDimensions(filename)
+                    var scaledDim = getScaledImageDimensions(dim, cx, cy)
+                    imageWidth = scaledDim[0]
+                    imageHeight = scaledDim[1]
+                }
                 else
+                {
                     filename = uploadingPictures[cellIndex - numberOfOrderPictures]
-
-                var dim = getImageDimensions(filename)
-                var scaledDim = getScaledImageDimensions(dim, cx, cy)
-                var imageWidth = scaledDim[0], imageHeight = scaledDim[1]
+                    imageWidth = cx
+                    imageHeight = cy
+                }
 
                 view.setHeight(imageHeight + 50)
                 if(imageHeight + rowExtra > rowHeight)
