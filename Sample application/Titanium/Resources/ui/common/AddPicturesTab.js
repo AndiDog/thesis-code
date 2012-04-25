@@ -27,11 +27,13 @@ function AddPicturesTab()
 
             var labelLeft = Ti.UI.createLabel({
                 left: 10,
-                text: /[^\/\\]+$/.exec(folderPath)[0]
+                text: /[^\/\\]+$/.exec(folderPath)[0],
+                touchEnabled: false
             })
             var labelRight = Ti.UI.createLabel({
                 right: 10,
-                text: String.format(L('numPictures'), this.folders[folderPath])
+                text: String.format(L('numPictures'), this.folders[folderPath]),
+                touchEnabled: false
             })
 
             row.add(labelLeft)
