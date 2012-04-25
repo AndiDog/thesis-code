@@ -74,8 +74,7 @@ function OrderDetailView(order, isCurrentOrder)
 
     this.recreateLayout = function()
     {
-        if(this.table != null)
-            this.window.remove(this.table)
+        var _this = this
 
         var width = Ti.Platform.displayCaps.getPlatformWidth()
         var spacing = 5
@@ -146,30 +145,31 @@ function OrderDetailView(order, isCurrentOrder)
                     height: imageHeight
                 })
 
-                if(cellIndex < numberOfOrderPictures && !Ti.Filesystem.getFile(filename).exists())
-                    Ti.App.addEventListener('update-thumbnail-' + this.order.pictureIds[cellIndex], function(image, pictureId, row, rowHeight) { return function() {
-                        if(image.image == null)
-                        {
-                            var filename = thumbnailDownloadCache.getFilename(pictureId)
-                            var dim = getImageDimensions(filename)
-                            var scaledDim = getScaledImageDimensions(dim, cx, cy)
-                            image.setImage(filename)
-
-                            if(scaledDim[1] + rowExtra > rowHeight)
-                                row.setHeight(scaledDim[1] + rowExtra)
-
-                            // image.updateLayout crashes with NullPointerException (Android), so do it separately
-                            // This does not actually give the right aspect ratio, not sure why (dimensions are correct)
-                            image.width = scaledDim[0]
-                            image.height = scaledDim[1]
-                        }
-                    }}(image, this.order.pictureIds[cellIndex], row, rowHeight))
-
                 var view2 = Ti.UI.createView({
                     left: 0,
                     width: cx,
                     layout: 'horizontal'
                 })
+
+                var callback = function(image, pictureId, row, rowHeight, view, view2) {
+                    var eventListener
+
+                    eventListener = function() {
+                        // Have to re-create the whole layout, or else image aspect ratio is not correct (seems like TableView layouting is flawed)
+                        if(image.image == null)
+                        {
+                            _this.recreateLayout()
+
+                            // Only do this once, then release the old image instance
+                            Ti.App.removeEventListener('update-thumbnail-' + pictureId, eventListener)
+                        }
+                    }
+
+                    return eventListener
+                }
+
+                if(cellIndex < numberOfOrderPictures && !Ti.Filesystem.getFile(filename).exists())
+                    Ti.App.addEventListener('update-thumbnail-' + this.order.pictureIds[cellIndex], callback(image, this.order.pictureIds[cellIndex], row, rowHeight, view, view2))
 
                 var state = cellIndex < numberOfOrderPictures ? this.getPictureState(this.order.pictureIds[cellIndex]) : 'uploading'
                 Ti.API.info('cellindex:'+cellIndex+',numberOfOrderPictures='+numberOfOrderPictures+',numberOfUploadingPictures='+numberOfUploadingPictures+',staet='+state)
@@ -189,8 +189,6 @@ function OrderDetailView(order, isCurrentOrder)
                     height: 'auto',
                     touchEnabled: false
                 })
-
-                var _this = this
 
                 setInterval(function(statusImage, label, pictureId, filename) { return function() {
                     if(pictureId == null)
@@ -231,11 +229,15 @@ function OrderDetailView(order, isCurrentOrder)
             tableData.push(row)
         }
 
+        var oldTable = this.table
+
         this.table = Ti.UI.createTableView({
             data: tableData,
             top: 5
         })
 
+        if(oldTable != null)
+            this.window.remove(oldTable)
         this.window.add(this.table)
     }
 
