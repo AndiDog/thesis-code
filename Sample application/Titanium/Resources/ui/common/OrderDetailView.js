@@ -219,7 +219,7 @@ function OrderDetailView(order, isCurrentOrder)
                             label.setText(text)
                         }
                     }
-                }}(statusImage, label, cellIndex < numberOfOrderPictures ? this.order.pictureIds[cellIndex] : null, filename), 5000)
+                }}(statusImage, label, cellIndex < numberOfOrderPictures ? this.order.pictureIds[cellIndex] : null, filename), 10000)
 
                 view.add(image)
                 view2.add(statusImage)
