@@ -1,3 +1,4 @@
+var atfsys = require('uk.me.thepotters.atf.sys')
 var pictureUpload = require('/lib/PictureUpload')
 var thumbnailDownloadCache = require('/lib/ThumbnailDownloadCache')
 
@@ -164,10 +165,13 @@ function OrderDetailView(order, isCurrentOrder)
                         // Have to re-create the whole layout, or else image aspect ratio is not correct (seems like TableView layouting is flawed)
                         if(image.image == null)
                         {
+                            image = null
                             _this.recreateLayout()
 
                             // Only do this once, then release the old image instance
                             Ti.App.removeEventListener('update-thumbnail-' + pictureId, eventListener)
+
+                            atfsys.OptimiseMemory()
                         }
                     }
 
