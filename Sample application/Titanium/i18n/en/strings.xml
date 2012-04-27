@@ -11,6 +11,7 @@
     <string name="numPictures">%d pictures</string>
     <string name="oldOrdersInTotal">There are %d old orders in total:</string>
     <string name="orderContainsNPictures">The order contains %d pictures:</string>
+    <string name="password">Password:</string>
     <string name="pictureFoldersInTotal">There are %d folders with pictures:</string>
     <string name="printed">Printed</string>
     <string name="selectForPrinting">Select image for printing:</string>
@@ -19,5 +20,6 @@
     <string name="submitOrderHeader">To submit your order of %d pictures, select a pick-up location close to you and enter your details. Enter an address to show stores near you:</string>
     <string name="uploaded">Uploaded</string>
     <string name="uploading">Uploading</string>
+    <string name="username">Username:</string>
     <string name="willUploadNPictures">%d pictures will be uploaded. Check the current order tab for the status.</string>
 </resources>

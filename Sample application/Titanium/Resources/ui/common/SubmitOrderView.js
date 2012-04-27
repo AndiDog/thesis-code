@@ -58,14 +58,32 @@ function SubmitOrderView(order)
                 this.pickUpLocationsTable.deleteRow(this.pickUpLocationsTable.data[0].rows[i])
     }
 
+    var _this = this
+
+    this.order = order
+
     var self = Ti.UI.createWindow({
         title: L('submitOrder'),
         backgroundColor: '#000',
         layout: 'vertical'
     })
 
-    self.add(Ti.UI.createLabel({
-        text: L('submitOrderHeader'),
+    var scrollView = Ti.UI.createScrollView({
+        contentWidth: 'auto',
+        contentHeight: 'auto',
+        top: 0,
+        scrollType: 'vertical',
+        showVerticalScrollIndicator: true,
+        showHorizontalScrollIndicator: false,
+        width: Ti.UI.FILL,
+        height: Ti.UI.FILL,
+        layout: 'vertical'
+    })
+
+    self.add(scrollView)
+
+    scrollView.add(Ti.UI.createLabel({
+        text: String.format(L('submitOrderHeader'), order.pictureIds.length),
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
         textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
@@ -79,12 +97,50 @@ function SubmitOrderView(order)
         top: 6
     })
 
-    this.pickUpLocationsTable = Ti.UI.createTableView({top: 4})
+    this.pickUpLocationsTable = Ti.UI.createTableView({
+        top: 4,
+        height: Ti.UI.FILL,
+        scrollable: false
+    })
 
-    self.add(searchBar)
-    self.add(this.pickUpLocationsTable)
+    scrollView.add(searchBar)
+    scrollView.add(this.pickUpLocationsTable)
 
-    var _this = this
+    // Create username/password form
+    var horizontalView
+    horizontalView = Ti.UI.createView({
+        layout: 'horizontal',
+        width: Ti.UI.SIZE
+    })
+    horizontalView.add(Ti.UI.createLabel({
+        text: L('username'),
+        width: 100,
+        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
+    }))
+    horizontalView.add(Ti.UI.createTextField({
+        width: 150
+    }))
+
+    var horizontalView2 = Ti.UI.createView({
+        layout: 'horizontal',
+        width: Ti.UI.SIZE
+    })
+    horizontalView2.add(Ti.UI.createLabel({
+        text: L('password'),
+        width: 100,
+        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
+    }))
+    horizontalView2.add(Ti.UI.createTextField({
+        width: 150,
+        passwordMask: true
+    }))
+
+    var verticalView = Ti.UI.createView({
+        layout: 'vertical'
+    })
+    verticalView.add(horizontalView)
+    verticalView.add(horizontalView2)
+    scrollView.add(verticalView)
 
     searchBar.addEventListener('change', function() { _this.updateSearchBar() })
     searchBar.addEventListener('return', function() { _this.updateSearchBar() })
