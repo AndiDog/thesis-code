@@ -1,5 +1,6 @@
 var atfsys = require('uk.me.thepotters.atf.sys')
 var pictureUpload = require('/lib/PictureUpload')
+var SubmitOrderView = require('/ui/common/SubmitOrderView')
 var thumbnailDownloadCache = require('/lib/ThumbnailDownloadCache')
 
 var imageDimensionsCache = {}
@@ -110,7 +111,7 @@ function OrderDetailView(order, isCurrentOrder)
             var row = Ti.UI.createTableViewRow({
                 className: "thumbnail",
                 layout: "horizontal",
-                height: rowHeight // will be set again later (may get smaller)
+                height: rowHeight // will be set again later (may get smaller),
             })
 
             for(var x = 0; x < xGrid && cellIndex < numberOfOrderPictures + numberOfUploadingPictures; ++x)
@@ -295,11 +296,28 @@ function OrderDetailView(order, isCurrentOrder)
     })
     self.add(this.headerLabel)
 
+    var _this = this
+
+    if(isCurrentOrder)
+    {
+        var submitButton = Ti.UI.createButton({
+            title : L('submit'),
+            width: Ti.UI.FILL
+        })
+
+        submitButton.addEventListener('click', function() {
+            if(_this.order.pictureIds.length > 0)
+                new SubmitOrderView(_this.order).open({modal: true})
+            else
+                alert(L('haveToAddPicturesFirst'))
+        })
+
+        self.add(submitButton)
+    }
+
     this.order = order
     this.table = null
     this.recreateLayout()
-
-    var _this = this
 
     Ti.Gesture.addEventListener('orientationchange', function(e) {
         // TODO: only do this if tab is active
