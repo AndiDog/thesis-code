@@ -2,13 +2,17 @@
 """
 Web service implementation for the sample application MobiPrint, written using the Bottle web framework.
 
-Requires bottle (http://bottlepy.org/) which can be installed with "pip install bottle" (tested with v0.11).
+Requires
+- Bottle (http://bottlepy.org/),  can be installed with "pip install bottle" (tested with v0.11)
+- geopy (http://www.geopy.org/), install with "pip install geopy"
+- PIL (http://www.pythonware.com/products/pil/), install with OS package manager or Windows binaries from the website
 
 Note that an automatically reloading development server is started when you run this script.
 """
 
 import bottle
 from bottle import abort, post, put, request, response, route
+from geopy import geocoders
 from PIL import Image
 from itertools import chain
 import os
@@ -171,19 +175,29 @@ def thumbnail(id):
 
 @route("/stores/by-location/")
 def stores():
-    lat, lng = request.GET.get("lat", None), request.GET.get("lng", None)
+    lat, lng, loc = (request.GET.get(param, None) for param in ("lat", "lng", "loc"))
 
-    if lat is None or lng is None:
+    if loc is None and (lat is None or lng is None):
         abort(400, "Missing parameter lat or lng")
+    # else loc or lat&lng
+    if (lat is None and lng is None) == (loc is None):
+        abort(400, "Must use either lat/lng or loc parameters")
 
-    try:
-        lat = float(lat)
-        lng = float(lng)
-    except ValueError:
-        abort(400, "Invalid format of lat or lng parameter")
+    if loc is None:
+        try:
+            lat = float(lat)
+            lng = float(lng)
+        except ValueError:
+            abort(400, "Invalid format of lat or lng parameter")
 
-    if not (-90 <= lat <= 90) or not (-180 <= lng <= 180):
-        abort(400, "Latitude or longitude invalid, probably not specified in degrees")
+        if not (-90 <= lat <= 90) or not (-180 <= lng <= 180):
+            abort(400, "Latitude or longitude invalid, probably not specified in degrees")
+    else:
+        try:
+            geocoder = geocoders.Google()
+            unused_place, (lat, lng) = geocoder.geocode(loc)
+        except Exception:
+            lat, lng = 49, 8
 
     distanceStoreTuples = [((store["lat"] - lat)**2 + (store["lng"] - lng)**2, store) for store in STORES]
     distanceStoreTuples.sort()
