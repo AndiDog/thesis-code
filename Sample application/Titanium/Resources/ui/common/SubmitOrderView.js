@@ -27,22 +27,12 @@ function SubmitOrderView(order)
     {
         var storeIds = {}
 
+        this.pickUpLocationsTable.setData([])
+
         for(var i = 0; i < foundStores.length && i < 5; ++i)
         {
             var store = foundStores[i]
             storeIds[store.id] = true
-
-            var found = false
-            var existingRowsCount = this.pickUpLocationsTable.data.length ? this.pickUpLocationsTable.data[0].rows.length : 0
-            for(var j = existingRowsCount - 1; j >= 0; --j)
-                if(this.pickUpLocationsTable.data[0].rows[j].customData && this.pickUpLocationsTable.data[0].rows[j].customData.storeId == store.id)
-                {
-                    found = true
-                    break
-                }
-
-            if(found)
-                continue
 
             var row = Ti.UI.createTableViewRow({
                 className: "store",
@@ -66,11 +56,6 @@ function SubmitOrderView(order)
             row.add(labelAddress)
             this.pickUpLocationsTable.appendRow(row)
         }
-
-        var existingRowsCount = this.pickUpLocationsTable.data.length ? this.pickUpLocationsTable.data[0].rows.length : 0
-        for(var i = existingRowsCount - 1; i >= 0; --i)
-            if(this.pickUpLocationsTable.data[0].rows[i].customData && !(this.pickUpLocationsTable.data[0].rows[i].customData.storeId in storeIds))
-                this.pickUpLocationsTable.deleteRow(i)
     }
 
     this.updateSearchBar = function(delay)
