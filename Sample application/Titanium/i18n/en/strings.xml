@@ -2,6 +2,7 @@
 <resources>
     <string name="add">Add</string>
     <string name="back">Back</string>
+    <string name="couldNotFindLocation">Could not determine your location, please enter an address to find nearest stores: %s</string>
     <string name="oldOrders">Old orders</string>
     <string name="addPictures">Add pictures</string>
     <string name="addPicturesFromFolderX">Add pictures (%s)</string>
@@ -14,6 +15,7 @@
     <string name="password">Password:</string>
     <string name="pictureFoldersInTotal">There are %d folders with pictures:</string>
     <string name="printed">Printed</string>
+    <string name="searchStoresHint">Type address to find nearest stores</string>
     <string name="selectForPrinting">Select image for printing:</string>
     <string name="submit">Submit</string>
     <string name="submitOrder">Submit order</string>
