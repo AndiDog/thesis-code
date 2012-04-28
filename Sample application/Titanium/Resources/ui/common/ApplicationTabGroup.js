@@ -1,4 +1,5 @@
-function ApplicationTabGroup(Window) {
+function ApplicationTabGroup(Window)
+{
     var AddPicturesTab = require('ui/common/AddPicturesTab')
     var OldOrdersTab = require('ui/common/OldOrdersTab')
     var OrderDetailView = require('ui/common/OrderDetailView')
@@ -43,7 +44,13 @@ function ApplicationTabGroup(Window) {
     self.addTab(tab2);
     self.addTab(tab3);
 
-    return self;
-};
+    Ti.App.addEventListener('switch-to-orders-list-and-update', function() {
+        Ti.App.fireEvent('force-order-list-update')
 
-module.exports = ApplicationTabGroup;
+        setTimeout(function() { self.setActiveTab(0) }, 200)
+    })
+
+    return self;
+}
+
+module.exports = ApplicationTabGroup

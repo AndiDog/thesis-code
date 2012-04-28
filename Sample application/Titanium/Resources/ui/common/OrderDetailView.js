@@ -280,7 +280,7 @@ function OrderDetailView(order, isCurrentOrder)
     }
 
     var self = Ti.UI.createWindow({
-        title: L('oldOrders'),
+        title: isCurrentOrder ? L('currentOrder') : L('oldOrder'),
         backgroundColor: '#000',
         layout: 'vertical'
     })
@@ -301,7 +301,7 @@ function OrderDetailView(order, isCurrentOrder)
     if(isCurrentOrder)
     {
         var submitButton = Ti.UI.createButton({
-            title : L('submit'),
+            title : L('submit') + '...',
             width: Ti.UI.FILL
         })
 

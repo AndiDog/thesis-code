@@ -5,6 +5,21 @@ function SubmitOrderView(order)
     if(!(this instanceof SubmitOrderView))
         return new SubmitOrderView(order)
 
+    this.getSelectedStoreId = function()
+    {
+        var previouslyChecked = null
+
+        var rows = _this.pickUpLocationsTable.data.length > 0 ? _this.pickUpLocationsTable.data[0].rows : []
+        for(var i = 0; i < rows.length; ++i)
+            if(rows[i].hasCheck)
+            {
+                previouslyChecked = rows[i].customData.storeId
+                break
+            }
+
+        return previouslyChecked
+    }
+
     this.setLocation = function()
     {
         Ti.Geolocation.purpose = 'Find nearest stores'
@@ -26,6 +41,19 @@ function SubmitOrderView(order)
     this.setStores = function(foundStores)
     {
         var storeIds = {}
+        var previouslyChecked = -1
+
+        var rows = _this.pickUpLocationsTable.data.length > 0 ? _this.pickUpLocationsTable.data[0].rows : []
+        for(var i = 0; i < rows.length; ++i)
+            if(rows[i].hasCheck)
+            {
+                previouslyChecked = rows[i].customData.storeId
+                break
+            }
+
+        // Always have one store checked
+        if(rows.length == 0 && foundStores.length > 0)
+            previouslyChecked = foundStores[0].id
 
         this.pickUpLocationsTable.setData([])
 
@@ -36,9 +64,17 @@ function SubmitOrderView(order)
 
             var row = Ti.UI.createTableViewRow({
                 className: "store",
+                hasCheck: previouslyChecked == store.id,
                 layout: "vertical",
                 customData: {storeId: store.id}
             })
+
+            row.addEventListener('click', function(i) { return function() {
+                var rows = _this.pickUpLocationsTable.data ? _this.pickUpLocationsTable.data[0].rows : []
+
+                for(var j = 0; j < rows.length; ++j)
+                    rows[j].hasCheck = (i == j)
+            }}(i))
 
             var labelName = Ti.UI.createLabel({
                 left: 10,
@@ -75,7 +111,7 @@ function SubmitOrderView(order)
             return
         }
 
-        var latLngMatch = /^(\d\.\d+);(\d\.\d+)$/.exec(search)
+        var latLngMatch = /^\s*(-?\d+\.\d+)\s*;\s*(-?\d+\.\d+)\s*$/.exec(search)
         var parameters
 
         if(latLngMatch)
@@ -91,6 +127,7 @@ function SubmitOrderView(order)
             onload: function(e) {
                 _this.lastRequest = [search, moment()]
                 _this.hasPendingRequest = false
+                _this.doTimeoutConnection = false
 
                 var list = JSON.parse(this.responseText)
                 var stores = list['stores']
@@ -101,6 +138,7 @@ function SubmitOrderView(order)
             },
             onerror: function(e) {
                 _this.hasPendingRequest = false
+                _this.doTimeoutConnection = false
 
                 Ti.API.error(e.error)
                 // TODO: replace by notification?!
@@ -114,14 +152,23 @@ function SubmitOrderView(order)
         })
 
         client.open('GET', Ti.App.globals.webServiceBaseUri + 'stores/by-location/?' + parameters)
+
         this.hasPendingRequest = true
+        this.doTimeoutConnection = true
+
+        // Timeout property does not apply to sending the request (e.g. TCP retransmissions will let the client wait a long time), so do it ourselves so that other search requests can be sent
+        setTimeout(function() {
+            if(_this.doTimeoutConnection)
+                _this.hasPendingRequest = false
+        }, 8500)
+
         client.send()
     }
 
     var _this = this
 
     this.order = order
-    this.lastRequest = ['', moment().subtract('days', 1)]
+    this.lastRequest = [null, moment().subtract('days', 1)]
     this.hasPendingRequest = false
 
     var self = Ti.UI.createWindow({
@@ -180,9 +227,10 @@ function SubmitOrderView(order)
         width: 100,
         textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
     }))
-    horizontalView.add(Ti.UI.createTextField({
+    this.usernameTextField = Ti.UI.createTextField({
         width: 150
-    }))
+    })
+    horizontalView.add(this.usernameTextField)
 
     var horizontalView2 = Ti.UI.createView({
         layout: 'horizontal',
@@ -193,10 +241,11 @@ function SubmitOrderView(order)
         width: 100,
         textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
     }))
-    horizontalView2.add(Ti.UI.createTextField({
+    this.passwordTextField = Ti.UI.createTextField({
         width: 150,
         passwordMask: true
-    }))
+    })
+    horizontalView2.add(this.passwordTextField)
 
     var verticalView = Ti.UI.createView({
         layout: 'vertical'
@@ -205,12 +254,54 @@ function SubmitOrderView(order)
     verticalView.add(horizontalView2)
     scrollView.add(verticalView)
 
+    var submitButton = Ti.UI.createButton({
+        title : L('submit'),
+        width: Ti.UI.FILL
+    })
+    scrollView.add(submitButton)
+
+    submitButton.addEventListener('click', function() {
+        var storeId = _this.getSelectedStoreId()
+        if(storeId == null)
+        {
+            alert(L('mustSelectStore'))
+            return
+        }
+
+        var username = _this.usernameTextField.value
+        var password = _this.passwordTextField.value
+
+        if(!username.length || !password.length)
+        {
+            alert(L('mustSelectUsernameAndPassword'))
+            return
+        }
+
+        var client = Ti.Network.createHTTPClient({
+            onload: function(e) {
+                self.close()
+
+                Ti.App.fireEvent('switch-to-orders-list-and-update')
+            },
+            onerror: function(e) {
+                Ti.API.error(e.error);
+
+                alert('Error submitting order: ' + e.error)
+            },
+            timeout: 5000
+        })
+        client.open('POST', Ti.App.globals.webServiceBaseUri + 'order/' + _this.order.id + '/submit/')
+        client.send({username: username, password: password, storeId: storeId})
+    })
+
     this.searchBar.setValue(Ti.App.Properties.getString('storesSearch', ''))
     this.searchBar.addEventListener('change', function() { _this.updateSearchBar(true) })
     this.searchBar.addEventListener('return', function() { _this.updateSearchBar() })
 
     if(Ti.Geolocation.locationServicesEnabled)
         setTimeout(function() { _this.setLocation() }, 1)
+    else
+        setTimeout(function() { _this.updateSearchBar() }, 1)
 
     return self
 }
