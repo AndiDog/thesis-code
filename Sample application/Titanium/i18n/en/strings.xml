@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <string name="add">Add</string>
     <string name="addPictures">Add pictures</string>
     <string name="addPicturesFromFolderX">Add pictures (%s)</string>
+    <string name="addToOrder">Add to order</string>
     <string name="back">Back</string>
+    <string name="confirmSubmission">Confirm submission</string>
     <string name="couldNotFindLocation">Could not determine your location, please enter an address to find nearest stores: %s</string>
     <string name="currentOrder">Current order</string>
     <string name="haveToAddPicturesFirst">You have to add pictures first.</string>
+    <string name="mustConfirmSubmission">You must confirm the submission.</string>
     <string name="mustSelectStore">You did not select a store.</string>
     <string name="mustSelectUsernameAndPassword">Please enter username and password.</string>
     <string name="noPicturesSelected">You did not select any pictures.</string>
@@ -15,6 +17,7 @@
     <string name="oldOrder">Old order</string>
     <string name="oldOrders">Old orders</string>
     <string name="orderContainsNPictures">The order contains %d pictures:</string>
+    <string name="orderWasSubmitted">Order successfully submitted.</string>
     <string name="password">Password:</string>
     <string name="pictureFoldersInTotal">There are %d folders with pictures:</string>
     <string name="printed">Printed</string>

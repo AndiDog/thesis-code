@@ -90,9 +90,9 @@ function AddPicturesFromFolderView(folderPath, filenames)
     })
 
     var addButton = Ti.UI.createButton({
-        title: L('add'),
+        title: L('addToOrder'),
         right: 10,
-        width: 100
+        width: 160
     })
     addButton.addEventListener('click', function() {
         Ti.API.info('Add button clicked')
@@ -117,6 +117,8 @@ function AddPicturesFromFolderView(folderPath, filenames)
 
             setTimeout(function() {
                 alert(String.format(L('willUploadNPictures'), count))
+
+                Ti.App.fireEvent('switch-to-current-order')
             }, 20)
         }
     })

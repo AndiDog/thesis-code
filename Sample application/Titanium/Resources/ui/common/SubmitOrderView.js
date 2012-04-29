@@ -57,6 +57,8 @@ function SubmitOrderView(order)
 
         this.pickUpLocationsTable.setData([])
 
+        var completeHeight = 0
+
         for(var i = 0; i < foundStores.length && i < 5; ++i)
         {
             var store = foundStores[i]
@@ -80,18 +82,33 @@ function SubmitOrderView(order)
                 left: 10,
                 text: store.name,
                 touchEnabled: false,
-                font: {fontWeight: 'bold'}
+                font: {fontWeight: 'bold'},
+                height: 20
             })
             var labelAddress = Ti.UI.createLabel({
                 right: 10,
                 text: store.address,
-                touchEnabled: false
+                touchEnabled: false,
+                height: 20
             })
 
             row.add(labelName)
             row.add(labelAddress)
             this.pickUpLocationsTable.appendRow(row)
+
+            // Dirty workaround to get a fixed height of the table (http://developer.appcelerator.com/question/136150/make-tableview-take-up-exactly-the-size-needed-for-its-rows)
+            completeHeight += labelName.height + labelAddress.height + 10
         }
+
+        this.pickUpLocationsTable.height = completeHeight
+
+        this.updateSubmitButton()
+    }
+
+    this.updateSubmitButton = function()
+    {
+        this.submitButton.setEnabled(_this.getSelectedStoreId() != null && _this.usernameTextField.value.length > 0 &&
+                                     _this.passwordTextField.value.length > 0 && confirmationCheckbox.value)
     }
 
     this.updateSearchBar = function(delay)
@@ -209,7 +226,7 @@ function SubmitOrderView(order)
 
     this.pickUpLocationsTable = Ti.UI.createTableView({
         top: 4,
-        height: Ti.UI.FILL,
+        height: 0,
         scrollable: false
     })
 
@@ -254,13 +271,41 @@ function SubmitOrderView(order)
     verticalView.add(horizontalView2)
     scrollView.add(verticalView)
 
-    var submitButton = Ti.UI.createButton({
-        title : L('submit'),
-        width: Ti.UI.FILL
+    this.usernameTextField.addEventListener('change', function() {
+        _this.updateSubmitButton()
     })
-    scrollView.add(submitButton)
+    this.passwordTextField.addEventListener('change', function() {
+        _this.updateSubmitButton()
+    })
 
-    submitButton.addEventListener('click', function() {
+    var confirmationHorizontalView = Ti.UI.createView({
+        layout: 'horizontal'
+    })
+    var confirmationCheckbox = Ti.UI.createSwitch({
+        left: 10,
+        style: Ti.UI.Android.SWITCH_STYLE_CHECKBOX,
+        value: false
+    })
+    var confirmationLabel = Ti.UI.createLabel({
+        text: L('confirmSubmission'),
+        touchEnabled: false
+    })
+    confirmationHorizontalView.add(confirmationCheckbox)
+    confirmationHorizontalView.add(confirmationLabel)
+    scrollView.add(confirmationHorizontalView)
+
+    confirmationCheckbox.addEventListener('change', function() {
+        _this.updateSubmitButton()
+    })
+
+    this.submitButton = Ti.UI.createButton({
+        title : L('submit'),
+        width: Ti.UI.FILL,
+        enabled: false
+    })
+    scrollView.add(this.submitButton)
+
+    this.submitButton.addEventListener('click', function() {
         var storeId = _this.getSelectedStoreId()
         if(storeId == null)
         {
@@ -277,11 +322,19 @@ function SubmitOrderView(order)
             return
         }
 
+        if(!confirmationCheckbox.value)
+        {
+            alert(L('mustConfirmSubmission'))
+            return
+        }
+
         var client = Ti.Network.createHTTPClient({
             onload: function(e) {
                 self.close()
 
                 Ti.App.fireEvent('switch-to-orders-list-and-update')
+
+                alert(L('orderWasSubmitted'))
             },
             onerror: function(e) {
                 Ti.API.error(e.error);

@@ -50,6 +50,10 @@ function ApplicationTabGroup(Window)
         setTimeout(function() { self.setActiveTab(0) }, 200)
     })
 
+    Ti.App.addEventListener('switch-to-current-order', function() {
+        setTimeout(function() { self.setActiveTab(2) }, 200)
+    })
+
     return self;
 }
 
