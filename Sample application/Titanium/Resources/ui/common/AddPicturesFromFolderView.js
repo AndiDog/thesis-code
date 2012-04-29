@@ -106,7 +106,7 @@ function AddPicturesFromFolderView(folderPath, filenames)
                 Ti.API.info('Will upload selected picture ' + filename)
                 setTimeout(function(filename) { return function() {
                     pictureUpload.upload(filename)
-                }}(filename), 400)
+                }}(filename), 20)
             }
 
         if(!count)
@@ -119,7 +119,7 @@ function AddPicturesFromFolderView(folderPath, filenames)
                 alert(String.format(L('willUploadNPictures'), count))
 
                 Ti.App.fireEvent('switch-to-current-order')
-            }, 20)
+            }, 500)
         }
     })
 

@@ -99,7 +99,7 @@ function OrderDetailView(order, isCurrentOrder)
         this.headerLabel.setText(String.format(L('orderContainsNPictures'), this.order.pictureIds.length + (this.order.submissionDate == null ? pictureUpload.getUploadingPictures().length : 0)))
 
         this.shownState = JSON.stringify([this.order.pictureIds, uploadingPictures])
-        Ti.API.debug('uploadingPictures:'+JSON.stringify(uploadingPictures)+',this.order.submissionDate==null?='+(this.order.submissionDate==null))
+
         var tableData = []
         var cellIndex = 0
 
@@ -332,7 +332,6 @@ function OrderDetailView(order, isCurrentOrder)
     if(isCurrentOrder)
         Ti.App.addEventListener('update-current-order', function(e)
         {
-            Ti.API.info('update-current-order')
             _this.updateOrder(e.order)
         })
 
