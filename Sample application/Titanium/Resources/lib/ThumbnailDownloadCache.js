@@ -73,7 +73,7 @@ function ThumbnailDownloadCache()
                 _this.currentlyDownloading[id] = false
 
                 Ti.API.error(e.error);
-                // TODO: replace by notification
+
                 alert('Error retrieving thumbnail ' + id + ': ' + e.error)
             },
             timeout: 5000,

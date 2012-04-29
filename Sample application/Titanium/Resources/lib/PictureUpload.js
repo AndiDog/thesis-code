@@ -51,9 +51,6 @@ function PictureUpload()
 
     // Pictures that are currently being uploaded
     this.uploadingFilenames = {}
-
-    // TODO: testing only
-    //this.upload('file:///sdcard/Download/W5GJ3.jpg')
 }
 
 module.exports = new PictureUpload()

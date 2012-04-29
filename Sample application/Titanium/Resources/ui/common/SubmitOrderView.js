@@ -158,7 +158,7 @@ function SubmitOrderView(order)
                 _this.doTimeoutConnection = false
 
                 Ti.API.error(e.error)
-                // TODO: replace by notification?!
+
                 alert('Error retrieving list of nearest stores' + e.error)
 
                 var cachedStores = Ti.App.Properties.getList('stores', null)

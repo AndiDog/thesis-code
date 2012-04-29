@@ -44,7 +44,7 @@ function OldOrdersTab()
             },
             onerror: function(e) {
                 Ti.API.error(e.error);
-                // TODO: replace by notification?!
+
                 alert('Error retrieving list of old orders: ' + e.error)
             },
             timeout: 5000

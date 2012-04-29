@@ -183,7 +183,6 @@ function OrderDetailView(order, isCurrentOrder)
                     Ti.App.addEventListener('update-thumbnail-' + this.order.pictureIds[cellIndex], callback(image, this.order.pictureIds[cellIndex], row, rowHeight, view, view2))
 
                 var state = cellIndex < numberOfOrderPictures ? this.getPictureState(this.order.pictureIds[cellIndex]) : 'uploading'
-                Ti.API.info('cellindex:'+cellIndex+',numberOfOrderPictures='+numberOfOrderPictures+',numberOfUploadingPictures='+numberOfUploadingPictures+',staet='+state)
 
                 var statusImage = Ti.UI.createImageView({
                     image: '/images/' + state + '.png',
@@ -320,7 +319,6 @@ function OrderDetailView(order, isCurrentOrder)
     this.recreateLayout()
 
     Ti.Gesture.addEventListener('orientationchange', function(e) {
-        // TODO: only do this if tab is active
         _this.recreateLayout()
     })
 
