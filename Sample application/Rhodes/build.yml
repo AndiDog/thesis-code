@@ -1,0 +1,26 @@
+#sdk: "C:/dev/RhoStudio/ruby/lib/ruby/gems/1.8/gems/rhodes-3.3.2"
+sdkversion: 3.3.2
+name: MobiPrint
+version: 1.0
+vendor: Andreas Sommer
+build: debug
+bbver: 4.6
+applog: rholog.txt
+capabilities:
+  - gps
+iphone:
+  configuration: Release
+  sdk: iphonesimulator5.0
+  provisionprofile:
+  codesignidentity:
+  entitlements:
+  BundleIdentifier: com.rhomobile.mobiprint
+  BundleURLScheme: mobiprint
+wp:
+  productid: '8a671570-74dd-012f-3bf7-00ff3deaba80'
+symbian:
+  uid: '0xee6a8e36'
+android:
+  version: 2.1
+
+extensions: ["json", "another-extension"]
