@@ -11,16 +11,17 @@ capabilities:
 iphone:
   configuration: Release
   sdk: iphonesimulator5.0
-  provisionprofile:
-  codesignidentity:
-  entitlements:
+  provisionprofile: 
+  codesignidentity: 
+  entitlements: 
   BundleIdentifier: com.rhomobile.mobiprint
   BundleURLScheme: mobiprint
 wp:
-  productid: '8a671570-74dd-012f-3bf7-00ff3deaba80'
+  productid: 8a671570-74dd-012f-3bf7-00ff3deaba80
 symbian:
-  uid: '0xee6a8e36'
+  uid: 3999960630
 android:
   version: 2.1
-
-extensions: ["json", "another-extension"]
+extensions:
+  - json
+  - rhodes_translator

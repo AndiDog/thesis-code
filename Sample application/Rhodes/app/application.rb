@@ -2,11 +2,15 @@ require 'rho/rhoapplication'
 
 class AppApplication < Rho::RhoApplication
   def initialize
-    # Tab items are loaded left->right, @tabs[0] is leftmost tab in the tab-bar
-    # Super must be called *after* settings @tabs!
-    @tabs = nil
-    #To remove default toolbar uncomment next line:
-    #@@toolbar = nil
+    # Super must be called after settings @tabs!
+    @tabs = [
+      {:label => Localization::Views[:old_orders], :action => '/app/Order', :icon => '/public/images/tabs/old-orders-tab.png'},
+      {:label => Localization::Views[:add_pictures],  :action => '/app/Order/addPictures', :icon => '/public/images/tabs/add-pictures-tab.png'},
+      {:label => Localization::Views[:current_order], :action => '/app/Order/current', :icon => '/public/images/tabs/current-order-tab.png'}
+    ]
+    
+    # Remove default toolbar
+    @@toolbar = nil
     super
 
     # Uncomment to set sync notification callback to /app/Settings/sync_notify.
