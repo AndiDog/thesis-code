@@ -1,5 +1,18 @@
-
 module ApplicationHelper
+  def ordinalize_day(day)
+    dayString = day.to_s
+
+    if dayString =~ /1$/
+      "#{dayString}st"
+    elsif dayString =~ /2$/
+      "#{dayString}nd"
+    elsif dayString =~ /3$/
+      "#{dayString}rd"
+    else
+      "#{dayString}th"
+    end
+  end
+
   def strip_braces(str=nil)
     str ? str.gsub(/\{/, "").gsub(/\}/, "") : nil
   end
@@ -125,5 +138,5 @@ module ApplicationHelper
   def caller_request_query_to_hash
     @caller_request = Rho::JSON.parse(@params['caller_request']) if @params['caller_request']
   end
-  
+
 end

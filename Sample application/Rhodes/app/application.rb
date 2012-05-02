@@ -8,7 +8,7 @@ class AppApplication < Rho::RhoApplication
       {:label => Localization::Views[:add_pictures],  :action => '/app/Order/addPictures', :icon => '/public/images/tabs/add-pictures-tab.png'},
       {:label => Localization::Views[:current_order], :action => '/app/Order/current', :icon => '/public/images/tabs/current-order-tab.png'}
     ]
-    
+
     # Remove default toolbar
     @@toolbar = nil
     super
