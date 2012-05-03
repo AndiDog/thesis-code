@@ -44,8 +44,11 @@ class Configuration
 
     if not File.exists?(filename)
       f = File.new(filename, 'wb')
-      f.write('{}')
-      f.close
+      begin
+        f.write('{}')
+      ensure
+        f.close
+      end
     end
 
     f = File.open(filename, 'rb')
