@@ -3,6 +3,7 @@ rholog.txt
 rholog-*
 sim-*
 
-# build output
+# build and run output
 /bin
+/db
 /rhosimulator

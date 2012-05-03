@@ -7,10 +7,14 @@
   <div data-role="content">
     <ul data-role="listview">
       <% for order in orders
-        next if not order['submissionDate']
-        submissionDate = Time.iso8601(order['submissionDate'])
+        next if not order.submissionDate or order.submissionDate.empty?
+
+        submissionDate = Time.iso8601(order.submissionDate)
+
+        # List saved as string, so parse it first
+        pictureIds = Rho::JSON.parse(order.pictureIds)
       %>
-        <li><a href="#"><%= submissionDate.strftime("%A, %B #{ordinalize_day(submissionDate.day)} %Y") %> <p class="ui-li-aside"><%= Localization::Views[:n_pictures] % order['pictureIds'].length %></p></a></li>
+        <li><a href="#"><%= submissionDate.strftime("%A, %B #{ordinalize_day(submissionDate.day)} %Y") %> <p class="ui-li-aside"><%= Localization::Views[:n_pictures] % pictureIds.length %></p></a></li>
       <% end %>
     </ul>
   </div>
