@@ -28,6 +28,17 @@ class Configuration
     self.write_config(cfg)
   end
 
+  def self.orders
+    cfg = self.read_or_create_config
+    cfg['orders'] or []
+  end
+
+  def self.orders=(val)
+    cfg = self.read_or_create_config
+    cfg['orders'] = val
+    self.write_config(cfg)
+  end
+
   def self.read_or_create_config
     filename = self.filename
 
@@ -38,8 +49,11 @@ class Configuration
     end
 
     f = File.open(filename, 'rb')
-    content = f.read()
-    f.close()
+    begin
+      content = f.read()
+    ensure
+      f.close()
+    end
 
     return Rho::JSON.parse(content)
   end
@@ -48,7 +62,10 @@ class Configuration
     filename = self.filename
     content = JSON.generate(cfg)
     f = File.new(filename, 'wb')
-    f.write(content)
-    f.close
+    begin
+      f.write(content)
+    ensure
+      f.close
+    end
   end
 end

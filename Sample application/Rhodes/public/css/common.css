@@ -1,0 +1,12 @@
+div.picture-gallery { margin-left: 0;
+                      margin-right: 0;
+                      margin-top: 10pt }
+div.picture-gallery > table { margin: 0;
+                              width: 100%;
+                              table-layout: fixed;
+                              border-collapse: separate;
+                              border-spacing: 3pt }
+div.picture-gallery > table td { font-size: 9pt;padding-bottom: 10pt }
+div.picture-gallery > table td img { width: 100% }
+div.picture-gallery > table td span img { width: 12pt; vertical-align: middle }
+div.picture-gallery > table td span { vertical-align: middle; margin-left: 4pt }

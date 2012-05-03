@@ -1,0 +1,37 @@
+<div data-role="page">
+  <div data-role="header">
+    <h3>Old order</h3>
+  </div>
+  <div data-role="content">
+    <%= Localization::Views[:order_has_n_pictures] % @order['pictureIds'].length %>
+
+    <div align="center" class="picture-gallery">
+      <table>
+      <%
+        screenWidth = System.get_property('screen_orientation') == 'portrait' ? System.get_property('screen_width') : System.get_property('screen_height')
+      %>
+
+      <%
+        cellIndex = 0
+
+        # Approximate number of pictures per row by the usual size of 90px, then let CSS layout do the rest
+        picturesPerRow = (screenWidth - 31) / 95
+
+        for pictureId in @order['pictureIds']
+      %>
+        <% if cellIndex % picturesPerRow == 0 %><tr><% end %>
+        <td>
+          <img src="<%= get_thumbnail_filename(pictureId, true) %>">
+
+          <br/><span><img src="/public/images/uploaded.png"> Uploaded</span>
+        </td>
+        <% if cellIndex % picturesPerRow == picturesPerRow - 1 %></tr><% end %>
+      <%
+          cellIndex += 1
+        end
+      %>
+      </table>
+    </div>
+  </div>
+</div>
+
