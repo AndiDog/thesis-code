@@ -7,6 +7,6 @@ div.picture-gallery > table { margin: 0;
                               border-collapse: separate;
                               border-spacing: 3pt }
 div.picture-gallery > table td { font-size: 9pt;padding-bottom: 10pt }
-div.picture-gallery > table td img { width: 100% }
-div.picture-gallery > table td span img { width: 12pt; vertical-align: middle }
-div.picture-gallery > table td span { vertical-align: middle; margin-left: 4pt }
+div.picture-gallery > table td img { width: 12pt; vertical-align: middle }
+div.picture-gallery > table td img.thumb { width: 100% }
+div.picture-gallery > table td span { vertical-align: middle; margin-left: 1pt }
