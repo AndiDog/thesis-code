@@ -15,15 +15,18 @@
       <%
         cellIndex = 0
 
-        # Approximate number of pictures per row by the usual size of 90px, then let CSS layout do the rest
+        # Approximate number of pictures per row by the usual size of 90px, then let CSS layout do the rest.
+        # If less than a full row of thumbnails is shown, the image would be stretched to full width, therefore
+        # I added max-width.
         picturesPerRow = (screenWidth - 31) / 95
+        maxWidth = (screenWidth - 31) / picturesPerRow - 5
 
         for pictureId in @order['pictureIds']
           stateName = is_old_order ? 'printed' : 'uploaded'
       %>
         <% if cellIndex % picturesPerRow == 0 %><tr><% end %>
         <td>
-          <img src="<%=h get_thumbnail_filename(pictureId, true) %>" class="thumb">
+          <img src="<%=h get_thumbnail_filename(pictureId, true) %>" style="max-width: <%=h maxWidth %>px" class="thumb">
           <br/>
           <img src="/public/images/<%=h stateName %>.png">
           <span><%=h Localization::Views[stateName.to_sym] %></span>
