@@ -6,10 +6,21 @@ require 'helpers/thumbnails'
 
 class OrderController < Rho::RhoController
   include ApplicationHelper
+  include ERB::Util
   include Thumbnails
 
-  def addPictures
-    render
+  def add_pictures
+    @folders = [['file://1/Barcelona', 'Barcelona', 119], ['file://2/Stockholm', 'Stockholm', 387]]
+    render :action => :add_pictures
+  end
+
+  def add_pictures_from_folder
+    raise "Parameter missing" if @params['directory'].nil?
+
+    @folderName = @params['directory'].gsub(/^.*[\/\\]/, '')
+    @picturesInFolder = ['/public/images/test-thumbnail.jpg', '/public/images/iui-logo-touch-icon.png', '/public/test/1.jpg', '/public/test/2.jpg']
+
+    render :action => :add_pictures_from_folder
   end
 
   def orders
@@ -28,7 +39,7 @@ class OrderController < Rho::RhoController
       :callback => (url_for :action => :on_get_orders)
     )
 
-    render()
+    render
   end
 
   def on_get_orders

@@ -2,7 +2,7 @@
 
 <div data-role="page">
   <div data-role="header">
-    <h3><%= Localization::Views[:old_orders_in_total] % orders.length %></h3>
+    <h3><%=h Localization::Views[:old_orders_in_total] % orders.length %></h3>
   </div>
   <div data-role="content">
     <ul data-role="listview">
@@ -11,7 +11,7 @@
 
         submissionDate = Time.iso8601(order['submissionDate'])
       %>
-        <li><a href="<%= url_for :action => :show, :id => order['id'] %>"><%= submissionDate.strftime("%A, %B #{ordinalize_day(submissionDate.day)} %Y") %> <p class="ui-li-aside"><%= Localization::Views[:n_pictures] % order['pictureIds'].length %></p></a></li>
+        <li><a href="<%= url_for :action => :show, :id => order['id'] %>"><%=h submissionDate.strftime("%A, %B #{ordinalize_day(submissionDate.day)} %Y") %> <p class="ui-li-aside"><%=h Localization::Views[:n_pictures] % order['pictureIds'].length %></p></a></li>
       <% end %>
     </ul>
   </div>

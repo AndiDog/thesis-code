@@ -5,7 +5,7 @@ class AppApplication < Rho::RhoApplication
     # Super must be called after settings @tabs!
     @tabs = [
       {:label => Localization::Views[:old_orders], :action => '/app/Order', :icon => '/public/images/tabs/old-orders-tab.png'},
-      {:label => Localization::Views[:add_pictures],  :action => '/app/Order/addPictures', :icon => '/public/images/tabs/add-pictures-tab.png'},
+      {:label => Localization::Views[:add_pictures],  :action => '/app/Order/add_pictures', :icon => '/public/images/tabs/add-pictures-tab.png'},
       {:label => Localization::Views[:current_order], :action => '/app/Order/current', :icon => '/public/images/tabs/current-order-tab.png'}
     ]
 

@@ -7,6 +7,7 @@ Views = {
   :old_orders => 'Old orders',
   :old_orders_in_total => 'There are %d old orders in total:',
   :order_has_n_pictures => 'This order contains %d pictures:',
+  :upload => 'Upload',
 
   # States
   :printed => 'Printed',

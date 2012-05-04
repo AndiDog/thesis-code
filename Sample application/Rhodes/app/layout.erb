@@ -78,6 +78,15 @@
 <% end %>
     >
     <%= @content %>
+
+    <script type="text/javascript">
+        // Workaround because jQuery Mobile just converts the images to thumbnails
+        $(document).ready(function() {
+          $("div[data-role*='page']").live('pageshow', function(event, ui) {
+              $("div[data-role*='page'] img.no-thumb").removeClass("ui-li-thumb")
+          })
+        })
+    </script>
 </body>
 
 </html>

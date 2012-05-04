@@ -1,0 +1,9 @@
+<div data-role="page">
+  <div data-role="content">
+    <ul data-role="listview">
+      <% for directory, folderName, numPictures in @folders %>
+        <li><a href="<%= url_for :action => :add_pictures_from_folder, :query => { :directory => directory } %>"><%=h folderName %> <p class="ui-li-aside"><%=h Localization::Views[:n_pictures] % numPictures %></p></a></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

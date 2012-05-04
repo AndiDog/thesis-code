@@ -1,10 +1,10 @@
 <% is_old_order = !@order['submissionDate'].nil? %>
 <div data-role="page">
   <div data-role="header">
-    <h3><%= is_old_order ? Localization::Views[:old_order] : Localization::Views[:current_order] %></h3>
+    <h3><%=h is_old_order ? Localization::Views[:old_order] : Localization::Views[:current_order] %></h3>
   </div>
   <div data-role="content">
-    <%= Localization::Views[:order_has_n_pictures] % @order['pictureIds'].length %>
+    <%=h Localization::Views[:order_has_n_pictures] % @order['pictureIds'].length %>
 
     <div align="center" class="picture-gallery">
       <table>
@@ -23,10 +23,10 @@
       %>
         <% if cellIndex % picturesPerRow == 0 %><tr><% end %>
         <td>
-          <img src="<%= get_thumbnail_filename(pictureId, true) %>" class="thumb">
+          <img src="<%=h get_thumbnail_filename(pictureId, true) %>" class="thumb">
           <br/>
-          <img src="/public/images/<%= stateName %>.png">
-          <span><%= Localization::Views[stateName.to_sym] %></span>
+          <img src="/public/images/<%=h stateName %>.png">
+          <span><%=h Localization::Views[stateName.to_sym] %></span>
         </td>
         <% if cellIndex % picturesPerRow == picturesPerRow - 1 %></tr><% end %>
       <%
