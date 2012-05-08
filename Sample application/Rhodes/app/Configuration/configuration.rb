@@ -15,10 +15,10 @@ class Configuration
     cfg = self.read_or_create_config
 
     if cfg['last_orders_list_update']
-      DateTime.parse(Time.iso8601(cfg['last_orders_list_update']).to_s)
+      Time.parse(cfg['last_orders_list_update'])
     else
       # Return very old time value
-      DateTime.new
+      Time.parse('1990-01-01')
     end
   end
 
@@ -28,6 +28,23 @@ class Configuration
     self.write_config(cfg)
   end
 
+  def self.last_picture_scan_update
+      cfg = self.read_or_create_config
+
+      if cfg['last_picture_scan_update']
+        Time.parse(cfg['last_picture_scan_update'])
+      else
+        # Return very old time value
+        Time.parse('1990-01-01')
+      end
+    end
+
+    def self.last_picture_scan_update=(val)
+      cfg = self.read_or_create_config
+      cfg['last_picture_scan_update'] = val
+      self.write_config(cfg)
+    end
+
   def self.orders
     cfg = self.read_or_create_config
     cfg['orders'] or []
@@ -36,6 +53,17 @@ class Configuration
   def self.orders=(val)
     cfg = self.read_or_create_config
     cfg['orders'] = val
+    self.write_config(cfg)
+  end
+
+  def self.picture_scan
+    cfg = self.read_or_create_config
+    cfg['picture_scan'] or []
+  end
+
+  def self.picture_scan=(val)
+    cfg = self.read_or_create_config
+    cfg['picture_scan'] = val
     self.write_config(cfg)
   end
 

@@ -2,25 +2,46 @@ require 'date'
 require 'Configuration/configuration'
 require 'rho/rhocontroller'
 require 'helpers/application_helper'
+require 'helpers/picture_scan'
+require 'helpers/picture_upload'
 require 'helpers/thumbnails'
 
 class OrderController < Rho::RhoController
   include ApplicationHelper
-  include ERB::Util
+  include PictureScan
   include Thumbnails
 
   def add_pictures
-    @folders = [['file://1/Barcelona', 'Barcelona', 119], ['file://2/Stockholm', 'Stockholm', 387]]
+    puts "Last picture scan was #{Time.now.utc - Configuration.last_picture_scan_update} seconds ago"
+
+    Configuration.picture_scan = scanPictures
+    Configuration.last_picture_scan_update = Time.now.utc
+
     render :action => :add_pictures
   end
 
   def add_pictures_from_folder
     raise "Parameter missing" if @params['directory'].nil?
 
-    @folderName = @params['directory'].gsub(/^.*[\/\\]/, '')
-    @picturesInFolder = ['/public/images/test-thumbnail.jpg', '/public/images/iui-logo-touch-icon.png', '/public/test/1.jpg', '/public/test/2.jpg']
+    directory = @params['directory']
+    @folderName = directory.gsub(/^.*[\/\\]/, '')
+    @picturesInFolder = []
+
+    if File.directory?(directory)
+      Dir.new(directory).entries.each {
+        |filename|
+        fullFilename = File.join(directory, filename)
+        if filename =~ /\.jpg$/i and File.file?(fullFilename)
+          @picturesInFolder << fullFilename
+        end
+      }
+    end
 
     render :action => :add_pictures_from_folder
+  end
+
+  def folders
+    Configuration.picture_scan
   end
 
   def orders
@@ -32,7 +53,7 @@ class OrderController < Rho::RhoController
   end
 
   def index
-    puts "Last order list update was #{((DateTime.now - Configuration.last_orders_list_update) * 86400).to_f} seconds ago"
+    puts "Last order list update was #{Time.now.utc - Configuration.last_orders_list_update} seconds ago"
     puts 'Sending order list query'
     Rho::AsyncHttp.get(
       :url => 'http://andidogs.dyndns.org/thesis-mobiprint-web-service/orders/',
@@ -50,11 +71,12 @@ class OrderController < Rho::RhoController
 
     orders_list = @params['body']['orders']
 
+    Configuration.last_orders_list_update = Time.now.utc
+
     if orders_list == orders
       puts 'Orders list unchanged'
     else
       puts "Orders list changed from #{orders} to #{orders_list}"
-      Configuration.last_orders_list_update = DateTime.now
       Configuration.orders = orders_list
 
       # Reload old orders list tab
@@ -77,6 +99,10 @@ class OrderController < Rho::RhoController
     #end
   end
 
+  def on_upload_finished(filename)
+    puts "Successfully uploaded picture #{filename}"
+  end
+
   def show
     # Workaround: ID comes as '{5}', for example
     @order = Configuration.orders.find { |o| o['id'] == @params['id'][1..-2].to_i }
@@ -86,5 +112,15 @@ class OrderController < Rho::RhoController
     end
 
     render :action => :show
+  end
+
+  def upload_pictures
+    for key, value in @params
+      if key =~ /^checkbox-/ and value == 'on'
+        filename = @params["filename-#{key.slice(9..-1)}"]
+        puts "Will try to upload #{filename}"
+        PictureUpload.upload_picture(filename, method(:on_upload_finished))
+      end
+    end
   end
 end

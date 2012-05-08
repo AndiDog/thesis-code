@@ -4,17 +4,21 @@
   </div>
   <div data-role="content">
     <div data-role="fieldcontain">
-      <fieldset data-role="controlgroup">
-        <%
-          i = 0
-          for filename in @picturesInFolder
-            i += 1
-        %>
-          <input type="checkbox" name="checkbox-<%=h i %>" id="checkbox-<%=h i %>" class="custom" />
-          <label for="checkbox-<%=h i %>"><img style="max-width: 100%" class="no-thumb" src="<%=h filename %>"></label>
-        <% end %>
-      </fieldset>
+      <form action="<%= url_for :action => :upload_pictures %>" method="POST">
+        <fieldset data-role="controlgroup">
+          <%
+            i = 0
+            for filename in @picturesInFolder
+              puts "Trying picture file://#{h filename}, exists=#{File.file?(filename)}"
+              i += 1
+          %>
+            <input type="hidden" name="filename-<%=h i %>" value="<%=h filename %>"/>
+            <input type="checkbox" name="checkbox-<%=h i %>" id="checkbox-<%=h i %>" value="on"/>
+            <label for="checkbox-<%=h i %>"><img style="max-width: 100%" class="no-thumb" src="file://<%=h filename %>"></label>
+          <% end %>
+        </fieldset>
+        <input type="submit" value="<%=h Localization::Views[:upload] %>"/>
+      </form>
     </div>
-    <a href="#" data-role="button"><%=h Localization::Views[:upload] %></a>
   </div>
 </div>

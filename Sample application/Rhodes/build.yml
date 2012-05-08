@@ -8,6 +8,7 @@ bbver: 4.6
 applog: rholog.txt
 capabilities:
   - gps
+  - sdcard
 iphone:
   configuration: Release
   sdk: iphonesimulator5.0

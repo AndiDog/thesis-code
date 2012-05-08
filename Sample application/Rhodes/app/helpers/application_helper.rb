@@ -1,4 +1,9 @@
 module ApplicationHelper
+  def html_escape(s)
+    s.to_s.gsub(/&/, "&amp;").gsub(/\"/, "&quot;").gsub(/>/, "&gt;").gsub(/</, "&lt;")
+  end
+  alias h html_escape
+
   def ordinalize_day(day)
     dayString = day.to_s
 
