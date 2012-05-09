@@ -99,13 +99,30 @@ class OrderController < Rho::RhoController
     #end
   end
 
-  def on_upload_finished(filename)
+  def on_upload_finished
+    filename = @params['filename']
+
+    # Change state to not uploading
+    PictureUpload.on_upload_finished(filename)
+
+    if @params['status'] != 'ok'
+      puts "Failed to upload picture #{filename}"
+      return
+    end
+
     puts "Successfully uploaded picture #{filename}"
   end
 
   def show
     # Workaround: ID comes as '{5}', for example
-    @order = Configuration.orders.find { |o| o['id'] == @params['id'][1..-2].to_i }
+    id = @params['id'][1..-2]
+
+    if id == 'current'
+      @order = Configuration.orders.find { |o| o['submissionDate'].nil? }
+    else
+      id = id.to_i
+      @order = Configuration.orders.find { |o| o['id'] == id }
+    end
 
     if not @order
       raise "Order #{@params['id']} not found"
@@ -119,8 +136,11 @@ class OrderController < Rho::RhoController
       if key =~ /^checkbox-/ and value == 'on'
         filename = @params["filename-#{key.slice(9..-1)}"]
         puts "Will try to upload #{filename}"
-        PictureUpload.upload_picture(filename, method(:on_upload_finished))
+        PictureUpload.upload_picture(filename, url_for(:action => :on_upload_finished))
       end
     end
+
+    Rho::NativeTabbar.switch_tab(2)
+    redirect :action => :add_pictures, :query => {:switch_to_current_order => true}
   end
 end

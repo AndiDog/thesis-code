@@ -1,5 +1,3 @@
-require 'net/http'
-
 class PictureUpload
   @@uploading = {}
 
@@ -17,25 +15,11 @@ class PictureUpload
     @@uploading[filename] = true
 
     begin
-      Thread.new do
-        begin
-          RestClient.put(
-            'http://andidogs.dyndns.org/thesis-mobiprint-web-service/pictures/',
-            :picture => filename
-          )
-
-          callback.call(filename)
-        rescue => e
-          puts "Failed to upload picture: #{e.response}"
-        ensure
-          self.on_upload_finished
-        end
-      end
-=begin
-      Rho::AsyncHttp.post(
-        :http_command => 'PUT',
-        :url => 'http://andidogs.dyndns.org/thesis-mobiprint-web-service/pictures/',
+      puts "Starting picture upload of #{filename}"
+      Rho::AsyncHttp.upload_file(
+        :url => 'http://andidogs.dyndns.org/thesis-mobiprint-web-service/pictures/put-by-post-workaround/',
         :callback => callback,
+        :callback_param => "filename=#{Rho::RhoSupport.url_encode(filename)}",
         :multipart => [
         {
           :filename => filename,
@@ -43,7 +27,6 @@ class PictureUpload
           :content_type => "application/octet-stream"
         }]
       )
-=end
     rescue
       @@uploading.delete(filename)
       raise
