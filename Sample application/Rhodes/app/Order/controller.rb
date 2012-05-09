@@ -11,6 +11,21 @@ class OrderController < Rho::RhoController
   include PictureScan
   include Thumbnails
 
+  @@update_thread_started = false
+
+  def initialize
+    if !@@update_thread_started
+      @@update_thread_started = true
+
+      Thread.new do
+        loop do
+          update_orders_list
+          sleep 60
+        end
+      end
+    end
+  end
+
   def add_pictures
     puts "Last picture scan was #{Time.now.utc - Configuration.last_picture_scan_update} seconds ago"
 
@@ -48,18 +63,7 @@ class OrderController < Rho::RhoController
     Configuration.orders
   end
 
-  def current
-    render
-  end
-
   def index
-    puts "Last order list update was #{Time.now.utc - Configuration.last_orders_list_update} seconds ago"
-    puts 'Sending order list query'
-    Rho::AsyncHttp.get(
-      :url => 'http://andidogs.dyndns.org/thesis-mobiprint-web-service/orders/',
-      :callback => (url_for :action => :on_get_orders)
-    )
-
     render
   end
 
@@ -119,9 +123,11 @@ class OrderController < Rho::RhoController
 
     if id == 'current'
       @order = Configuration.orders.find { |o| o['submissionDate'].nil? }
+      @uploading_pictures = PictureUpload.uploading_pictures
     else
       id = id.to_i
       @order = Configuration.orders.find { |o| o['id'] == id }
+      @uploading_pictures = nil
     end
 
     if not @order
@@ -129,6 +135,21 @@ class OrderController < Rho::RhoController
     end
 
     render :action => :show
+  end
+
+  def submit_order
+    @order = Configuration.orders.find { |o| o['submissionDate'].nil? }
+
+    render :action => :submit_order
+  end
+
+  def update_orders_list
+    puts "Last order list update was #{Time.now.utc - Configuration.last_orders_list_update} seconds ago"
+    puts 'Sending order list query'
+    Rho::AsyncHttp.get(
+      :url => 'http://andidogs.dyndns.org/thesis-mobiprint-web-service/orders/',
+      :callback => (url_for :action => :on_get_orders)
+    )
   end
 
   def upload_pictures

@@ -1,4 +1,10 @@
-<% is_old_order = !@order['submissionDate'].nil? %>
+<%
+  is_old_order = !@order['submissionDate'].nil?
+
+  if not is_old_order
+    can_submit = @order['pictureIds'].length > 0 and @uploading_pictures.length == 0
+  end
+%>
 <div data-role="page">
   <div data-role="header">
     <h3><%=h is_old_order ? Localization::Views[:old_order] : Localization::Views[:current_order] %></h3>
@@ -21,23 +27,55 @@
         picturesPerRow = (screenWidth - 31) / 95
         maxWidth = (screenWidth - 31) / picturesPerRow - 5
 
-        for pictureId in @order['pictureIds']
-          stateName = is_old_order ? 'printed' : 'uploaded'
+        numOrderedPictures = @order['pictureIds'].length
+        numUploadingPictures = is_old_order ? 0 : @uploading_pictures.length
+        nextRow = ''
+
+        for i in 0...(numOrderedPictures + numUploadingPictures)
+          if i < numOrderedPictures
+            pictureId = @order['pictureIds'][i]
+            stateName = is_old_order ? 'printed' : 'uploaded'
+            filename = nil
+          else
+            pictureId = -1
+            stateName = 'uploading'
+            filename = @uploading_pictures[i - numOrderedPictures]
+          end
+
+          nextRow += "<td><img src=\"/public/images/#{h stateName}.png\"><span>#{h Localization::Views[stateName.to_sym]}</span></td>"
       %>
-        <% if cellIndex % picturesPerRow == 0 %><tr><% end %>
+        <% if cellIndex % picturesPerRow == 0 %><tr class="thumb"><% end %>
         <td>
-          <img src="<%=h get_thumbnail_filename(pictureId, true) %>" style="max-width: <%=h maxWidth %>px" class="thumb">
-          <br/>
-          <img src="/public/images/<%=h stateName %>.png">
-          <span><%=h Localization::Views[stateName.to_sym] %></span>
+          <img src="<%=h pictureId == -1 ? filename : get_thumbnail_filename(pictureId, true) %>" style="max-width: <%=h maxWidth %>px">
         </td>
-        <% if cellIndex % picturesPerRow == picturesPerRow - 1 %></tr><% end %>
+        <% if cellIndex % picturesPerRow == picturesPerRow - 1 %>
+          </tr><tr class="state"><%= nextRow %></tr>
+        <%
+          nextRow = ''
+          end
+        %>
       <%
           cellIndex += 1
+        end
+
+        if !nextRow.empty?
+      %>
+        <tr class="state"><%= nextRow %></tr>
+      <%
         end
       %>
       </table>
     </div>
+    <% if not is_old_order %>
+      <a
+      <% if can_submit %>
+      href="<%=h url_for(:action => :submit_order) %>"
+      <% else %>
+      href="javascript:alert('<%= h(Localization::Views[:must_add_pictures]).sub("'", "\\'") %>')"
+      class="ui-disabled"
+      <% end %>
+      data-role="button"><%=h Localization::Views[:submit] %></a>
+    <% end %>
   </div>
 </div>
 

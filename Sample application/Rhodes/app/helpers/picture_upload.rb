@@ -32,4 +32,9 @@ class PictureUpload
       raise
     end
   end
+
+  def self.uploading_pictures
+    # Creates a new copy of the keys list
+    @@uploading.keys
+  end
 end

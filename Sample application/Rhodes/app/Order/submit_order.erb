@@ -1,0 +1,20 @@
+<div data-role="page">
+  <div data-role="header">
+    <h3><%=h Localization::Views[:submit_order] %></h3>
+  </div>
+  <div data-role="content">
+    <div><%=h Localization::Views[:submission_title] % @order['pictureIds'].length %></div>
+    <input type="text" class="store-search" name="location" />
+    <div class="stores" data-role="fieldcontain">
+      <form action="#" onsubmit="return false;">
+        <fieldset data-role="controlgroup">
+        <% for i in 1..5 %>
+          <input type="hidden" name="filename-<%=h i %>" value="<%=h i %>"/>
+          <input type="radio" name="store-<%=h i %>" id="store-<%=h i %>" value="on"/>
+          <label for="store-<%=h i %>"><span>MallMart</span><br/><span>Address 1, 12345 Town</span></label>
+        <% end %>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
