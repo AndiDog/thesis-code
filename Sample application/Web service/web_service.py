@@ -255,8 +255,7 @@ def submitOrder(id):
 
     return {"order" : order}
 
-@put("/pictures/")
-def uploadPicture():
+def uploadPictureCommon():
     picture = request.files.picture
 
     # Bottle is a bit stupid in that it uses cgi.FieldStorage for a file or u"" for a non-existing field
@@ -358,6 +357,14 @@ def uploadPicture():
         if not tmpFile.closed:
             tmpFile.close()
         os.remove(tmpFilename)
+
+@post("/pictures/put-by-post-workaround/")
+def uploadPicturePostWorkaround():
+    return uploadPictureCommon()
+
+@put("/pictures/")
+def uploadPicturePut():
+    return uploadPictureCommon()
 
 if __name__ == "__main__":
     bottle.run(host = "localhost", port = 8087, reloader = True)
