@@ -11,6 +11,7 @@ tr.state td { font-size: 9pt; padding-bottom: 10pt }
 tr.state td > img { width: 12pt; vertical-align: middle }
 tr.state td span { vertical-align: middle; margin-left: 4pt }
 
-input.store-search { font-size: 11pt; font-weight: bold }
-.stores li span { font-size: 9pt; color: #555 }
-.stores li > span { font-weight: bold; color: #222 }
+input.store-search { font-size: 11pt; font-weight: bold; width: 95%; margin-left: 0 }
+
+.credentials td { vertical-align: middle }
+.credentials input { width: 120pt }

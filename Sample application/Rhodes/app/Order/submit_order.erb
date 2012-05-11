@@ -4,16 +4,38 @@
   </div>
   <div data-role="content">
     <div><%=h Localization::Views[:submission_title] % @order['pictureIds'].length %></div>
+
     <input type="text" class="store-search" name="location" />
+
     <div class="stores" data-role="fieldcontain">
       <form action="#" onsubmit="return false;">
         <fieldset data-role="controlgroup">
         <% for i in 1..5 %>
-          <input type="hidden" name="filename-<%=h i %>" value="<%=h i %>"/>
-          <input type="radio" name="store-<%=h i %>" id="store-<%=h i %>" value="on"/>
-          <label for="store-<%=h i %>"><span>MallMart</span><br/><span>Address 1, 12345 Town</span></label>
+          <input type="radio" name="store" id="store-<%=h i %>" value="<%=h i %>"/>
+          <label for="store-<%=h i %>">MallMart<br/><small>Address 1, 12345 Town</small></label>
         <% end %>
         </fieldset>
+      </form>
+    </div>
+
+    <div class="credentials">
+      <form action="#" onsubmit="return false;">
+        <table>
+          <tr>
+            <td><label for="username"><%=h Localization::Views[:username] %>:</label></td>
+            <td><input type="text" name="username" id="username" /></td>
+          </tr>
+          <tr>
+            <td><label for="password"><%=h Localization::Views[:password] %>:</label></td>
+            <td><input type="password" name="password" id="password" /></td>
+          </tr>
+        </table>
+        <div>
+          <input data-inline="true" data-mini="true" type="checkbox" name="confirmation" id="confirmation" /> <label for="confirmation"><%=h Localization::Views[:confirm_order] %></label>
+        </div>
+        <div>
+          <input type="submit" value="<%=h Localization::Views[:submit] %>" />
+        </div>
       </form>
     </div>
   </div>
