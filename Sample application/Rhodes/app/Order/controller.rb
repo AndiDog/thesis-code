@@ -67,6 +67,15 @@ class OrderController < Rho::RhoController
     render
   end
 
+  def location_callback
+    if @params['status'] != 'ok'
+      puts 'Failed to get location'
+      return
+    end
+
+    puts "LOCATION FOUND #{@params}"
+  end
+
   def on_get_orders
     if @params['status'] != 'ok'
       puts "Failed to get list of orders (#{@params})"
@@ -139,6 +148,8 @@ class OrderController < Rho::RhoController
 
   def submit_order
     @order = Configuration.orders.find { |o| o['submissionDate'].nil? }
+
+    GeoLocation.set_notification url_for(:action => :location_callback)
 
     render :action => :submit_order
   end
