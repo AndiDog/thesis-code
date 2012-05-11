@@ -18,3 +18,9 @@
 
   <a href="javascript:location.reload()" data-role="button">Reload</a>
 </div>
+
+<script type="text/javascript">
+    setInterval(function() {
+      $.get("<%=h url_for(:action => :update_orders_list) %>")
+    }, 60000)
+</script>

@@ -11,21 +11,6 @@ class OrderController < Rho::RhoController
   include PictureScan
   include Thumbnails
 
-  @@update_thread_started = false
-
-  def initialize
-    if !@@update_thread_started
-      @@update_thread_started = true
-
-      Thread.new do
-        loop do
-          update_orders_list
-          sleep 60
-        end
-      end
-    end
-  end
-
   def add_pictures
     puts "Last picture scan was #{Time.now.utc - Configuration.last_picture_scan_update} seconds ago"
 
