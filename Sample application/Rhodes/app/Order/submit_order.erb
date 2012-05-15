@@ -1,4 +1,4 @@
-<div data-role="page">
+<div data-role="page" id="submit-order-page">
   <div data-role="header">
     <h3><%=h Localization::Views[:submit_order] %></h3>
   </div>
@@ -9,7 +9,7 @@
 
     <div class="stores" data-role="fieldcontain">
       <form action="#" onsubmit="return false;">
-        <fieldset data-role="controlgroup">
+        <fieldset data-role="controlgroup" class="id_stores_fieldset">
         <% for i in 1..5 %>
           <input type="radio" name="store" id="store-<%=h i %>" value="<%=h i %>"/>
           <label for="store-<%=h i %>">MallMart<br/><small>Address 1, 12345 Town</small></label>
@@ -39,4 +39,48 @@
       </form>
     </div>
   </div>
+
+  <script type="text/javascript">
+      function escapeHtml(s)
+      {
+          return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      }
+
+      function onLocationChanged(value)
+      {
+          $.get("<%=h url_for(:action => :location_changed, :query => {:loc => 'REPLACEMEREPLACEME'}) %>".replace("REPLACEMEREPLACEME", value))
+      }
+
+      function setLocation(loc)
+      {
+          $("input.store-search").val(loc)
+      }
+
+      function showStores(stores)
+      {
+          // jQuery Mobile recommends not to use IDs because they might get duplicated
+          var fieldset = $("div.ui-page-active .id_stores_fieldset")
+
+          fieldset.html("")
+
+          var html = ""
+          for(var i = 0; i < stores.length && i < 5; ++i)
+          {
+              var store = stores[i]
+              html += '<input type="radio" name="store" id="store-' + store.id + '" value="' + store.id + '"/>'
+              html += '<label for="store-' + store.id + '">' + escapeHtml(store.name) + '<br/><small>' + escapeHtml(store.address) + '</small></label>'
+          }
+
+          fieldset.html(html)
+
+          // jQuery Mobile enhance content again
+          $("div.ui-page-active .stores").trigger("create")
+      }
+
+      $("#submit-order-page").live("pageinit",function(event) {
+          $('#submit-order-page input.store-search').bind("keyup", function() {
+              onLocationChanged($(this).val())
+          })
+      })
+  </script>
 </div>

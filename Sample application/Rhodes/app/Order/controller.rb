@@ -1,4 +1,5 @@
 require 'date'
+require 'json'
 require 'Configuration/configuration'
 require 'rho/rhocontroller'
 require 'helpers/application_helper'
@@ -10,6 +11,9 @@ class OrderController < Rho::RhoController
   include ApplicationHelper
   include PictureScan
   include Thumbnails
+
+  @@previous_location = nil
+  @@location = nil
 
   def add_pictures
     puts "Last picture scan was #{Time.now.utc - Configuration.last_picture_scan_update} seconds ago"
@@ -54,11 +58,53 @@ class OrderController < Rho::RhoController
 
   def location_callback
     if @params['status'] != 'ok'
+      if not @@location
+        Rho::Timer.start(2000, url_for(:action => :location_changed), '')
+      end
       puts 'Failed to get location'
+      Rho::Timer.start(15000, url_for(:action => :location_stop_callback), '')
+      return
+    end
+    GeoLocation.turnoff
+    @@location = "#{@params['latitude']},#{@params['longitude']}"
+    puts "Location found: #{@@location}"
+
+    Rho::Timer.stop(url_for(:action => :location_changed))
+    WebView.execute_js("setLocation('#{@@location}')")
+    location_changed
+  end
+
+  def location_changed
+    if @params['loc']
+      @@location = @params['loc']
+      Rho::Timer.stop(url_for(:action => :location_changed))
+      Rho::Timer.start(1000, url_for(:action => :location_changed), '')
       return
     end
 
-    puts "LOCATION FOUND #{@params}"
+    puts "Location change callback (#{@@location})"
+
+    if @@location != @@previous_location
+      @@previous_location = @@location
+
+      match = /^(\d+\.\d+),(\d+\.\d+)$/.match(@@location)
+      if match
+        query_params = "lat=#{Rho::RhoSupport.url_encode(match[1])}&lng=#{Rho::RhoSupport.url_encode(match[2])}"
+      else
+        loc = @@location or ''
+        query_params = "loc=#{Rho::RhoSupport.url_encode(loc)}"
+      end
+
+      Rho::AsyncHttp.get(
+        :url => "http://andidogs.dyndns.org/thesis-mobiprint-web-service/stores/by-location/?#{query_params}",
+        :callback => (url_for :action => :on_get_stores)
+      )
+    end
+  end
+
+  def location_stop_callback
+    Rho::Timer.stop(url_for(:action => :location_stop_callback))
+    GeoLocation.turnoff
   end
 
   def on_get_orders
@@ -95,6 +141,19 @@ class OrderController < Rho::RhoController
     #    @@get_result = @params['body']
     #    WebView.navigate ( url_for :action => :show_result )
     #end
+  end
+
+  def on_get_stores
+    return if @params['status'] != 'ok'
+
+    puts "Received stores: #{@params}"
+
+    stores = @params['body']['stores']
+    puts "S=#{stores}"
+    #jsonParam = escape_javascript(JSON.generate(stores))
+    #puts "jsonParam=#{jsonParam}"
+    #WebView.execute_js("showStores(\"#{jsonParam}\")")
+    WebView.execute_js("showStores(#{JSON.generate(stores)})")
   end
 
   def on_upload_finished
@@ -134,7 +193,7 @@ class OrderController < Rho::RhoController
   def submit_order
     @order = Configuration.orders.find { |o| o['submissionDate'].nil? }
 
-    GeoLocation.set_notification url_for(:action => :location_callback)
+    GeoLocation.set_notification(url_for(:action => :location_callback), nil)
 
     render :action => :submit_order
   end
