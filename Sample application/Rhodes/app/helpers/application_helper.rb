@@ -7,6 +7,7 @@ module ApplicationHelper
   def escape_javascript(s)
     s.to_s.gsub(/'/, "\\\'").gsub(/"/, "\\\"")
   end
+  alias j escape_javascript
 
   def ordinalize_day(day)
     dayString = day.to_s

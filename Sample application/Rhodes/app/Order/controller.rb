@@ -12,8 +12,8 @@ class OrderController < Rho::RhoController
   include PictureScan
   include Thumbnails
 
-  @@previous_location = nil
-  @@location = nil
+  @@previous_location = '-'
+  @@location = ''
 
   def add_pictures
     puts "Last picture scan was #{Time.now.utc - Configuration.last_picture_scan_update} seconds ago"
@@ -44,6 +44,38 @@ class OrderController < Rho::RhoController
     render :action => :add_pictures_from_folder
   end
 
+  def do_submit_order
+    puts "Submitting order (#{@params})"
+
+    order_id = nil
+    for order in Configuration.orders
+      if order['submissionDate'].nil?
+        order_id = order['id']
+        break
+      end
+    end
+
+    if not order_id
+      raise 'No current order found'
+    end
+
+    res = Rho::AsyncHttp.post(
+      :url => "http://andidogs.dyndns.org/thesis-mobiprint-web-service/order/#{order_id}/submit/",
+      :body => "username=#{Rho::RhoSupport.url_encode(@params['username'])}&password=#{Rho::RhoSupport.url_encode(@params['password'])}&storeId=#{Rho::RhoSupport.url_encode(@params['storeId'])}"
+    )
+    if res['status'] != 'ok'
+      raise "Order submission request failed: #{res}"
+    end
+
+    update_orders_list
+
+    Rho::Timer.start(1200, url_for(:action => :switch_to_orders_list), '')
+  end
+
+  def switch_to_orders_list
+    Rho::NativeTabbar.switch_tab(0)
+  end
+
   def folders
     Configuration.picture_scan
   end
@@ -56,9 +88,13 @@ class OrderController < Rho::RhoController
     render
   end
 
+  def location
+    @@location
+  end
+
   def location_callback
     if @params['status'] != 'ok'
-      if not @@location
+      if (@@location or '').empty?
         Rho::Timer.start(2000, url_for(:action => :location_changed), '')
       end
       puts 'Failed to get location'
@@ -75,8 +111,8 @@ class OrderController < Rho::RhoController
   end
 
   def location_changed
-    if @params['loc']
-      @@location = @params['loc']
+    if @params.has_key?('loc')
+      @@location = @params['loc'] or ''
       Rho::Timer.stop(url_for(:action => :location_changed))
       Rho::Timer.start(1000, url_for(:action => :location_changed), '')
       return
@@ -125,6 +161,9 @@ class OrderController < Rho::RhoController
 
       # Reload old orders list tab
       WebView.refresh(0)
+
+      # ...and the current order tab
+      WebView.refresh(2)
     end
 
     allPictureIds = []
@@ -149,10 +188,6 @@ class OrderController < Rho::RhoController
     puts "Received stores: #{@params}"
 
     stores = @params['body']['stores']
-    puts "S=#{stores}"
-    #jsonParam = escape_javascript(JSON.generate(stores))
-    #puts "jsonParam=#{jsonParam}"
-    #WebView.execute_js("showStores(\"#{jsonParam}\")")
     WebView.execute_js("showStores(#{JSON.generate(stores)})")
   end
 
@@ -177,6 +212,10 @@ class OrderController < Rho::RhoController
     if id == 'current'
       @order = Configuration.orders.find { |o| o['submissionDate'].nil? }
       @uploading_pictures = PictureUpload.uploading_pictures
+
+      if not @order
+        @order = {'pictureIds' => [], 'submissionDate' => nil}
+      end
     else
       id = id.to_i
       @order = Configuration.orders.find { |o| o['id'] == id }
@@ -191,6 +230,8 @@ class OrderController < Rho::RhoController
   end
 
   def submit_order
+    @@previous_location = '-'
+
     @order = Configuration.orders.find { |o| o['submissionDate'].nil? }
 
     GeoLocation.set_notification(url_for(:action => :location_callback), nil)

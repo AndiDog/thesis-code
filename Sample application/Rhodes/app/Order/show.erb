@@ -10,7 +10,11 @@
     <h3><%=h is_old_order ? Localization::Views[:old_order] : Localization::Views[:current_order] %></h3>
   </div>
   <div data-role="content">
-    <%=h Localization::Views[:order_has_n_pictures] % @order['pictureIds'].length %>
+    <% if @order['pictureIds'].length > 0 %>
+      <%=h Localization::Views[:order_has_n_pictures] % @order['pictureIds'].length %>
+    <% else %>
+      <%=h Localization::Views[:order_has_0_pictures] %>
+    <% end %>
 
     <div align="center" class="picture-gallery">
       <table>
@@ -74,7 +78,7 @@
       href="javascript:alert('<%= h(Localization::Views[:must_add_pictures]).sub("'", "\\'") %>')"
       class="ui-disabled"
       <% end %>
-      data-role="button"><%=h Localization::Views[:submit] %></a>
+      data-role="button"><%=h Localization::Views[:submit] %>...</a>
     <% end %>
   </div>
 </div>

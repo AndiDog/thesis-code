@@ -10,10 +10,6 @@
     <div class="stores" data-role="fieldcontain">
       <form action="#" onsubmit="return false;">
         <fieldset data-role="controlgroup" class="id_stores_fieldset">
-        <% for i in 1..5 %>
-          <input type="radio" name="store" id="store-<%=h i %>" value="<%=h i %>"/>
-          <label for="store-<%=h i %>">MallMart<br/><small>Address 1, 12345 Town</small></label>
-        <% end %>
         </fieldset>
       </form>
     </div>
@@ -78,9 +74,57 @@
       }
 
       $("#submit-order-page").live("pageinit",function(event) {
-          $('#submit-order-page input.store-search').bind("keyup", function() {
+          $("input.store-search").bind("keyup", function() {
               onLocationChanged($(this).val())
           })
+
+          $("#submit-order-page form").submit(function() { return false })
+
+          $("#submit-order-page input:submit").click(function() {
+              var storeId = $("div.ui-page-active input[name='store']:checked").val()
+              var username = $("div.ui-page-active input[name='username']").val()
+              var password = $("div.ui-page-active input[name='password']").val()
+              var confirmation = $("div.ui-page-active input[name='confirmation']")
+
+              if(!storeId || !username || !password)
+              {
+                  confirmation.prop("checked", false).checkboxradio("refresh")
+                  alert("<%=j Localization::Views[:submission_missing_input] %>")
+                  return false
+              }
+
+              if(!confirmation.prop("checked"))
+              {
+                  alert("<%=j Localization::Views[:submission_unconfirmed] %>")
+                  return false
+              }
+
+              confirmation.prop("checked", false).checkboxradio("refresh")
+
+              $.ajax("<%=j url_for(:action => :do_submit_order) %>",
+              {
+                  type: "POST",
+                  data: {
+                      storeId: storeId,
+                      username: username,
+                      password: password
+                  },
+                  cache: false,
+                  success: function() {
+                      alert("<%=j Localization::Views[:submission_succeeded] %>")
+                  },
+                  error: function() {
+                      alert("<%=j Localization::Views[:submission_failed] %>")
+                  },
+                  complete: function() {
+                      $.mobile.changePage("<%=j url_for(:action => :show, :query => {:id => '{current}'}) %>",
+                                          {transition: "slide"})
+                  }
+              })
+          })
+
+          setLocation("<%=j location %>")
+          onLocationChanged("<%=j location %>")
       })
   </script>
 </div>
