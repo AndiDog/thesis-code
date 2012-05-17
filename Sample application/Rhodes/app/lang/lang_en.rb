@@ -17,8 +17,9 @@ Views = {
   :submission_title => 'To submit your order of %d pictures, select a pick-up location close to you and enter your details. Enter an address to show stores near you:',
   :submission_unconfirmed => 'Please confirm the submission.',
   :submit => 'Submit',
+  :submit_for_printing => 'Submit for printing',
   :submit_order => 'Submit order',
-  :upload => 'Upload',
+  :upload => 'Add to order',
   :username => 'Username',
 
   # States

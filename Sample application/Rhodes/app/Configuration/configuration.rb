@@ -28,22 +28,38 @@ class Configuration
     self.write_config(cfg)
   end
 
+  def self.last_location
+    cfg = self.read_or_create_config
+
+    if cfg['last_location']
+      cfg['last_location']
+    else
+      ''
+    end
+  end
+
+  def self.last_location=(val)
+    cfg = self.read_or_create_config
+    cfg['last_location'] = val
+    self.write_config(cfg)
+  end
+
   def self.last_picture_scan_update
-      cfg = self.read_or_create_config
+    cfg = self.read_or_create_config
 
-      if cfg['last_picture_scan_update']
-        Time.parse(cfg['last_picture_scan_update'])
-      else
-        # Return very old time value
-        Time.parse('1990-01-01')
-      end
+    if cfg['last_picture_scan_update']
+      Time.parse(cfg['last_picture_scan_update'])
+    else
+      # Return very old time value
+      Time.parse('1990-01-01')
     end
+  end
 
-    def self.last_picture_scan_update=(val)
-      cfg = self.read_or_create_config
-      cfg['last_picture_scan_update'] = val
-      self.write_config(cfg)
-    end
+  def self.last_picture_scan_update=(val)
+    cfg = self.read_or_create_config
+    cfg['last_picture_scan_update'] = val
+    self.write_config(cfg)
+  end
 
   def self.orders
     cfg = self.read_or_create_config

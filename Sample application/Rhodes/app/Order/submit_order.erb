@@ -30,7 +30,7 @@
           <input data-inline="true" data-mini="true" type="checkbox" name="confirmation" id="confirmation" /> <label for="confirmation"><%=h Localization::Views[:confirm_order] %></label>
         </div>
         <div>
-          <input type="submit" value="<%=h Localization::Views[:submit] %>" />
+          <a href="#" data-role="button" class="id_submit ui-disabled"><%=h Localization::Views[:submit] %></a>
         </div>
       </form>
     </div>
@@ -80,7 +80,15 @@
 
           $("#submit-order-page form").submit(function() { return false })
 
-          $("#submit-order-page input:submit").click(function() {
+          $("#submit-order-page input[name='confirmation']").change(function() {
+              var confirmation = $(this)
+
+              setTimeout(function() {
+                  $("div.ui-page-active .id_submit").toggleClass("ui-disabled", !confirmation.prop("checked"))
+              }, 10)
+          })
+
+          $("#submit-order-page .id_submit").click(function() {
               var storeId = $("div.ui-page-active input[name='store']:checked").val()
               var username = $("div.ui-page-active input[name='username']").val()
               var password = $("div.ui-page-active input[name='password']").val()

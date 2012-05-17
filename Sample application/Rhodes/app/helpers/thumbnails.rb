@@ -24,6 +24,20 @@ module Thumbnails
     ensure
       f.close()
     end
+
+    for order in Configuration.orders
+      if order['submissionDate']
+        if WebView.current_location(0) =~ /\{#{pictureId}\}/
+          puts "Thumbnail #{pictureId} downloaded - refreshing order detail view of order #{order['id']} (location=#{WebView.current_location(0)})"
+          WebView.refresh(0)
+        end
+      else
+        if order['pictureIds'].member?(pictureId)
+          puts 'Thumbnail #{pictureId} downloaded - refreshing order detail view of current order'
+          WebView.refresh(2)
+        end
+      end
+    end
   end
 
   def get_thumbnail_filename(pictureId, fallback_if_not_exists=false)
@@ -62,8 +76,15 @@ module Thumbnails
 
       puts "Reloading thumbnail #{pictureId} (cache miss)"
 
+      requested_size = System.get_property('screen_width')
+      if requested_size <= 5
+        requested_size = 120
+      elsif requested_size >= 500
+        requested_size = 500
+      end
+
       Rho::AsyncHttp.download_file(
-        :url => "http://andidogs.dyndns.org/thesis-mobiprint-web-service/picture/#{pictureId}/thumbnail/?size=120",
+        :url => "http://andidogs.dyndns.org/thesis-mobiprint-web-service/picture/#{pictureId}/thumbnail/?size=#{requested_size}",
         :filename => filename,
         :callback => (url_for :action => :on_get_thumbnail),
         :callback_param => "pictureId=#{pictureId}"

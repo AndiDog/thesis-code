@@ -123,6 +123,10 @@ class OrderController < Rho::RhoController
     if @@location != @@previous_location
       @@previous_location = @@location
 
+      if @@previous_location.length > 0
+        Configuration.last_location = @@previous_location
+      end
+
       match = /^(\d+\.\d+),(\d+\.\d+)$/.match(@@location)
       if match
         query_params = "lat=#{Rho::RhoSupport.url_encode(match[1])}&lng=#{Rho::RhoSupport.url_encode(match[2])}"
@@ -163,7 +167,7 @@ class OrderController < Rho::RhoController
       WebView.refresh(0)
 
       # ...and the current order tab
-      WebView.refresh(2)
+      refresh_current_order
     end
 
     allPictureIds = []
@@ -203,13 +207,22 @@ class OrderController < Rho::RhoController
     end
 
     puts "Successfully uploaded picture #{filename}"
+
+    # Delay by two seconds in case multiple pictures are finished uploading at once
+    Rho::Timer.stop(url_for(:action => :update_orders_list_after_picture_upload))
+    Rho::Timer.start(2000, url_for(:action => :update_orders_list_after_picture_upload), '')
+  end
+
+  def refresh_current_order
+    if WebView.current_location(2) =~ /\{current\}/
+      WebView.refresh(2)
+    else
+      WebView.navigate(url_for(:action => :show, :query => {:id => '{current}'}), 2)
+    end
   end
 
   def show
-    # Workaround: ID comes as '{5}', for example
-    id = @params['id'][1..-2]
-
-    if id == 'current'
+    if @params['id'] =~ /current/
       @order = Configuration.orders.find { |o| o['submissionDate'].nil? }
       @uploading_pictures = PictureUpload.uploading_pictures
 
@@ -217,7 +230,9 @@ class OrderController < Rho::RhoController
         @order = {'pictureIds' => [], 'submissionDate' => nil}
       end
     else
-      id = id.to_i
+      # Workaround: ID comes as '{5}', for example
+      id = @params['id'][1..-2].to_i
+
       @order = Configuration.orders.find { |o| o['id'] == id }
       @uploading_pictures = nil
     end
@@ -230,9 +245,11 @@ class OrderController < Rho::RhoController
   end
 
   def submit_order
+    @@location = Configuration.last_location
     @@previous_location = '-'
 
     @order = Configuration.orders.find { |o| o['submissionDate'].nil? }
+    return if not @order
 
     GeoLocation.set_notification(url_for(:action => :location_callback), nil)
 
@@ -248,6 +265,14 @@ class OrderController < Rho::RhoController
     )
   end
 
+  def update_orders_list_after_picture_upload
+    # Always refresh because a picture is not uploading anymore. If it was added to the order, it will be displayed
+    # after update_orders_list fetched the order
+    refresh_current_order
+
+    update_orders_list
+  end
+
   def upload_pictures
     for key, value in @params
       if key =~ /^checkbox-/ and value == 'on'
@@ -257,6 +282,7 @@ class OrderController < Rho::RhoController
       end
     end
 
+    refresh_current_order
     Rho::NativeTabbar.switch_tab(2)
     redirect :action => :add_pictures, :query => {:switch_to_current_order => true}
   end

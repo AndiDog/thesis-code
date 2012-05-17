@@ -20,7 +20,11 @@
 </div>
 
 <script type="text/javascript">
-    setInterval(function() {
-      $.get("<%=h url_for(:action => :update_orders_list) %>")
-    }, 60000)
+    var updateOrdersList = function()
+    {
+        $.get("<%=h url_for(:action => :update_orders_list) %>")
+    }
+
+    setInterval(updateOrdersList, 60000)
+    setTimeout(updateOrdersList(), 1)
 </script>
