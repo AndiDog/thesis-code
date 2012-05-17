@@ -59,15 +59,22 @@
 
           fieldset.html("")
 
-          var html = ""
-          for(var i = 0; i < stores.length && i < 5; ++i)
+          if(stores)
           {
-              var store = stores[i]
-              html += '<input type="radio" name="store" id="store-' + store.id + '" value="' + store.id + '"/>'
-              html += '<label for="store-' + store.id + '">' + escapeHtml(store.name) + '<br/><small>' + escapeHtml(store.address) + '</small></label>'
-          }
+            var html = ""
+            for(var i = 0; i < stores.length && i < 5; ++i)
+            {
+                var store = stores[i]
+                html += '<input type="radio" name="store" id="store-' + store.id + '" value="' + store.id + '"/>'
+                html += '<label for="store-' + store.id + '">' + escapeHtml(store.name) + '<br/><small>' + escapeHtml(store.address) + '</small></label>'
+            }
 
-          fieldset.html(html)
+            fieldset.html(html)
+          }
+          else
+          {
+            fieldset.html("<div class=\"error\"><%= j(h(Localization::Views[:stores_retrieval_failed])) %></div>")
+          }
 
           // jQuery Mobile enhance content again
           $("div.ui-page-active .stores").trigger("create")

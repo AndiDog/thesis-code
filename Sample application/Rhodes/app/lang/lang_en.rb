@@ -11,6 +11,7 @@ Views = {
   :order_has_0_pictures => 'You did not add any pictures yet.',
   :order_has_n_pictures => 'This order contains %d pictures:',
   :password => 'Password',
+  :stores_retrieval_failed => 'Failed to retrieve stores.',
   :submission_failed => 'Failed to submit order.',
   :submission_missing_input => 'Please select a store and fill out username/password.',
   :submission_succeeded => 'Order submission succeeded.',

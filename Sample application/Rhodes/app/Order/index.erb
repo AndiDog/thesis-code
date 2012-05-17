@@ -1,8 +1,17 @@
-<% require 'time' %>
+<%
+  require 'time'
+
+  num_old_orders = 0
+  orders.each { |o|
+    if o['submissionDate']
+      num_old_orders += 1
+    end
+  }
+%>
 
 <div data-role="page">
   <div data-role="header">
-    <h3><%=h Localization::Views[:old_orders_in_total] % orders.length %></h3>
+    <h3><%=h Localization::Views[:old_orders_in_total] % num_old_orders %></h3>
   </div>
   <div data-role="content">
     <ul data-role="listview">
@@ -15,8 +24,6 @@
       <% end %>
     </ul>
   </div>
-
-  <a href="javascript:location.reload()" data-role="button">Reload</a>
 </div>
 
 <script type="text/javascript">

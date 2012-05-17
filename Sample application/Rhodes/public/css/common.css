@@ -20,3 +20,5 @@ input.store-search { font-size: 11pt; font-weight: bold; width: 95%; margin-left
 .ui-header .ui-title,
 .ui-footer .ui-title  { margin-left: .6em; margin-right: .6em }
 .ui-listview .ui-li-aside { width: 25% }
+
+div.error { text-align: center; color: red; font-weight: bold }

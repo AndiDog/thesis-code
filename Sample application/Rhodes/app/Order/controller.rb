@@ -174,25 +174,19 @@ class OrderController < Rho::RhoController
     orders_list.each { |o| allPictureIds += o['pictureIds'] }
     allPictureIds.uniq!
     start_thumbnail_downloads(allPictureIds)
-
-    # TODO: refresh order detail view if it's the current view, handle errors
-
-      #if @params['status'] != 'ok'
-    #    @@error_params = @params
-    #    WebView.navigate ( url_for :action => :show_error )
-    #else
-    #    @@get_result = @params['body']
-    #    WebView.navigate ( url_for :action => :show_result )
-    #end
   end
 
   def on_get_stores
-    return if @params['status'] != 'ok'
+    if @params['status'] == 'ok'
+      puts "Received stores: #{@params}"
 
-    puts "Received stores: #{@params}"
+      stores = @params['body']['stores']
+      WebView.execute_js("showStores(#{JSON.generate(stores)})")
+    else
+      puts 'Failed to receive stores'
 
-    stores = @params['body']['stores']
-    WebView.execute_js("showStores(#{JSON.generate(stores)})")
+      WebView.execute_js('showStores(false)')
+    end
   end
 
   def on_upload_finished
