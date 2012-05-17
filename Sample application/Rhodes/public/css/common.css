@@ -15,3 +15,7 @@ input.store-search { font-size: 11pt; font-weight: bold; width: 95%; margin-left
 
 .credentials td { vertical-align: middle }
 .credentials input { width: 120pt }
+
+/* Some patches for jQuery Mobile */
+.ui-header .ui-title,
+.ui-footer .ui-title  { margin-left: .6em; margin-right: .6em }
