@@ -197,6 +197,7 @@ class OrderController < Rho::RhoController
 
     if @params['status'] != 'ok'
       puts "Failed to upload picture #{filename}"
+      refresh_current_order
       return
     end
 
