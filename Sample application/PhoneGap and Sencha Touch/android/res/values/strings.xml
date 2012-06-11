@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, MobiPrintActivity!</string>
+    <string name="app_name">MobiPrint</string>
+    <string name="app_description">MobiPrint, a sample application used in my Master\'s Thesis with the topic "Comparison and evaluation of cross platform frameworks for the development of mobile business applications"</string>
+</resources>
