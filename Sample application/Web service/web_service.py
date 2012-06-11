@@ -11,7 +11,7 @@ Note that an automatically reloading development server is started when you run 
 """
 
 import bottle
-from bottle import abort, post, put, request, response, route
+from bottle import abort, hook, post, put, request, response, route
 from geopy import geocoders
 from PIL import Image
 from itertools import chain
@@ -117,10 +117,33 @@ def checkId(id):
     if not (1 <= id < 2**31):
         abort(400, "Invalid picture ID")
 
+# Enable CORS for all AJAX requests
+@hook("after_request")
+def enableCors():
+    if request.method == "OPTIONS":
+        response.status = 204
+
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "X-Requested-With"
+
+def options(*args):
+    def decorator(fn):
+        def wrapper():
+            if request.method == "OPTIONS":
+                # Empty response (see enableCors function)
+                return None
+            else:
+                return fn()
+
+        return route(*args, method = "OPTIONS", callback = fn)
+    return decorator
+
+@options("/")
 @route("/")
 def home():
     return HOMEPAGE
 
+@options("/orders/")
 @route("/orders/")
 def orders():
     with dbWriteLock:
@@ -129,6 +152,7 @@ def orders():
 
     return {"orders" : db["orders"]}
 
+@options("/picture/<id:int>/thumbnail/")
 @route("/picture/<id:int>/thumbnail/")
 def thumbnail(id):
     checkId(id)
@@ -173,6 +197,7 @@ def thumbnail(id):
     stream.seek(0)
     return stream
 
+@options("/stores/by-location/")
 @route("/stores/by-location/")
 def stores():
     lat, lng, loc = (request.GET.get(param, None) for param in ("lat", "lng", "loc"))
@@ -207,6 +232,7 @@ def stores():
 
     return {"stores" : [t[1] for t in distanceStoreTuples[:5]]}
 
+@options("/order/<id:int>/submit/")
 @post("/order/<id:int>/submit/")
 def submitOrder(id):
     checkId(id)
@@ -358,10 +384,12 @@ def uploadPictureCommon():
             tmpFile.close()
         os.remove(tmpFilename)
 
+@options("/pictures/put-by-post-workaround/")
 @post("/pictures/put-by-post-workaround/")
 def uploadPicturePostWorkaround():
     return uploadPictureCommon()
 
+@options("/pictures/")
 @put("/pictures/")
 def uploadPicturePut():
     return uploadPictureCommon()
