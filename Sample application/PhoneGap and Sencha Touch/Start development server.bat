@@ -1,0 +1,1 @@
+@twistd.py web --port 8000 --path .

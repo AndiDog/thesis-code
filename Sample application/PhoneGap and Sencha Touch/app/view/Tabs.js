@@ -1,39 +1,32 @@
 console.log("main view")
 
-Ext.define("MobiPrint.view.Main", {
-    extend: 'Ext.tab.Panel',
+Ext.define("MobiPrint.view.Tabs", {
+    extend: "Ext.tab.Panel",
     requires: [
-        'Ext.TitleBar'
+        "MobiPrint.view.OrdersList"
     ],
     config: {
-        tabBarPosition: 'bottom',
+        tabBarPosition: "bottom",
 
         items: [
             {
+                xtype: "mobiprint-orderslist",
                 title: _("OLD_ORDERS"),
-                iconCls: 'organize',
-
+                iconCls: "organize",
+                layout: "fit",
                 styleHtmlContent: true,
                 scrollable: true,
-
-                items: {
-                    docked: 'top',
-                    xtype: 'titlebar',
-                    title: _("OLD_ORDERS")
-                },
-
-                html: "<a href=\"javascript:navigator.notification.alert('Congratulations, you are ready to work with Sencha Touch 2 and PhoneGap!')\">Click me</a>",
             },
             {
                 title: _("ADD_PICTURES"),
-                iconCls: 'add',
-
+                iconCls: "add",
+                layout: "fit",
                 styleHtmlContent: true,
                 scrollable: true,
 
                 items: {
-                    docked: 'top',
-                    xtype: 'titlebar',
+                    docked: "top",
+                    xtype: "titlebar",
                     title: _("ADD_PICTURES")
                 },
 
@@ -41,14 +34,14 @@ Ext.define("MobiPrint.view.Main", {
             },
             {
                 title: _("CURRENT_ORDER"),
-                iconCls: 'action',
-
+                iconCls: "action",
+                layout: "fit",
                 styleHtmlContent: true,
                 scrollable: true,
 
                 items: {
-                    docked: 'top',
-                    xtype: 'titlebar',
+                    docked: "top",
+                    xtype: "titlebar",
                     title: _("CURRENT_ORDER")
                 },
 
@@ -56,4 +49,4 @@ Ext.define("MobiPrint.view.Main", {
             },
         ]
     }
-});
+})

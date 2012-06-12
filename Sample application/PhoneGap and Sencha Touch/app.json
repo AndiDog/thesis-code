@@ -33,7 +33,13 @@
      */
     "js": [
         {
+            "path": "app/settings.js"
+        },
+        {
             "path": "lib/cordova-1.8.0rc1.js"
+        },
+        {
+            "path": "app/extensions.js"
         },
         {
             "path": "i18n/i18n.js",
@@ -69,6 +75,10 @@
     "css": [
         {
             "path": "resources/css/app.css",
+            "update": "delta"
+        },
+        {
+            "path": "resources/css/patches.css",
             "update": "delta"
         }
     ],
