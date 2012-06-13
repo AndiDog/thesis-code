@@ -9,8 +9,10 @@ class AppApplication < Rho::RhoApplication
       {:label => Localization::Views[:current_order], :action => '/app/Order/show?id={current}', :icon => '/public/images/tabs/current-order-tab.png'}
     ]
 
-    # Remove default toolbar
+    # Remove default toolbar and menu
     @@toolbar = nil
+    @default_menu = {}
+    @menu = {}
     super
 
     # Uncomment to set sync notification callback to /app/Settings/sync_notify.
