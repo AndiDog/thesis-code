@@ -34,6 +34,10 @@ Ext.define("MobiPrint.view.OrderDetail", {
         var itemWidth = Math.floor((window.innerWidth - 10) / gridWidth) - 10
         var maxItemHeight = itemWidth
 
+        // Remove old panel if any
+        if(this.getItems().length > 1)
+            this.remove(1)
+
         var panel = Ext.create("Ext.Panel", {
             layout: "vbox",
             align: "stretch",
@@ -68,6 +72,5 @@ Ext.define("MobiPrint.view.OrderDetail", {
                 })
 
         this.add(panel)
-        panel.show()
     }
 })
