@@ -3,21 +3,25 @@ console.log("main view")
 Ext.define("MobiPrint.view.Tabs", {
     extend: "Ext.tab.Panel",
     requires: [
+        "Ext.navigation.View",
+        "MobiPrint.view.OrderDetail",
         "MobiPrint.view.OrdersList"
     ],
     config: {
         tabBarPosition: "bottom",
 
-        items: [
-            {
-                xtype: "mobiprint-orderslist",
-                title: _("OLD_ORDERS"),
-                iconCls: "organize",
-                layout: "fit",
+        items: [{
+                xtype: "navigationview",
+                id: "orderslist-navigationview",
                 styleHtmlContent: true,
                 scrollable: true,
-            },
-            {
+                iconCls: "organize",
+                title: _("OLD_ORDERS"),
+                items: {
+                    xtype: "mobiprint-orderslist",
+                    title: _("OLD_ORDERS"),
+                }
+            }, {
                 title: _("ADD_PICTURES"),
                 iconCls: "add",
                 layout: "fit",
@@ -31,8 +35,7 @@ Ext.define("MobiPrint.view.Tabs", {
                 },
 
                 html: "",
-            },
-            {
+            }, {
                 title: _("CURRENT_ORDER"),
                 iconCls: "action",
                 layout: "fit",

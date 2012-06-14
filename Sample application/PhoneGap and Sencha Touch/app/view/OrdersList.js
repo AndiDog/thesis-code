@@ -14,49 +14,39 @@ Ext.define("MobiPrint.view.OrdersList", {
         "Ext.dataview.List",
         "Ext.TitleBar"
     ],
+
     config: {
+        layout: "fit",
+
         items: {
             title: _("OLD_ORDERS"),
             iconCls: "organize",
-            layout: 'fit',
+            layout: "fit",
 
             styleHtmlContent: true,
             scrollable: true,
 
             items: [{
-                docked: "top",
-                xtype: "titlebar",
-                title: _("OLD_ORDERS")
+                xtype: "label",
+                id: "orders-list-label",
+                docked: "top"
             }, {
-                layout: "fit",
-
-                items: [{
-                    xtype: "label",
-                    id: "orders-list-label",
-                    docked: "top"
-                }, {
-                    xtype: 'list',
-                    store: "Orders",
-                    id: "orders-list",
-                    onItemDisclosure: true,
-                    ui: 'round',
-                    itemTpl: new Ext.XTemplate(
-                        '<div class="orderslist-entry"><strong>{[this.formatDate(values.submissionDate)]}</strong> <span class="right">{[this.formatNumPictures(values.pictureIds.length)]}</span></div>',
-                    {
-                        formatDate: function(d) {
-                            return Ext.util.Format.htmlEncode(Ext.util.Format.date(d, "l, jS F Y"))
-                        },
-                        formatNumPictures: function(count) {
-                            return Ext.String.format(_("NUM_PICTURES_FMT").toString(), count)
-                        }
-                    }),
-                    listeners: {
-                        itemtap: function() { navigator.notification.beep(1) }
+                xtype: 'list',
+                store: "Orders",
+                id: "orders-list",
+                onItemDisclosure: true,
+                ui: 'round',
+                itemTpl: new Ext.XTemplate(
+                    '<div class="orderslist-entry"><strong>{[this.formatDate(values.submissionDate)]}</strong> <span class="right">{[this.formatNumPictures(values.pictureIds.length)]}</span></div>',
+                {
+                    formatDate: function(d) {
+                        return Ext.util.Format.htmlEncode(Ext.util.Format.date(d, "l, jS F Y"))
                     },
-                }]
-            }],
-
-            //html: "<p>orders list</p><hr/><a href=\"javascript:navigator.notification.alert('Congratulations, you are ready to work with Sencha Touch 2 and PhoneGaaaaaaaaaap!')\">Click me orders list</a>",
+                    formatNumPictures: function(count) {
+                        return Ext.String.format(_("NUM_PICTURES_FMT").toString(), count)
+                    }
+                }),
+            }]
         }
     }
 })
