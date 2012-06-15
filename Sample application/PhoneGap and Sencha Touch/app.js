@@ -29,7 +29,15 @@ Ext.application({
     },
 
     launch: function() {
-        //Apply default language
+        function hideSplashScreen()
+        {
+            if(phoneGapReady)
+                navigator.splashscreen.hide()
+            else
+                setTimeout(hideSplashScreen, 100)
+        }
+
+        // Apply default language
         applyLanguage("en")
 
         // Destroy the #appLoadingIndicator element
@@ -37,6 +45,8 @@ Ext.application({
 
         // Initialize the main view
         Ext.Viewport.add(Ext.create("MobiPrint.view.Tabs"))
+
+        setTimeout(hideSplashScreen, 100)
     },
 
     onUpdated: function() {

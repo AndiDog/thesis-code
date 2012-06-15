@@ -18,12 +18,15 @@ public class MobiPrintActivity extends DroidGap
     {
         super.onCreate(savedInstanceState);
 
-        // Ensure web view is initialized
+        super.setIntegerProperty("splashscreen", R.drawable.splash);
+
+        // Ensure web view is initialized (appView instance)
         init();
 
         addExtensions();
 
-        setIntegerProperty("loadUrlTimeoutValue", 60000);
-        super.loadUrl("file:///android_asset/www/index.html");
+        super.setIntegerProperty("loadUrlTimeoutValue", 60000);
+        //super.showSplashScreen(15000);
+        super.loadUrl("file:///android_asset/www/index.html", 20000);
     }
 }
