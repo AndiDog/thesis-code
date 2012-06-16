@@ -22,8 +22,19 @@ Ext.define("MobiPrint.view.OrderDetail", {
         },
     },
 
-    updateData: function(newData) {
-        var order = newData.order
+    destroy: function() {
+        this.callParent()
+
+        // Avoid memory leak used by reference to method
+        Ext.Viewport.removeListener("orientationchange", this.redraw, this)
+    },
+
+    initialize: function() {
+        Ext.Viewport.addListener("orientationchange", this.redraw, this)
+    },
+
+    redraw: function() {
+        var order = this.data.order
         var uploadingPictures
         var numUploadingPictures = 0
         var isOldOrder = order.submissionDate
@@ -35,7 +46,7 @@ Ext.define("MobiPrint.view.OrderDetail", {
         {
             uploadingPictures = []
 
-            for(var key in newData.uploadingPictures)
+            for(var key in this.data.uploadingPictures)
             {
                 uploadingPictures.push(key)
                 ++numUploadingPictures
@@ -101,7 +112,7 @@ Ext.define("MobiPrint.view.OrderDetail", {
                            "' class='order-detail-thumbnail' />")
                 }, {
                     xtype: "panel",
-                    html: "<p class='order-detail-status'><img src='/resources/images/" + status + ".png'/> <span>" + Ext.htmlEncode(statusText) + "</span></p>"
+                    html: "<p class='order-detail-status'><img src='resources/images/" + status + ".png'/> <span>" + Ext.htmlEncode(statusText) + "</span></p>"
                 }]
             })
         }
@@ -115,5 +126,10 @@ Ext.define("MobiPrint.view.OrderDetail", {
                 })
 
         this.add(panel)
+    },
+
+    updateData: function(newData) {
+        this.data = newData
+        this.redraw()
     }
 })

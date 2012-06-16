@@ -63,11 +63,6 @@ Ext.define("MobiPrint.controller.Orders", {
 
         // Auto-download thumbnails of current order and last order
         this.autoDownloadThumbnails(2)
-
-        /* TODO: redraw view
-           Ext.Viewport.addListener("orientationchange", function() {
-            alert("orientation changed")
-        })*/
     },
 
     onDiscloseOrder: function(list, record) {
