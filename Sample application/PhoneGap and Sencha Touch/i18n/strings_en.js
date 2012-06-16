@@ -8,6 +8,7 @@ language["en"] = {
     OLD_ORDERS: "Old orders",
     ORDER_CONTAINS_N_PICTURES_FMT: "This order contains {0} pictures:",
     PRINTED: "Printed",
+    SELECT_FOLDER_WITH_PICTURES: "Please select a folder with pictures:",
     UPLOADED: "Uploaded",
     UPLOADING: "Uploading"
 }

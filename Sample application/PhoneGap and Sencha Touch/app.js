@@ -5,10 +5,10 @@ Ext.application({
         "Ext.MessageBox"
     ],
 
-    controllers: ["Main", "Orders"],
+    controllers: ["Main", "Orders", "PictureFolders"],
     views: ["Tabs"],
-    models: ["Order"],
-    stores: ["Orders"],
+    models: ["Order", "PictureFolder"],
+    stores: ["Orders", "PictureFolders"],
 
     icon: {
         "57": "resources/icons/Icon.png",

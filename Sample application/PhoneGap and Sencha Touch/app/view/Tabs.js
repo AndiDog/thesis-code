@@ -5,7 +5,8 @@ Ext.define("MobiPrint.view.Tabs", {
     requires: [
         "Ext.navigation.View",
         "MobiPrint.view.OrderDetail",
-        "MobiPrint.view.OrdersList"
+        "MobiPrint.view.OrdersList",
+        "MobiPrint.view.PictureFoldersList"
     ],
     config: {
         tabBarPosition: "bottom",
@@ -18,23 +19,18 @@ Ext.define("MobiPrint.view.Tabs", {
                 iconCls: "organize",
                 title: _("OLD_ORDERS"),
                 items: {
-                    xtype: "mobiprint-orderslist",
-                    title: _("OLD_ORDERS"),
+                    xtype: "mobiprint-orderslist"
                 }
             }, {
-                title: _("ADD_PICTURES"),
-                iconCls: "add",
-                layout: "fit",
+                xtype: "navigationview",
+                id: "picturefolderslist-navigationview",
                 styleHtmlContent: true,
                 scrollable: true,
-
+                iconCls: "add",
+                title: _("ADD_PICTURES"),
                 items: {
-                    docked: "top",
-                    xtype: "titlebar",
-                    title: _("ADD_PICTURES")
-                },
-
-                html: "",
+                    xtype: "mobiprint-picturefolderslist"
+                }
             }, {
                 title: _("CURRENT_ORDER"),
                 iconCls: "action",
