@@ -9,7 +9,7 @@ Ext.define("MobiPrint.controller.Orders", {
         },
         control: {
             "#orders-list": {
-                disclose: "onDiscloseOrder"
+                itemtap: "onDiscloseOrder"
             },
         }
     },
@@ -65,7 +65,7 @@ Ext.define("MobiPrint.controller.Orders", {
         this.autoDownloadThumbnails(2)
     },
 
-    onDiscloseOrder: function(list, record) {
+    onDiscloseOrder: function(list, index, target, record) {
         this.showOrderDetail(record.data)
     },
 
@@ -77,14 +77,6 @@ Ext.define("MobiPrint.controller.Orders", {
 
         var count = ordersStore.getOldOrdersCount()
         this.getOrdersListLabel().setHtml(Ext.String.format(_("NUM_OLD_ORDERS_FMT").toString(), count))
-    },
-
-    onItemDisclosure: function(record) {
-        Ext.app.Application.dispatch({
-            controller: "MobiPrint.controller.Orders",
-            action: "showOrderDetail",
-            data: record.data
-        })
     },
 
     showOrderDetail: function(order) {

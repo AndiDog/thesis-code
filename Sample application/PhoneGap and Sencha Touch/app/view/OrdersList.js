@@ -35,6 +35,7 @@ Ext.define("MobiPrint.view.OrdersList", {
                 store: "Orders",
                 id: "orders-list",
                 onItemDisclosure: true,
+                disableSelection: true,
                 ui: 'round',
                 itemTpl: new Ext.XTemplate(
                     '<div class="orderslist-entry"><strong>{[this.formatDate(values.submissionDate)]}</strong> <span class="right">{[this.formatNumPictures(values.pictureIds.length)]}</span></div>',
