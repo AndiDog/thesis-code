@@ -1,2 +1,9 @@
 .x-list span.right { float: right; margin-right: 20pt }
 img.order-detail-thumbnail { max-width: 100%; max-height: 100%; display: block; margin: 0 auto; padding: 0 5px }
+.order-detail-status > img { width: 12pt; height: 12pt; vertical-align: middle }
+.order-detail-status { margin: 0; padding-left: 5px; font-size: 9pt; color: #252525 }
+.order-detail-status span { vertical-align: middle }
+.x-layout-card-item { background-color: #A1BACC }
+.x-list { background-color: #A1BACC }
+.x-body { background-color: #A1BACC }
+.x-list-round .x-scroll-view { background-color: #A1BACC !important }
