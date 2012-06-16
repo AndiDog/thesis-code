@@ -59,7 +59,9 @@ Ext.define("MobiPrint.view.OrderDetail", {
             container.add({
                 xtype: "panel",
                 flex: 1,
-                html: "<img src='/resources/icons/Icon.png' class='order-detail-thumbnail' />"
+                html: ("<img src='" +
+                       Ext.htmlEncode(WEB_SERVICE_BASE_URI + "picture/" + newData.pictureIds[i] + "/thumbnail/?size=300") +
+                       "' class='order-detail-thumbnail' />")
             })
         }
 
