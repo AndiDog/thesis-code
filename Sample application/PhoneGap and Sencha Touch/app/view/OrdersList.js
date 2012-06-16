@@ -1,26 +1,16 @@
-console.log("order list view")
-
-var oldOrdersFilter = new Ext.util.Filter({
-    filterFn: function(item) {
-        return item.submissionDate != null
-    }
-})
-
 Ext.define("MobiPrint.view.OrdersList", {
     extend: "Ext.Panel",
     xtype: "mobiprint-orderslist",
     requires: [
         "Ext.Label",
-        "Ext.dataview.List",
-        "Ext.TitleBar"
+        "Ext.dataview.List"
     ],
 
     config: {
         layout: "fit",
+        title: _("OLD_ORDERS"),
 
         items: {
-            title: _("OLD_ORDERS"),
-            iconCls: "organize",
             layout: "fit",
 
             styleHtmlContent: true,
@@ -38,13 +28,13 @@ Ext.define("MobiPrint.view.OrdersList", {
                 disableSelection: true,
                 ui: 'round',
                 itemTpl: new Ext.XTemplate(
-                    '<div class="orderslist-entry"><strong>{[this.formatDate(values.submissionDate)]}</strong> <span class="right">{[this.formatNumPictures(values.pictureIds.length)]}</span></div>',
+                    '<div><strong>{[this.formatDate(values.submissionDate)]}</strong> <span class="right">{[this.formatNumPictures(values.pictureIds.length)]}</span></div>',
                 {
                     formatDate: function(d) {
                         return Ext.util.Format.htmlEncode(Ext.util.Format.date(d, "l, jS F Y"))
                     },
                     formatNumPictures: function(count) {
-                        return Ext.String.format(_("NUM_PICTURES_FMT").toString(), count)
+                        return Ext.String.format(_("NUM_PICTURES_FMT"), count)
                     }
                 }),
             }]
