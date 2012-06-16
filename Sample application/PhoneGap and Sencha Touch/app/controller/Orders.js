@@ -104,10 +104,13 @@ Ext.define("MobiPrint.controller.Orders", {
 
         this.downloadingThumbnails[pictureId] = true
 
-        console.log("Automatically downloading thumbnail " + pictureId)
-
         try
         {
+            console.log("Automatically downloading thumbnail " + pictureId)
+
+            if(THUMBNAIL_SIZE == null)
+                THUMBNAIL_SIZE = Math.max(5, Math.min(500, Math.floor(window.innerWidth * 2 / 3)))
+
             Ext.Ajax.request({
                 url: WEB_SERVICE_BASE_URI + "picture/" + pictureId + "/thumbnail/?size=" + THUMBNAIL_SIZE,
                 timeout: 20000,
