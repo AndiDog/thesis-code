@@ -23,10 +23,24 @@ Ext.define("MobiPrint.view.OrderDetail", {
     },
 
     updateData: function(newData) {
-        var isOldOrder = newData.submissionDate
+        var order = newData.order
+        var uploadingPictures
+        var numUploadingPictures = 0
+        var isOldOrder = order.submissionDate
         var label = this.down("#order-detail-label")
         label.setHtml(Ext.htmlEncode(Ext.String.format(_("ORDER_CONTAINS_N_PICTURES_FMT").toString(),
-                                                       newData.pictureIds.length)))
+                                                       order.pictureIds.length)))
+
+        if(!isOldOrder)
+        {
+            uploadingPictures = []
+
+            for(var key in newData.uploadingPictures)
+            {
+                uploadingPictures.push(key)
+                ++numUploadingPictures
+            }
+        }
 
         this.setTitle(isOldOrder ? _("OLD_ORDER") : _("CURRENT_ORDER"))
 
@@ -45,7 +59,7 @@ Ext.define("MobiPrint.view.OrderDetail", {
         })
         var container, i
 
-        for(i = 0; i < newData.pictureIds.length; ++i)
+        for(i = 0; i < order.pictureIds.length + numUploadingPictures; ++i)
         {
             if(i % gridWidth == 0)
             {
@@ -56,12 +70,39 @@ Ext.define("MobiPrint.view.OrderDetail", {
                 panel.add(container)
             }
 
+            var pictureId = i < order.pictureIds.length ? order.pictureIds[i] : null
+            var uploadingFilename = i < order.pictureIds.length ? null : uploadingPictures[i - order.pictureIds.length]
+            var imageSrc
+            var status, statusText
+            var statusText
+            if(isOldOrder)
+                status = "printed"
+            else
+                status = pictureId == null ? "uploading" : "uploaded"
+
+            if(pictureId)
+                imageSrc = WEB_SERVICE_BASE_URI + "picture/" + order.pictureIds[i] + "/thumbnail/?size=300"
+            else
+                imageSrc = uploadingFilename
+
+            statusText = _(status.toUpperCase()) // "UPLOADED", "UPLOADING", "PRINTED"
+
             container.add({
-                xtype: "panel",
+                xtype: "container",
+                align: "stretch",
+                pack: "start",
+                layout: "vbox",
                 flex: 1,
-                html: ("<img src='" +
-                       Ext.htmlEncode(WEB_SERVICE_BASE_URI + "picture/" + newData.pictureIds[i] + "/thumbnail/?size=300") +
-                       "' class='order-detail-thumbnail' />")
+                items: [{
+                    xtype: "panel",
+                    layout: "fit",
+                    html: ("<img src='" +
+                           Ext.htmlEncode(imageSrc) +
+                           "' class='order-detail-thumbnail' />")
+                }, {
+                    xtype: "panel",
+                    html: "<p class='order-detail-status'><img src='/resources/images/" + status + ".png'/> <span>" + Ext.htmlEncode(statusText) + "</span></p>"
+                }]
             })
         }
 

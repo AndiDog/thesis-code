@@ -49,6 +49,7 @@ Ext.define("MobiPrint.controller.Orders", {
         this.callParent([config])
 
         this.downloadingThumbnails = {}
+        this.uploadingPictures = {}
     },
 
     launch: function() {
@@ -93,7 +94,13 @@ Ext.define("MobiPrint.controller.Orders", {
 
     showOrderDetail: function(order) {
         var orderDetailView = Ext.create("MobiPrint.view.OrderDetail")
-        orderDetailView.setData(order)
+
+        var viewData = {order: order}
+
+        if(!order.submissionDate)
+            viewData.uploadingPictures = this.uploadingPictures
+
+        orderDetailView.setData(viewData)
 
         this.getOrdersListNavigationView().push(orderDetailView)
     },
