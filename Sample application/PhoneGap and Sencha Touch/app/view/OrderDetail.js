@@ -1,10 +1,9 @@
-console.log("order detail view")
-
-var oldOrdersFilter = new Ext.util.Filter({
+/* TODO: separate filtered store for old orders
+   var oldOrdersFilter = new Ext.util.Filter({
     filterFn: function(item) {
         return item.submissionDate != null
     }
-})
+})*/
 
 Ext.define("MobiPrint.view.OrderDetail", {
     extend: "Ext.Panel",

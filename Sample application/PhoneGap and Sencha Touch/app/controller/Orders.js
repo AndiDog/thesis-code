@@ -3,7 +3,6 @@ Ext.define("MobiPrint.controller.Orders", {
 
     config: {
         refs: {
-            ordersList: "#orders-list",
             ordersListLabel: "#orders-list-label",
             ordersListNavigationView:  "#orderslist-navigationview"
         },
