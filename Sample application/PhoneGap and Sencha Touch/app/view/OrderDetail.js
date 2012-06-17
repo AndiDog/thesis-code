@@ -53,7 +53,7 @@ Ext.define("MobiPrint.view.OrderDetail", {
             }
         }
 
-        this.setTitle(isOldOrder ? _("OLD_ORDER") : _("CURRENT_ORDER"))
+        this.setTitle(Ext.htmlEncode(isOldOrder ? _("OLD_ORDER") : _("CURRENT_ORDER")))
 
         var gridWidth = Math.floor(window.innerWidth / 90)
         var itemWidth = Math.floor((window.innerWidth - 10) / gridWidth) - 10
