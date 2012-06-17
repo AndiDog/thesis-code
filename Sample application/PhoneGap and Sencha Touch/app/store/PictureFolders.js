@@ -25,5 +25,16 @@ Ext.define("MobiPrint.store.PictureFolders", {
         }, "/some/path").save()
 
         this.sync()
+    },
+
+    scanSingleFolderAsync: function(path, callback) {
+        var filenames = ["resources/icons/Icon.png",
+                         "resources/icons/Icon.png",
+                         "resources/icons/Icon.png",
+                         "resources/icons/Icon.png",
+                         "resources/icons/Icon.png",
+                         "resources/icons/Icon.png"]
+
+        setTimeout(function() { callback(filenames) }, 0)
     }
 })

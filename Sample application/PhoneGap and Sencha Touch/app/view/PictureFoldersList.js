@@ -23,7 +23,7 @@ Ext.define("MobiPrint.view.PictureFoldersList", {
             }, {
                 xtype: 'list',
                 store: "PictureFolders",
-                id: "picture-folders-list",
+                id: "picturefolders-list",
                 onItemDisclosure: true,
                 disableSelection: true,
                 ui: 'round',

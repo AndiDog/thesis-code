@@ -9,6 +9,7 @@ language["en"] = {
     ORDER_CONTAINS_N_PICTURES_FMT: "This order contains {0} pictures:",
     PRINTED: "Printed",
     SELECT_FOLDER_WITH_PICTURES: "Please select a folder with pictures:",
+    SELECT_PICTURE_FOR_PRINTING: "Select picture for printing",
     UPLOADED: "Uploaded",
     UPLOADING: "Uploading"
 }
