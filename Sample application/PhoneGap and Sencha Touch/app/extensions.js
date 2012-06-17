@@ -12,10 +12,11 @@ if(!navigator.splashscreen)
     }
 }
 else
-{
     phoneGapReady = false
 
-    document.addEventListener("deviceready", function() {
-        phoneGapReady = true
-    }, false)
-}
+document.addEventListener("deviceready", function() {
+    phoneGapReady = true
+
+    if(!window.requestFileSystem)
+        throw "File API not available using PhoneGap"
+}, false)
