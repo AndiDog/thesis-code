@@ -1,3 +1,5 @@
+console.log("app.js")
+
 Ext.application({
     name: "MobiPrint",
 
@@ -29,6 +31,8 @@ Ext.application({
     },
 
     launch: function() {
+        console.log("MobiPrint.launch()")
+
         function hideSplashScreen()
         {
             if(phoneGapReady)
@@ -47,6 +51,8 @@ Ext.application({
         Ext.Viewport.add(Ext.create("MobiPrint.view.Tabs"))
 
         setTimeout(hideSplashScreen, 100)
+
+        console.log("MobiPrint.launch()~")
     },
 
     onUpdated: function() {
@@ -55,9 +61,11 @@ Ext.application({
             "This application has just successfully been updated to the latest version. Reload now?",
             function(buttonId) {
                 if (buttonId === "yes") {
-                    window.location.reload();
+                    window.location.reload()
                 }
             }
-        );
+        )
     }
-});
+})
+
+console.log("app.js~")

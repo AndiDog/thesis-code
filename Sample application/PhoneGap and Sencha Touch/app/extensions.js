@@ -1,3 +1,5 @@
+console.log("extensions")
+
 navigator.toast = window.toastExtension
 
 // For browser debugging
@@ -15,8 +17,14 @@ else
     phoneGapReady = false
 
 document.addEventListener("deviceready", function() {
+    console.log("phoneGapReady()")
+
     phoneGapReady = true
 
     if(!window.requestFileSystem)
         throw "File API not available using PhoneGap"
+
+    console.log("phoneGapReady()~")
 }, false)
+
+console.log("extensions~")

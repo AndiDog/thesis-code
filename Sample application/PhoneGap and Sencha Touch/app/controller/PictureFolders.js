@@ -17,9 +17,13 @@ Ext.define("MobiPrint.controller.PictureFolders", {
     },
 
     launch: function() {
+        console.log("MobiPrint.controller.PictureFolders.launch()")
+
         setTimeout(function() {
             Ext.getStore("PictureFolders").rescanPictureFolders()
         }, 2000)
+
+        console.log("MobiPrint.controller.PictureFolders.launch()~")
     },
 
     showPictureFolderDetail: function(pictureFolder) {

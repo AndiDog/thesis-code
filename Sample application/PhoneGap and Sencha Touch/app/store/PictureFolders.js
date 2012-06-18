@@ -33,11 +33,16 @@ Ext.define("MobiPrint.store.PictureFolders", {
 
                 _this.sync()
                 _this.load()
+                console.log("Loaded picture folders")
             }, 1500)
         }
+
+        console.log("MobiPrint.store.PictureFolders.onFoundPictureFolder(path=" + path + ")~")
     },
 
     rescanPictureFolders: function() {
+        console.log("MobiPrint.store.PictureFolders.rescanPictureFolders()")
+
         var _this = this
 
         if(!window.requestFileSystem)
