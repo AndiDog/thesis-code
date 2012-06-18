@@ -16,10 +16,12 @@ if(!navigator.splashscreen)
 else
     phoneGapReady = false
 
+browserDebugging = true
 document.addEventListener("deviceready", function() {
     console.log("phoneGapReady()")
 
     phoneGapReady = true
+    browserDebugging = false
 
     if(!window.requestFileSystem)
         throw "File API not available using PhoneGap"

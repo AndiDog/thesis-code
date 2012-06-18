@@ -11,17 +11,26 @@ Ext.define("MobiPrint.store.PictureFolders", {
         autoLoad: true
     },
 
-    initialize: function() {
-        this.rescanPictureFolders()
-    },
-
     onFoundPictureFolder: function(path, numPictures) {
-        // ID is set automatically by model in a way that no duplicates are saved
-        new MobiPrint.model.PictureFolder({
-            path: path,
-            name: path.replace(/^.+[\/\\]/, ""),
-            numPictures: numPictures
-        }).save()
+        console.log("MobiPrint.store.PictureFolders.onFoundPictureFolder(path=" + path + ")")
+
+        var id = MobiPrint.model.PictureFolder.makeStringHash(path)
+        var pictureFolder = this.getById(id)
+
+        if(!pictureFolder)
+            pictureFolder = new MobiPrint.model.PictureFolder({
+                path: path,
+                name: path.replace(/^.+[\/\\]/, ""),
+                numPictures: numPictures,
+                lastUpdate: new Date()
+            })
+        else
+        {
+            pictureFolder.set("numPictures", numPictures)
+            pictureFolder.set("lastUpdate", new Date())
+        }
+
+        pictureFolder.save()
 
         if(!this.syncingNewFolders)
         {
@@ -45,23 +54,60 @@ Ext.define("MobiPrint.store.PictureFolders", {
 
         var _this = this
 
-        if(!window.requestFileSystem)
+        if(browserDebugging)
         {
-            console.log("File API not supported, ignoring")
+            console.log("Picture scan not supported in browser debugging mode (file API not supported, using fake picture folders)")
+
+            this.removeAll(false)
+            this.sync()
+
+            for(var name in {"Barcelona" : 0, "München" : 0})
+                new MobiPrint.model.PictureFolder({
+                    path: "file:///mnt/sdcard/does/not/exist/" + name,
+                    name: name,
+                    numPictures: 6,
+                    lastUpdate: new Date()
+                }).save()
+            this.sync()
+            this.load()
+
             return
         }
 
-        // Silent so that "clear" event does not get called (hope this keeps the list view intact)
-        this.removeAll(true)
+        var now = new Date()
+        var outdated = false
+        var atLeastOne = false
+        this.each(function(record) {
+            atLeastOne = true
 
-        window.requestFileSystem(LocalFileSystem.PERSISTENT,
-                                 0,
-                                 function(fileSystem) {
-                                     _this.scanFolder(fileSystem.root, 0)
-                                 },
-                                 function(err) {
-                                     navigator.toast.showLongToast("Failed to read file system (error code " + err.code  +")")
-                                 })
+            // Update every 10 minutes at the most
+            if(Math.abs(now.getTime() - record.get("lastUpdate").getTime()) > 10 * 60 * 1000)
+            {
+                record.erase()
+                outdated = true
+            }
+        })
+
+        if(!outdated && atLeastOne)
+        {
+            console.log("Not scanning for picture folders, last scan was recent enough")
+            return
+        }
+
+        // Need timeout after removeAll call (seems to be asynchronous and causes problems if model instances are
+        // inserted meanwhile)
+        setTimeout(function() {
+            window.requestFileSystem(LocalFileSystem.PERSISTENT,
+                                     0,
+                                     function(fileSystem) {
+                                         _this.scanFolder(fileSystem.root, 0)
+                                     },
+                                     function(err) {
+                                         navigator.toast.showLongToast("Failed to read file system (error code " + err.code  +")")
+                                     })
+        }, 12500)
+
+        console.log("MobiPrint.store.PictureFolders.rescanPictureFolders()~")
     },
 
     scanFolder: function(dirEntry, depth) {
@@ -78,7 +124,7 @@ Ext.define("MobiPrint.store.PictureFolders", {
             for(var i = 0; i < entries.length; ++i) {
                 if(entries[i].isDirectory)
                     _this.scanFolder(entries[i], depth + 1)
-                else if(/\.jpg$/.test(entries[i].isFile && entries[i].fullPath))
+                else if(entries[i].isFile && /\.jpg$/.test(entries[i].isFile && entries[i].fullPath))
                     ++numPictures
             }
 
@@ -95,13 +141,57 @@ Ext.define("MobiPrint.store.PictureFolders", {
     },
 
     scanSingleFolderAsync: function(path, callback) {
-        var filenames = ["resources/icons/Icon.png",
-                         "resources/icons/Icon.png",
-                         "resources/icons/Icon.png",
-                         "resources/icons/Icon.png",
-                         "resources/icons/Icon.png",
-                         "resources/icons/Icon.png"]
+        console.log("MobiPrint.store.PictureFolders.scanSingleFolderAsync()")
 
-        setTimeout(function() { callback(filenames) }, 0)
+        if(browserDebugging)
+        {
+            var filenames = ["resources/icons/Icon.png",
+                             "resources/icons/Icon.png",
+                             "resources/icons/Icon.png",
+                             "resources/icons/Icon.png",
+                             "resources/icons/Icon.png",
+                             "resources/icons/Icon.png"]
+
+            setTimeout(function() { callback(filenames) }, 0)
+        }
+        else
+        {
+            // getDirectory doesn't like the file:// prefix
+            path = path.replace(/file:\/\//, "")
+
+            window.requestFileSystem(
+                LocalFileSystem.PERSISTENT,
+                0,
+                function(fileSystem) {
+                    fileSystem.root.getDirectory(
+                        path,
+                        {create: false},
+                        function(dirEntry) {
+                            dirEntry.createReader().readEntries(function(entries) {
+                                var filenames = []
+
+                                for(var i = 0; i < entries.length; ++i) {
+                                    if(entries[i].isFile && /\.jpg$/.test(entries[i].isFile && entries[i].fullPath))
+                                        filenames.push(entries[i].fullPath)
+                                }
+
+                                setTimeout(function() { callback(filenames) }, 0)
+                            }, function(err) {
+                                console.log("Failed to read directory entries of " + dirEntry.fullPath + " (error code " + err.code  +")")
+                                navigator.toast.showLongToast("Failed to read directory entries (error code " + err.code  +")")
+                            })
+                        },
+                        function(err) {
+                            navigator.toast.showLongToast("Failed to read " + path + " (error code " + err.code  +")")
+                        }
+                    )
+                },
+                function(err) {
+                    navigator.toast.showLongToast("Failed to read file system (error code " + err.code  +")")
+                }
+            )
+        }
+
+        console.log("MobiPrint.store.PictureFolders.scanSingleFolderAsync()~")
     }
 })

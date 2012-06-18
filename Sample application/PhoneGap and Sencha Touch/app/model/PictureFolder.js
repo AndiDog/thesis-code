@@ -1,8 +1,29 @@
 Ext.define("MobiPrint.model.PictureFolder", {
+    statics: {
+        makeStringHash: function(s) {
+            var hash = 0
+
+            // Shamelessly copied from http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+            for(var i = 0; i < s.length; ++i)
+            {
+                char = s.charCodeAt(i);
+                hash = ((hash<<5)-hash) + char;
+                hash = hash & hash // convert to 32-bit integer
+            }
+
+            return hash
+        }
+    },
+
     extend: "Ext.data.Model",
     config: {
-        // id == path shall be used, see below
-        fields: ["path", "numPictures", "name"],
+        fields: [
+            {name: "id", type: "id"},
+            {name: "path", type: "string"},
+            {name: "numPictures", type: "int"},
+            {name: "name", type: "string"},
+            {name: "lastUpdate", type: "date"}
+        ],
         proxy: {
             type: "localstorage",
             id: "picture-folders"
@@ -10,7 +31,7 @@ Ext.define("MobiPrint.model.PictureFolder", {
     },
 
     save: function(options, scope) {
-        this.set("id", this.get("path"))
+        this.set("id", MobiPrint.model.PictureFolder.makeStringHash(this.get("path")))
 
         this.callParent([options, scope])
     }
