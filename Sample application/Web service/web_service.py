@@ -21,6 +21,7 @@ import json
 import random
 import re
 import shutil
+import sys
 import tempfile
 import threading
 import time
@@ -220,8 +221,14 @@ def stores():
     else:
         try:
             geocoder = geocoders.Google()
-            unused_place, (lat, lng) = geocoder.geocode(loc)
-        except Exception:
+            foundLocations = list(geocoder.geocode(loc, exactly_one = False))
+
+            if not foundLocations:
+                raise Exception("No location found for %r" % loc)
+
+            (lat, lng) = foundLocations[0][1]
+        except Exception as e:
+            sys.stderr.write("Geocoding failed: %s\n" % e)
             lat, lng = 49, 8
 
     distanceStoreTuples = [((store["lat"] - lat)**2 + (store["lng"] - lng)**2, store) for store in STORES]
