@@ -25,6 +25,23 @@ Ext.define("MobiPrint.view.Tabs", {
                 xtype: "navigationview",
                 id: "picturefolderslist-navigationview",
                 styleHtmlContent: true,
+                navigationBar: {
+                    items: {
+                        xtype: "button",
+                        id: "add-pictures-button",
+                        ui: "confirm",
+                        text: _("ADD"),
+                        align: "right",
+                        hideAnimation: {
+                            type: "fadeOut",
+                            duration: 300
+                        },
+                        showAnimation: {
+                            type: "fadeIn",
+                            duration: 300
+                        }
+                    }
+                },
                 iconCls: "add",
                 title: _("ADD_PICTURES"),
                 items: {

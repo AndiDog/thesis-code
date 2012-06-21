@@ -3,17 +3,48 @@ Ext.define("MobiPrint.controller.PictureFolders", {
 
     config: {
         refs: {
+            addPicturesButton: "#add-pictures-button",
+            detailView: "mobiprint-picturefolderdetail",
             pictureFoldersListNavigationView: "#picturefolderslist-navigationview"
         },
         control: {
             "#picturefolders-list": {
                 itemtap: "onDisclosePictureFolder"
+            },
+            "mobiprint-picturefolderslist": {
+                show: "onListShow"
+            },
+            "#add-pictures-button": {
+                tap: "onAddPictures"
             }
         }
     },
 
+    onAddPictures: function() {
+        var checkboxes = this.getDetailView().query("checkboxfield")
+        var atLeastOneChecked = false
+
+        for(var i = 0; i < checkboxes.length; ++i)
+        {
+            var checkbox = checkboxes[i]
+            var name = checkbox.getName()
+
+            if(!/^picture-/.test(name))
+                throw "Assertion failed: Checkbox name"
+
+            var filename = name.substr(8)
+
+            alert(checkbox.isChecked())
+        }
+        //this.getPictureFoldersListNavigationView().pop()
+    },
+
     onDisclosePictureFolder: function(list, index, target, record) {
         this.showPictureFolderDetail(record.data)
+    },
+
+    onListShow: function() {
+        this.getAddPicturesButton().hide()
     },
 
     launch: function() {
@@ -27,6 +58,8 @@ Ext.define("MobiPrint.controller.PictureFolders", {
     },
 
     showPictureFolderDetail: function(pictureFolder) {
+        this.getAddPicturesButton().show()
+
         var pictureFolderDetailView = Ext.create("MobiPrint.view.PictureFolderDetail")
         var viewData = {pictureFolder: pictureFolder}
         pictureFolderDetailView.setData(viewData)

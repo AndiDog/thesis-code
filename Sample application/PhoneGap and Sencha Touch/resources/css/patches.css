@@ -7,4 +7,7 @@ img.order-detail-thumbnail { max-width: 100%; max-height: 100%; display: block; 
 .x-list { background-color: #A1BACC }
 .x-body { background-color: #A1BACC }
 .x-list-round .x-scroll-view { background-color: #A1BACC !important }
-img.picture-folder-file { max-width: 100%; display: block; margin: 0 auto; padding: 0 5px }
+.x-form .x-scroll-container { background-color: #A1BACC }
+.picture-folder-file { text-align: center; padding-bottom: 10pt }
+.picture-folder-file img { max-width: 100%; display: block; margin: 0 auto; padding: 0 5px }
+.picture-folder-file-checkbox { margin-bottom: 25pt }

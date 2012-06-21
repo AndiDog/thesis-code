@@ -1,4 +1,5 @@
 language["en"] = {
+    ADD: "Add",
     ADD_PICTURES: "Add pictures",
     CURRENT_ORDER: "Current order",
     FAILED_TO_RETRIEVE_ORDERS: "Failed to retrieve old orders",

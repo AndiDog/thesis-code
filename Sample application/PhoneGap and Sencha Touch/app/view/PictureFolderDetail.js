@@ -1,6 +1,9 @@
 Ext.define("MobiPrint.view.PictureFolderDetail", {
     extend: "Ext.Panel",
-    requires: ["Ext.Img"],
+    requires: [
+        "Ext.Img",
+        "Ext.form.Panel"
+    ],
     xtype: "mobiprint-picturefolderdetail",
     config: {
         layout: "fit",
@@ -9,14 +12,13 @@ Ext.define("MobiPrint.view.PictureFolderDetail", {
         scrollable: false,
 
         items: {
-            xtype: "panel",
-            layout: "vbox",
-            align: "stretch",
-            pack: "center",
+            xtype: "formpanel",
+            layout:"vbox",
+
             scrollable: true,
-            // Extra panel so that scrolling works (seems like scrollable container must have exactly one child whose
-            // height is measurable)
-            items: { xtype: "panel" }
+            items: {
+                xtype:"panel"
+            }
         }
     },
 
@@ -27,28 +29,32 @@ Ext.define("MobiPrint.view.PictureFolderDetail", {
     },
 
     setPictureFilenames: function(filenames) {
-        var panel = this.down("panel > panel")
+        var panel = this.down("formpanel > panel")
 
         for(var i = 0; i < filenames.length; ++i)
         {
             panel.add({
                 xtype: "panel",
-                layout: "hbox",
+                layout: "vbox",
+                align: "stretch",
                 items: {
                     xtype: "panel",
                     // TODO: file:// prefix?!
-                    html: "<div style='text-align: center'><img class='picture-folder-file' src='" + Ext.htmlEncode(filenames[i]) + "'/></div>"
+                    html: "<div class='picture-folder-file'><img  src='" + Ext.htmlEncode(filenames[i]) + "'/></div>"
                 }
             })
 
-            // TODO: add checkbox
             panel.add({
                 xtype: "panel",
-                layout: "hbox",
-                items: [{
-                    xtype: "label",
-                    html: _("SELECT_PICTURE_FOR_PRINTING")
-                }]
+                layout: "vbox",
+
+                items: {
+                    xtype: "checkboxfield",
+                    cls: "picture-folder-file-checkbox",
+                    name: "picture-" + filenames[i],
+                    value: "true",
+                    label: _("SELECT_PICTURE_FOR_PRINTING")
+                }
             })
         }
     },
