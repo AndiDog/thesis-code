@@ -51,6 +51,7 @@ Ext.define("MobiPrint.view.PictureFolderDetail", {
                 items: {
                     xtype: "checkboxfield",
                     cls: "picture-folder-file-checkbox",
+                    labelWidth: "65%",
                     name: "picture-" + filenames[i],
                     value: "true",
                     label: _("SELECT_PICTURE_FOR_PRINTING")

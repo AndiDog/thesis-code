@@ -7,11 +7,11 @@ Ext.define("MobiPrint.store.Orders", {
     ],
     config: {
         model: "MobiPrint.model.Order",
-        filters: {
+        /*filters: {
             filterFn: function(item) {
                 return item.data.submissionDate != null
             }
-        },
+        },*/
         sorters: "id",
         autoLoad: true
     },
