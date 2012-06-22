@@ -6,6 +6,7 @@ Ext.define("MobiPrint.view.Tabs", {
         "Ext.navigation.View",
         "MobiPrint.view.OrderDetail",
         "MobiPrint.view.OrdersList",
+        "MobiPrint.view.OrderSubmission",
         "MobiPrint.view.PictureFolderDetail",
         "MobiPrint.view.PictureFoldersList"
     ],
@@ -50,20 +51,32 @@ Ext.define("MobiPrint.view.Tabs", {
                     xtype: "mobiprint-picturefolderslist"
                 }
             }, {
-                title: _("CURRENT_ORDER"),
-                iconCls: "action",
-                layout: "fit",
+                xtype: "navigationview",
+                id: "currentorder-navigationview",
                 styleHtmlContent: true,
-                scrollable: true,
-
-                items: [{
-                    docked: "top",
-                    xtype: "titlebar",
-                    title: _("CURRENT_ORDER")
-                }, {
+                navigationBar: {
+                    items: {
+                        xtype: "button",
+                        id: "show-submit-order-button",
+                        ui: "confirm",
+                        text: _("SUBMIT_ELLIPSIS"),
+                        align: "right",
+                        hideAnimation: {
+                            type: "fadeOut",
+                            duration: 300
+                        },
+                        showAnimation: {
+                            type: "fadeIn",
+                            duration: 300
+                        }
+                    }
+                },
+                iconCls: "action",
+                title: _("CURRENT_ORDER"),
+                items: {
                     xtype: "mobiprint-orderdetail",
                     id: "current-order-detail"
-                }]
+                }
             },
         ]
     }

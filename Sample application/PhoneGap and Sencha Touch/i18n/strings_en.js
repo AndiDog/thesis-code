@@ -1,6 +1,7 @@
 language["en"] = {
     ADD: "Add",
     ADD_PICTURES: "Add pictures",
+    CONFIRM_ORDER: "Confirm order",
     CURRENT_ORDER: "Current order",
     FAILED_TO_RETRIEVE_ORDERS: "Failed to retrieve old orders",
     NO_PICTURES_SELECTED: "You did not select any pictures.",
@@ -10,9 +11,15 @@ language["en"] = {
     OLD_ORDER: "Old order",
     OLD_ORDERS: "Old orders",
     ORDER_CONTAINS_N_PICTURES_FMT: "This order contains {0} pictures:",
+    PASSWORD_COLON: "Password:",
     PRINTED: "Printed",
     SELECT_FOLDER_WITH_PICTURES: "Please select a folder with pictures:",
     SELECT_PICTURE_FOR_PRINTING: "Select picture for printing",
+    SUBMISSION_TEXT_FMT: "To submit your order of {0} pictures, select a pick-up location close to you and enter your details.<br/>Enter an address to show stores near you:",
+    SUBMIT_ELLIPSIS: "Submit…",
+    SUBMIT: "Submit",
+    SUBMIT_CURRENT_ORDER: "Submit current order",
     UPLOADED: "Uploaded",
-    UPLOADING: "Uploading"
+    UPLOADING: "Uploading",
+    USERNAME_COLON: "Username:"
 }

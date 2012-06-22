@@ -4,12 +4,26 @@ Ext.define("MobiPrint.controller.Orders", {
     config: {
         refs: {
             currentOrderDetailView: "#current-order-detail",
+            currentOrderNavigationView: "#currentorder-navigationview",
             ordersListLabel: "#orders-list-label",
-            ordersListNavigationView:  "#orderslist-navigationview"
+            ordersListNavigationView: "#orderslist-navigationview",
+            orderSubmissionView: "#order-submission",
+            showOrderSubmissionButton: "#show-submit-order-button",
+            submitOrderButton: "#submit-order-button",
+            orderSubmissionView: "#order-submission",
         },
         control: {
+            "#current-order-detail": {
+                show: "onShowOrderDetail"
+            },
             "#orders-list": {
                 itemtap: "onDiscloseOrder"
+            },
+            "#show-submit-order-button": {
+                tap: "onShowSubmitOrder"
+            },
+            "#submit-order-button": {
+                tap: "onSubmitOrder"
             },
         }
     },
@@ -100,6 +114,28 @@ Ext.define("MobiPrint.controller.Orders", {
         this.getOrdersListLabel().setHtml(Ext.String.format(_("NUM_OLD_ORDERS_FMT").toString(), count))
 
         this.updateCurrentOrderDetail()
+    },
+
+    onShowOrderDetail: function() {
+        this.getShowOrderSubmissionButton().show()
+    },
+
+    onShowSubmitOrder: function() {
+        var currentOrder = Ext.getStore("Orders").findRecord("submissionDate", null)
+
+        if(!currentOrder || currentOrder.get("pictureIds").length == 0)
+        {
+            navigator.notification.alert(_("NO_PICTURES_SELECTED"))
+            return
+        }
+
+        this.getShowOrderSubmissionButton().hide()
+        this.getCurrentOrderNavigationView().push({xtype: "mobiprint-ordersubmission"})
+        this.getOrderSubmissionView().setNumPictures(currentOrder.get("pictureIds").length)
+    },
+
+    onSubmitOrder: function() {
+        Ext.getStore("Locations").retrieve("test location")
     },
 
     showOrderDetail: function(order) {

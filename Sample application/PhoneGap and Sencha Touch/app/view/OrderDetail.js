@@ -10,7 +10,9 @@ Ext.define("MobiPrint.view.OrderDetail", {
     xtype: "mobiprint-orderdetail",
     config: {
         layout: "fit",
-        title: "",
+        // Seems like this can't be changed later for the "current order" view, probably because it's the first view
+        // in the NavigationView and it is never popped.
+        title: _("CURRENT_ORDER"),
 
         scrollable: false,
 

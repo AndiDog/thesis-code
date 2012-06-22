@@ -7,6 +7,10 @@ if(!navigator.toast)
     navigator.toast = {
         showLongToast: function(s) { alert(s) }
     }
+if(!navigator.notification)
+    navigator.notification = {
+        alert: function(s) { alert(s) }
+    }
 if(!navigator.splashscreen)
 {
     phoneGapReady = true
