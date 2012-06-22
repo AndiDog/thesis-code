@@ -12,24 +12,26 @@ Ext.define("MobiPrint.store.Locations", {
         this.each(function(record) { record.erase() })
 
         var _this = this
-        setTimeout(function() {
-            var i = 0
-            /*for(var name in {"Horst" : 0, "Köhler" : 0})
-                new MobiPrint.model.Location({
-                    name: name,
-                    address: "Im Hain 1"
-                }).save()*/
-            _this.setData({
-                locations: [
-                    {name: "Store 1", address: "New York"},
-                    {name: "Store 2", address: "München"}
-                ]
-            })
-            _this.sync()
-            _this.load()
+        var query
 
-            //alert(_this.getData().length)
-        }, 2000)
+        if(/\d+\.\d+,\d+\.\d+/.test(loc))
+            query = "lat=" + encodeURIComponent(loc.split(",")[0]) + "&lng=" + encodeURIComponent(loc.split(",")[1])
+        else
+            query = "loc=" + encodeURIComponent(loc)
+
+        Ext.Ajax.request({
+            url: WEB_SERVICE_BASE_URI + "stores/by-location/?" + query,
+            success: function(response) {
+                _this.setData({
+                    locations: Ext.JSON.decode(response.responseText)["stores"]
+                })
+                _this.sync()
+                _this.load()
+            },
+            failure: function() {
+                navigator.toast.showLongToast("Failed to retrieve nearby stores")
+            }
+        })
 
         console.log("MobiPrint.store.Locations.retrieve()~")
     }

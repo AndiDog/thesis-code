@@ -5,6 +5,7 @@ Ext.define("MobiPrint.controller.Orders", {
         refs: {
             currentOrderDetailView: "#current-order-detail",
             currentOrderNavigationView: "#currentorder-navigationview",
+            locationSearchField: "#order-submission searchfield",
             ordersListLabel: "#orders-list-label",
             ordersListNavigationView: "#orderslist-navigationview",
             orderSubmissionView: "#order-submission",
@@ -15,6 +16,9 @@ Ext.define("MobiPrint.controller.Orders", {
         control: {
             "#current-order-detail": {
                 show: "onShowOrderDetail"
+            },
+            "#order-submission searchfield": {
+                change: "onLocationFieldChanged"
             },
             "#orders-list": {
                 itemtap: "onDiscloseOrder"
@@ -65,6 +69,22 @@ Ext.define("MobiPrint.controller.Orders", {
         this.downloadingThumbnails = {}
     },
 
+    fillInLocation: function() {
+        var _this = this
+
+        var success = function(position) {
+            _this.getLocationSearchField().setValue(position.coords.latitude+","+position.coords.longitude)
+        }
+
+        var fail = function() {
+            navigator.toast.showLongToast("Failed to retrieve position")
+
+            _this.getLocationSearchField().setValue(window.localStorage.getItem("loc", ""))
+        }
+
+        navigator.geolocation.getCurrentPosition(success, fail)
+    },
+
     getUploadingPictures: function() {
         var uploadingPictures = MobiPrint.controller.PictureFolders.getUploadingPictures()
         var ret = {}
@@ -104,6 +124,22 @@ Ext.define("MobiPrint.controller.Orders", {
         this.showOrderDetail(record.data)
     },
 
+    onLocationFieldChanged: function(field, newValue) {
+        window.localStorage.setItem("loc", newValue)
+
+        if(this.retrieving)
+            return
+
+        this.retrieving = true
+
+        var _this = this
+
+        setTimeout(function() {
+            _this.retrieving = false
+            Ext.getStore("Locations").retrieve(window.localStorage.getItem("loc"))
+        }, 1000)
+    },
+
     onOrdersListRefresh: function() {
         var ordersStore = Ext.getStore("Orders")
 
@@ -132,6 +168,8 @@ Ext.define("MobiPrint.controller.Orders", {
         this.getShowOrderSubmissionButton().hide()
         this.getCurrentOrderNavigationView().push({xtype: "mobiprint-ordersubmission"})
         this.getOrderSubmissionView().setNumPictures(currentOrder.get("pictureIds").length)
+
+        this.fillInLocation()
     },
 
     onSubmitOrder: function() {

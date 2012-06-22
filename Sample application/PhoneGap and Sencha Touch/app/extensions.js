@@ -11,6 +11,12 @@ if(!navigator.notification)
     navigator.notification = {
         alert: function(s) { alert(s) }
     }
+if(!navigator.geolocation)
+    navigator.geolocation = {
+        getCurrentPosition: function(success, fail) {
+            setTimeout(fail, 0)
+        }
+    }
 if(!navigator.splashscreen)
 {
     phoneGapReady = true
