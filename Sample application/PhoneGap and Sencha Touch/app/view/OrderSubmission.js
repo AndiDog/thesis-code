@@ -2,7 +2,7 @@ Ext.define("MobiPrint.view.OrderSubmission", {
     extend: "Ext.Panel",
     xtype: "mobiprint-ordersubmission",
     id: "order-submission",
-    requires: ["Ext.field.Search", "Ext.form.FieldSet"],
+    requires: ["Ext.field.Search", "Ext.form.FieldSet", "Ext.field.Password", "Ext.field.Text"],
     config: {
         layout: "vbox",
         // Seems like this can't be changed later for the "current order" view, probably because it's the first view
@@ -22,8 +22,9 @@ Ext.define("MobiPrint.view.OrderSubmission", {
             items: {
                 xtype: "fieldset",
                 items: {
-                    xtype: "searchfield"}
+                    xtype: "searchfield"
                 }
+            }
         }, {
             xtype: "list",
             scrollable: false,
@@ -45,7 +46,8 @@ Ext.define("MobiPrint.view.OrderSubmission", {
                     label: _("PASSWORD_COLON")
                 }, {
                     xtype: "checkboxfield",
-                    label: _("CONFIRM_ORDER")
+                    label: _("CONFIRM_ORDER"),
+                    labelWidth: "80%"
                 }]
             }
         }, {

@@ -9,8 +9,7 @@ Ext.define("MobiPrint.store.Locations", {
     retrieve: function(loc) {
         console.log("MobiPrint.store.Locations.retrieve(loc=" + loc + ")")
 
-        this.removeAll()
-        this.sync()
+        this.each(function(record) { record.erase() })
 
         var _this = this
         setTimeout(function() {
@@ -30,7 +29,7 @@ Ext.define("MobiPrint.store.Locations", {
             _this.load()
 
             //alert(_this.getData().length)
-        }, 100)
+        }, 2000)
 
         console.log("MobiPrint.store.Locations.retrieve()~")
     }

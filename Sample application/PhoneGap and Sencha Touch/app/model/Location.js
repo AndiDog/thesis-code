@@ -6,7 +6,7 @@ Ext.define("MobiPrint.model.Location", {
             type: "memory",
             reader: {
                 type: "json",
-                root: "locations"
+                rootProperty: "locations"
             }
         }
     }
