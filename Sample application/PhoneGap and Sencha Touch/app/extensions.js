@@ -6,6 +6,7 @@ navigator.toast = window.toastExtension
 if(!navigator.toast)
     navigator.toast = {
         showLongToast: function(s) { alert(s) }
+    }
 if(!navigator.splashscreen)
 {
     phoneGapReady = true
