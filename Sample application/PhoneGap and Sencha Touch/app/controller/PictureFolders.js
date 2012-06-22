@@ -1,10 +1,23 @@
 Ext.define("MobiPrint.controller.PictureFolders", {
     extend: "Ext.app.Controller",
 
+    statics: {
+        getUploadingPictures: function() {
+            if(!this.uploadingPictures)
+                throw "Invalid scope"
+
+            return this.uploadingPictures
+        },
+
+        // Initially empty
+        uploadingPictures: {}
+    },
+
     config: {
         refs: {
             addPicturesButton: "#add-pictures-button",
             detailView: "mobiprint-picturefolderdetail",
+            tabs: "#tabs",
             pictureFoldersListNavigationView: "#picturefolderslist-navigationview"
         },
         control: {
@@ -56,6 +69,9 @@ Ext.define("MobiPrint.controller.PictureFolders", {
         {
             this.getPictureFoldersListNavigationView().pop()
 
+            // Switch to current order tab
+            this.getTabs().setActiveItem(2)
+
             setTimeout(function() {
                 alert(Ext.String.format(_("NUM_PICTURES_TO_UPLOAD_FMT"), filenames.length))
             }, 1000)
@@ -95,6 +111,15 @@ Ext.define("MobiPrint.controller.PictureFolders", {
     },
 
     uploadPicture: function(filename) {
+        var app = this.getInitialConfig("application")
+        var uploadingPictures = MobiPrint.controller.PictureFolders.getUploadingPictures()
+
+        if(filename in uploadingPictures)
+        {
+            console.log("Ignoring picture upload of " + filename + ", already uploading")
+            return
+        }
+
         if(/^file:\/\//.test(filename))
             filename = filename.substr(7)
 
@@ -106,21 +131,18 @@ Ext.define("MobiPrint.controller.PictureFolders", {
         options.mimeType = "image/jpeg"
         options.chunkedMode = false
 
+        var _this = this
+
         var success = function(response) {
+            app.fireEvent("picture-upload-finished")
+            delete uploadingPictures[filename]
+
             var store = Ext.getStore("Orders")
             var newCurrentOrder = Ext.JSON.decode(response.response)["order"]
             var order = store.getById(newCurrentOrder.id)
 
             if(!order)
                 return
-
-            // TODO: bind changes in current order or any order to change the current order view
-            /*store.addListener("updaterecord", function(store, record, newIndex, oldIndex, modifiedFieldNames) {
-                alert("UPDATERECORD")
-                alert(record.get("id"))
-                alert(record.get("submissionDate"))
-                alert(Ext.JSON.encode(record.data))
-            })*/
 
             order.set({pictureIds: newCurrentOrder.pictureIds,
                        storeId: newCurrentOrder.storeId,
@@ -130,12 +152,17 @@ Ext.define("MobiPrint.controller.PictureFolders", {
             store.sync()
         }
         var failure = function(error) {
+            app.fireEvent("picture-upload-finished")
+            delete uploadingPictures[filename]
+
             toast.showLongToast("Failed to upload " + filename)
         }
 
         // Uses POST method (multipart-encoded)
         var transfer = new FileTransfer()
 
+        uploadingPictures[filename] = true
+        app.fireEvent("picture-upload-started")
         transfer.upload(filename, WEB_SERVICE_BASE_URI + "pictures/put-by-post-workaround/", success, failure, options)
     }
 })

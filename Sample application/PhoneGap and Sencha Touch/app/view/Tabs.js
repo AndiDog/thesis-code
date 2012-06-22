@@ -12,6 +12,8 @@ Ext.define("MobiPrint.view.Tabs", {
     config: {
         tabBarPosition: "bottom",
 
+        id: "tabs",
+
         items: [{
                 xtype: "navigationview",
                 id: "orderslist-navigationview",
@@ -54,13 +56,14 @@ Ext.define("MobiPrint.view.Tabs", {
                 styleHtmlContent: true,
                 scrollable: true,
 
-                items: {
+                items: [{
                     docked: "top",
                     xtype: "titlebar",
                     title: _("CURRENT_ORDER")
-                },
-
-                html: "",
+                }, {
+                    xtype: "mobiprint-orderdetail",
+                    id: "current-order-detail"
+                }]
             },
         ]
     }

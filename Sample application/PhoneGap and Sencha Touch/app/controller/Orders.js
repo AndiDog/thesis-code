@@ -3,6 +3,7 @@ Ext.define("MobiPrint.controller.Orders", {
 
     config: {
         refs: {
+            currentOrderDetailView: "#current-order-detail",
             ordersListLabel: "#orders-list-label",
             ordersListNavigationView:  "#orderslist-navigationview"
         },
@@ -48,11 +49,32 @@ Ext.define("MobiPrint.controller.Orders", {
         this.callParent([config])
 
         this.downloadingThumbnails = {}
-        this.uploadingPictures = {}
+    },
+
+    getUploadingPictures: function() {
+        var uploadingPictures = MobiPrint.controller.PictureFolders.getUploadingPictures()
+        var ret = {}
+
+        // Must copy the object in order to pass it to the view or else it cannot determine when to update the view
+        // if something changed
+        for(var key in uploadingPictures)
+            ret[key] = uploadingPictures[key]
+
+        return ret
     },
 
     launch: function() {
         console.log("Controller: Orders")
+
+        var _this = this
+
+        var app = this.getInitialConfig("application")
+        app.addListener("picture-upload-started", function() {
+            _this.updateCurrentOrderDetail()
+        })
+        app.addListener("picture-upload-finished", function() {
+            Ext.getStore("Orders").updateOrdersList()
+        })
 
         Ext.getStore("Orders").addListener("refresh", this.onOrdersListRefresh, this)
 
@@ -76,6 +98,8 @@ Ext.define("MobiPrint.controller.Orders", {
 
         var count = ordersStore.getOldOrdersCount()
         this.getOrdersListLabel().setHtml(Ext.String.format(_("NUM_OLD_ORDERS_FMT").toString(), count))
+
+        this.updateCurrentOrderDetail()
     },
 
     showOrderDetail: function(order) {
@@ -84,7 +108,7 @@ Ext.define("MobiPrint.controller.Orders", {
         var viewData = {order: order}
 
         if(!order.submissionDate)
-            viewData.uploadingPictures = this.uploadingPictures
+            viewData.uploadingPictures = this.getUploadingPictures()
 
         orderDetailView.setData(viewData)
 
@@ -121,5 +145,24 @@ Ext.define("MobiPrint.controller.Orders", {
             delete this.downloadingThumbnails[pictureId]
             throw e
         }
+    },
+
+    updateCurrentOrderDetail: function() {
+        var view = this.getCurrentOrderDetailView()
+        var currentOrder = Ext.getStore("Orders").findRecord("submissionDate", null)
+
+        if(currentOrder === null)
+        {
+            currentOrder = {
+                pictureIds: [],
+                storeId: null,
+                submissionDate: null
+            }
+        }
+        else
+            currentOrder = currentOrder.data
+
+        view.setData({order: currentOrder,
+                      uploadingPictures: this.getUploadingPictures()})
     }
 })

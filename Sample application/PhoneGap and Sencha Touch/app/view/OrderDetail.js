@@ -38,8 +38,6 @@ Ext.define("MobiPrint.view.OrderDetail", {
         var numUploadingPictures = 0
         var isOldOrder = order.submissionDate
         var label = this.down("#order-detail-label")
-        label.setHtml(Ext.htmlEncode(Ext.String.format(_("ORDER_CONTAINS_N_PICTURES_FMT").toString(),
-                                                       order.pictureIds.length)))
 
         if(!isOldOrder)
         {
@@ -51,6 +49,9 @@ Ext.define("MobiPrint.view.OrderDetail", {
                 ++numUploadingPictures
             }
         }
+
+        label.setHtml(Ext.htmlEncode(Ext.String.format(_("ORDER_CONTAINS_N_PICTURES_FMT").toString(),
+                                                       order.pictureIds.length + numUploadingPictures)))
 
         this.setTitle(Ext.htmlEncode(isOldOrder ? _("OLD_ORDER") : _("CURRENT_ORDER")))
 
@@ -128,6 +129,12 @@ Ext.define("MobiPrint.view.OrderDetail", {
     },
 
     updateData: function(newData) {
+        // Only change view if something changed in the order or uploading pictures. Note that it might still in
+        // the current order view because Ext.JSON.encode does not sort the keys and thus may produce different JSON
+        // for equal dictionaries.
+        if(this.data && Ext.JSON.encode(this.data) == Ext.JSON.encode(newData))
+            return
+
         this.data = newData
         this.redraw()
     }
