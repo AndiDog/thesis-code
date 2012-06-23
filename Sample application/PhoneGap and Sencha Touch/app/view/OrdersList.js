@@ -21,8 +21,8 @@ Ext.define("MobiPrint.view.OrdersList", {
                 id: "orders-list-label",
                 docked: "top"
             }, {
-                xtype: 'list',
-                store: "Orders",
+                xtype: "list",
+                store: "OrdersOnlyOld",
                 id: "orders-list",
                 onItemDisclosure: true,
                 disableSelection: true,

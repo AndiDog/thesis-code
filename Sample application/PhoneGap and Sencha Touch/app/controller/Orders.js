@@ -150,6 +150,8 @@ Ext.define("MobiPrint.controller.Orders", {
         this.getOrdersListLabel().setHtml(Ext.String.format(_("NUM_OLD_ORDERS_FMT").toString(), count))
 
         this.updateCurrentOrderDetail()
+
+        Ext.getStore("OrdersOnlyOld").load()
     },
 
     onShowOrderDetail: function() {

@@ -1,17 +1,8 @@
 Ext.define("MobiPrint.store.Orders", {
     extend: "Ext.data.Store",
-    requires: [
-        "Ext.util.JSON",
-        "MobiPrint.model.Order",
-        "Ext.data.proxy.LocalStorage"
-    ],
+    requires: ["MobiPrint.model.Order"],
     config: {
         model: "MobiPrint.model.Order",
-        /*filters: {
-            filterFn: function(item) {
-                return item.data.submissionDate != null
-            }
-        },*/
         sorters: "id",
         autoLoad: true
     },

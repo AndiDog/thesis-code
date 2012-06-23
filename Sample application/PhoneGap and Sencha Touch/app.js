@@ -10,7 +10,7 @@ Ext.application({
     controllers: ["Main", "Orders", "PictureFolders"],
     views: ["Tabs"],
     models: ["Location", "Order", "PictureFolder"],
-    stores: ["Locations", "Orders", "PictureFolders"],
+    stores: ["Locations", "Orders", "OrdersOnlyOld", "PictureFolders"],
 
     icon: {
         "57": "resources/icons/Icon.png",
