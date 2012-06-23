@@ -62,8 +62,9 @@ Ext.define("MobiPrint.view.OrderDetail", {
         var maxItemHeight = itemWidth
 
         // Remove old panel if any
-        if(this.getItems().length > 1)
-            this.remove(1)
+        var oldPanel = this.down("panel")
+        if(oldPanel)
+            oldPanel.destroy()
 
         var panel = Ext.create("Ext.Panel", {
             layout: "vbox",
