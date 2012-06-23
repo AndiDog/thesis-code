@@ -6,11 +6,17 @@ Ext.define("MobiPrint.controller.Orders", {
             currentOrderDetailView: "#current-order-detail",
             currentOrderNavigationView: "#currentorder-navigationview",
             locationSearchField: "#order-submission searchfield",
+            ordersList: "#orders-list",
             ordersListLabel: "#orders-list-label",
             ordersListNavigationView: "#orderslist-navigationview",
             orderSubmissionView: "#order-submission",
             showOrderSubmissionButton: "#show-submit-order-button",
             submitOrderButton: "#submit-order-button",
+            submitOrderConfirmationCheckbox: "#order-submission checkboxfield",
+            submitOrderStoresList: "#order-submission list",
+            submitOrderPasswordField: "#order-submission passwordfield",
+            submitOrderUsernameField: "#order-submission-username",
+            tabs: "#tabs",
             orderSubmissionView: "#order-submission",
         },
         control: {
@@ -127,15 +133,7 @@ Ext.define("MobiPrint.controller.Orders", {
     onLocationFieldChanged: function(field, newValue) {
         window.localStorage.setItem("loc", newValue)
 
-        if(this.retrieving)
-            return
-
-        this.retrieving = true
-
-        var _this = this
-
         setTimeout(function() {
-            _this.retrieving = false
             Ext.getStore("Locations").retrieve(window.localStorage.getItem("loc"))
         }, 1000)
     },
@@ -175,7 +173,48 @@ Ext.define("MobiPrint.controller.Orders", {
     },
 
     onSubmitOrder: function() {
-        Ext.getStore("Locations").retrieve("test location")
+        var username = this.getSubmitOrderUsernameField().getValue()
+        var password = this.getSubmitOrderPasswordField().getValue()
+
+        if(!this.getSubmitOrderConfirmationCheckbox().isChecked() ||
+           this.getSubmitOrderStoresList().getSelection().length != 1 ||
+           username.length == 0 ||
+           password.length == 0)
+        {
+            navigator.notification.alert(_("MUST_CONFIRM_ORDER"))
+            return
+        }
+
+        var storeId = this.getSubmitOrderStoresList().getSelection()[0].get("id")
+
+        var currentOrderId = Ext.getStore("Orders").findRecord("submissionDate", null).get("id")
+
+        var _this = this
+
+        Ext.Ajax.request({
+            url: WEB_SERVICE_BASE_URI + "order/" + currentOrderId + "/submit/",
+            method: "POST",
+            params: {
+                username: username,
+                password: password,
+                storeId: storeId
+            },
+            success: function() {
+                Ext.getStore("Orders").updateOrdersList()
+
+                // Show orders list
+                _this.getTabs().setActiveItem(0)
+
+                _this.getCurrentOrderNavigationView().pop()
+
+                setTimeout(function() {
+                    navigator.notification.alert(_("ORDER_SUBMITTED"))
+                }, 1000)
+            },
+            failure: function() {
+                navigator.notification.alert("Failed to submit order")
+            }
+        })
     },
 
     showOrderDetail: function(order) {

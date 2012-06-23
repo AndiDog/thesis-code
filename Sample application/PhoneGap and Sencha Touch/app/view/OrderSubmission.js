@@ -40,6 +40,7 @@ Ext.define("MobiPrint.view.OrderSubmission", {
                 xtype: "fieldset",
                 items: [{
                     xtype: "textfield",
+                    id: "order-submission-username",
                     label: _("USERNAME_COLON")
                 }, {
                     xtype: "passwordfield",
