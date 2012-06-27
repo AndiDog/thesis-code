@@ -24,7 +24,10 @@ Ext.define("MobiPrint.controller.Orders", {
                 show: "onShowOrderDetail"
             },
             "#order-submission searchfield": {
-                change: "onLocationFieldChanged"
+                change: "onLocationFieldChanged",
+
+                // Don't just use "change" event because that fires on blur, i.e. when the widget is unfocused
+                keyup: "onLocationFieldChanged"
             },
             "#orders-list": {
                 itemtap: "onDiscloseOrder"
@@ -79,11 +82,11 @@ Ext.define("MobiPrint.controller.Orders", {
         var _this = this
 
         var success = function(position) {
-            _this.getLocationSearchField().setValue(position.coords.latitude+","+position.coords.longitude)
+            _this.getLocationSearchField().setValue(position.coords.latitude + "," + position.coords.longitude)
         }
 
-        var fail = function() {
-            navigator.toast.showLongToast("Failed to retrieve position")
+        var fail = function(error) {
+            navigator.toast.showLongToast("Failed to retrieve position: " + error.message)
 
             _this.getLocationSearchField().setValue(window.localStorage.getItem("loc", ""))
         }
@@ -130,11 +133,14 @@ Ext.define("MobiPrint.controller.Orders", {
         this.showOrderDetail(record.data)
     },
 
-    onLocationFieldChanged: function(field, newValue) {
+    onLocationFieldChanged: function() {
+        var newValue = this.getLocationSearchField().getValue()
         window.localStorage.setItem("loc", newValue)
 
         setTimeout(function() {
-            Ext.getStore("Locations").retrieve(window.localStorage.getItem("loc"))
+            var loc = window.localStorage.getItem("loc")
+            console.log("Getting stores from location " + loc)
+            Ext.getStore("Locations").retrieve(loc)
         }, 1000)
     },
 
