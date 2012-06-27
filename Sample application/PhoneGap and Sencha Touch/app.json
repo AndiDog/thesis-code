@@ -36,7 +36,7 @@
             "path": "app/settings.js"
         },
         {
-            "path": "lib/cordova-1.8.1.js"
+            "path": "lib/cordova-1.9.0rc1.js"
         },
         {
             "path": "app/extensions.js"
