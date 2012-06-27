@@ -31,7 +31,7 @@ Ext.define("MobiPrint.view.OrdersList", {
                     '<div><strong>{[this.formatDate(values.submissionDate)]}</strong> <span class="right">{[this.formatNumPictures(values.pictureIds.length)]}</span></div>',
                 {
                     formatDate: function(d) {
-                        return Ext.util.Format.htmlEncode(Ext.util.Format.date(d, "l, jS F Y"))
+                        return Ext.util.Format.htmlEncode(Ext.util.Format.date(d, "l, F jS Y"))
                     },
                     formatNumPictures: function(count) {
                         return Ext.String.format(_("NUM_PICTURES_FMT"), count)
