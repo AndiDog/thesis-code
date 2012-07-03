@@ -8,7 +8,8 @@
         android:id="@+id/orders_list_heading"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="8dip" />
+        android:paddingBottom="2dip"
+        android:paddingLeft="4dip" />
 
     <ListView
         android:id="@android:id/list"
