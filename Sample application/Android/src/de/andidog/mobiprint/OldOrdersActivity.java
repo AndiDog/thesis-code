@@ -16,8 +16,6 @@ public class OldOrdersActivity extends ListActivity
 
     private int lastOrdersHashCode = -1;
 
-    private ArrayList<Order> orders = new ArrayList<Order>();
-
     private TextView heading;
 
     @Override
@@ -28,7 +26,7 @@ public class OldOrdersActivity extends ListActivity
 
         heading = (TextView)findViewById(R.id.orders_list_heading);
 
-        adapter = new OrderCollectionAdapter(this, orders);
+        adapter = OrderCollectionAdapter.getInstance(this);
         setListAdapter(adapter);
 
         refresh(true);
@@ -105,10 +103,13 @@ public class OldOrdersActivity extends ListActivity
 
                     if(lastOrdersHashCode != ordersHashCode)
                     {
-                        adapter.clear();
+                        synchronized(adapter)
+                        {
+                            adapter.clear();
 
-                        for(Order order : newOrders)
-                            adapter.add(order);
+                            for(Order order : newOrders)
+                                adapter.add(order);
+                        }
 
                         lastOrdersHashCode = ordersHashCode;
                     }
