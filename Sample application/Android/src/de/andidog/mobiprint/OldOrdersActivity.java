@@ -14,6 +14,8 @@ public class OldOrdersActivity extends ListActivity
 {
     private OrderCollectionAdapter adapter;
 
+    private int lastOrdersHashCode = -1;
+
     private ArrayList<Order> orders = new ArrayList<Order>();
 
     private TextView heading;
@@ -29,30 +31,64 @@ public class OldOrdersActivity extends ListActivity
         adapter = new OrderCollectionAdapter(this, orders);
         setListAdapter(adapter);
 
+        refresh(true);
         refresh();
     }
 
     private void refresh()
     {
-        DownloadOldOrdersTask task = new DownloadOldOrdersTask(this) {
+        refresh(false);
+    }
+
+    private void refresh(boolean forceUseCache)
+    {
+        final boolean forceUseCache_ = forceUseCache;
+
+        DownloadOldOrdersTask task = new DownloadOldOrdersTask(this, forceUseCache) {
             @Override
             protected void onPostExecute(JSONArray result)
             {
+                if(!forceUseCache_)
+                {
+                    Thread th = new Thread(new Runnable() {
+                        public void run() {
+                            try
+                            {
+                                Thread.sleep(60000);
+                            }
+                            catch(InterruptedException e)
+                            {
+                            }
+
+                            refresh(false);
+                        };
+                    });
+
+                    th.setDaemon(true);
+                    th.start();
+                }
+
                 super.onPostExecute(result);
 
                 if(result == null)
                     return;
 
-                adapter.clear();
-
                 try
                 {
+                    int ordersHashCode = 0;
+
+                    ArrayList<Order> newOrders = new ArrayList<Order>();
+
                     for(int i = 0; i < result.length(); ++i)
                     {
                         JSONObject orderJson = result.getJSONObject(i);
 
                         Order order = new Order();
                         order.setId(orderJson.getInt("id"));
+                        if(!orderJson.has("storeId") || orderJson.get("storeId") == null)
+                            order.setStoreId(null);
+                        else
+                            order.setStoreId(orderJson.getInt("storeId"));
                         order.setSubmissionDate(Iso8601.toCalendar(orderJson.getString("submissionDate")).getTime());
 
                         JSONArray pictureIdsJson = orderJson.getJSONArray("pictureIds");
@@ -62,9 +98,19 @@ public class OldOrdersActivity extends ListActivity
                             pictureIds[n] = pictureIdsJson.getInt(n);
 
                         order.setPictureIds(pictureIds);
-                        //order.setSubmissionDate();
 
-                        adapter.add(order);
+                        ordersHashCode = (int)(17 * order.hashCode() + ordersHashCode);
+                        newOrders.add(order);
+                    }
+
+                    if(lastOrdersHashCode != ordersHashCode)
+                    {
+                        adapter.clear();
+
+                        for(Order order : newOrders)
+                            adapter.add(order);
+
+                        lastOrdersHashCode = ordersHashCode;
                     }
                 }
                 catch(Exception e)

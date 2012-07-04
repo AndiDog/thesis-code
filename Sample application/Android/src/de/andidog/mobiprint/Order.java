@@ -8,6 +8,9 @@ public class Order
 
     private int[] pictureIds;
 
+    // May be NULL
+    private Integer storeId;
+
     private Date submissionDate;
 
     public int getId()
@@ -23,9 +26,20 @@ public class Order
         return pictureIds;
     }
 
+    public Integer getStoreId()
+    {
+        return storeId;
+    }
+
     public Date getSubmissionDate()
     {
         return submissionDate;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return (new Object[] { id, pictureIds, storeId, submissionDate }).hashCode();
     }
 
     public void setId(int id)
@@ -36,6 +50,11 @@ public class Order
     public void setPictureIds(int[] pictureIds)
     {
         this.pictureIds = pictureIds;
+    }
+
+    public void setStoreId(Integer storeId)
+    {
+        this.storeId = storeId;
     }
 
     public void setSubmissionDate(Date submissionDate)
