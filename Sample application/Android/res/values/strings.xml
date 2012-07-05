@@ -9,5 +9,9 @@
     <string name="current_order">Current order</string>
     <string name="old_orders_heading_fmt">There are %d old orders in total:</string>
     <string name="num_pictures">%d pictures</string>
+    <string name="order_num_pictures_fmt">This order has %d pictures:</string>
+    <string name="uploading">Uploading</string>
+    <string name="uploaded">Uploaded</string>
+    <string name="printed">Printed</string>
 
 </resources>

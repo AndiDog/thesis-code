@@ -34,8 +34,8 @@ public class TabsActivity extends TabActivity
         TabSpec currentOrderTab = tabHost.newTabSpec("current-order");
         currentOrderTab.setIndicator(getResources().getString(R.string.current_order),
                                      getResources().getDrawable(R.drawable.current_order_tab));
-        // TODO: added intent parameter to always make it show the current order
         Intent currentOrderIntent = new Intent(this, OrderDetailActivity.class);
+        currentOrderIntent.putExtra("showCurrentOrder", true);
         currentOrderTab.setContent(currentOrderIntent);
 
         tabHost.addTab(oldOrdersTab);
