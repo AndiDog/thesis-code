@@ -3,81 +3,42 @@ package de.andidog.mobiprint;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Filter;
 import android.widget.TextView;
 
 public class OrderCollectionAdapter extends ArrayAdapter<Order>
 {
-    private Filter filter;
-
     private static OrderCollectionAdapter instance;
 
     private static ArrayList<Order> orders = new ArrayList<Order>();
+
     private static ArrayList<Order> filteredOrders = new ArrayList<Order>();
 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE, MMMM d--- yyyy");
 
-    private Object lock = new Object();
-
     private OrderCollectionAdapter(Context context)
     {
-        super(context, 0, orders);
-
-        filteredOrders = orders;
+        super(context, 0, filteredOrders);
     }
 
-    @Override
-    public Filter getFilter()
+    public synchronized void filter()
     {
-        if(filter != null)
-            return filter;
+        filteredOrders.clear();
+        for(Order order : orders)
+            if(order.getSubmissionDate() != null)
+                filteredOrders.add(order);
 
-        filter = new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint)
-            {
-                FilterResults ret = new FilterResults();
+        notifyDataSetChanged();
+    }
 
-                synchronized(lock)
-                {
-                    final ArrayList<Order> filteredItems = new ArrayList<Order>();
-
-                    for(Order order : orders)
-                        if(order.getSubmissionDate() != null)
-                            filteredItems.add(order);
-
-                    ret.values = filteredItems;
-                    ret.count = filteredItems.size();
-                }
-
-                return ret;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results)
-            {
-                synchronized(lock)
-                {
-                    @SuppressWarnings("unchecked")
-                    final ArrayList<Order> filteredItems = (ArrayList<Order>)results.values;
-                    notifyDataSetChanged();
-                    clear();
-
-                    filteredOrders = new ArrayList<Order>();
-                    for(Iterator<Order> iterator = filteredItems.iterator(); iterator.hasNext();)
-                        filteredOrders.add((Order)iterator.next());
-                }
-            }
-        };
-
-        return filter;
+    public ArrayList<Order> getAllOrders()
+    {
+        return orders;
     }
 
     public synchronized static OrderCollectionAdapter getInstance(Context fixedContext)
@@ -114,15 +75,13 @@ public class OrderCollectionAdapter extends ArrayAdapter<Order>
 
         Order order = null;
 
-        if(position < filteredOrders.size())
-            order = filteredOrders.get(position);
+        order = filteredOrders.get(position);
 
         if(order != null && order.getSubmissionDate() != null)
         {
             TextView dateTextView = (TextView)view.findViewById(R.id.order_date);
             TextView numPicturesTextView = (TextView)view.findViewById(R.id.num_pictures);
 
-            // TODO: format date
             dateTextView.setText(dateFormatter.format(order.getSubmissionDate())
                             .replace("---", getMonthDayEnding(order.getSubmissionDate())));
             numPicturesTextView.setText(String.format(getContext().getResources().getString(R.string.num_pictures),

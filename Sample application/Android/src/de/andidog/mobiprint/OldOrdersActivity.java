@@ -83,11 +83,16 @@ public class OldOrdersActivity extends ListActivity
 
                         Order order = new Order();
                         order.setId(orderJson.getInt("id"));
-                        if(!orderJson.has("storeId") || orderJson.get("storeId") == null)
+
+                        if(!orderJson.has("storeId") || orderJson.isNull("storeId"))
                             order.setStoreId(null);
                         else
                             order.setStoreId(orderJson.getInt("storeId"));
-                        order.setSubmissionDate(Iso8601.toCalendar(orderJson.getString("submissionDate")).getTime());
+
+                        if(orderJson.isNull("submissionDate"))
+                            order.setSubmissionDate(null);
+                        else
+                            order.setSubmissionDate(Iso8601.toCalendar(orderJson.getString("submissionDate")).getTime());
 
                         JSONArray pictureIdsJson = orderJson.getJSONArray("pictureIds");
                         int[] pictureIds = new int[pictureIdsJson.length()];
@@ -105,10 +110,15 @@ public class OldOrdersActivity extends ListActivity
                     {
                         synchronized(adapter)
                         {
-                            adapter.clear();
+                            ArrayList<Order> orders = adapter.getAllOrders();
+
+                            orders.clear();
 
                             for(Order order : newOrders)
-                                adapter.add(order);
+                                orders.add(order);
+
+                            // Yes, stupid hack, but I'm not willing to spend more time on more sophisticated filtering
+                            adapter.filter();
                         }
 
                         lastOrdersHashCode = ordersHashCode;
@@ -119,7 +129,9 @@ public class OldOrdersActivity extends ListActivity
                     Toast.makeText(context, "Invalid JSON: " + e, Toast.LENGTH_LONG).show();
                 }
 
-                heading.setText(String.format(getResources().getString(R.string.old_orders_heading_fmt), adapter.getCount()));
+                int oldOrdersCount = adapter.getCount();
+
+                heading.setText(String.format(getResources().getString(R.string.old_orders_heading_fmt), oldOrdersCount));
             }
         };
 
