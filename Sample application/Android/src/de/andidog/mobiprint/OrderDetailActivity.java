@@ -1,10 +1,14 @@
 package de.andidog.mobiprint;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -89,11 +93,43 @@ public class OrderDetailActivity extends Activity
         final int border =  5;
         final int thumbMargin = 5;
         int cx = (viewWidthPx - 2 * border) / numPicturesX - thumbMargin;
-        int i = 0;
         TableRow row = null;
 
-        for(int pictureId : orderToShow.getPictureIds())
+        Set<String> uploadingPictures = PictureUploadTask.getUploadingPictures();
+        Iterator<String> uploadingPicturesIterator = uploadingPictures.iterator();
+        int numOrderPictures = orderToShow.getPictureIds().length;
+        int numUploadingPictures = uploadingPictures.size();
+
+        for(int i = 0; i < numOrderPictures + numUploadingPictures; ++i)
         {
+            int pictureId = -1;
+            String uploadingFilename = null;
+            int statePictureId;
+            int stateStringId;
+
+            if(i >= numOrderPictures)
+            {
+                uploadingFilename = uploadingPicturesIterator.next();
+                statePictureId = R.drawable.uploading;
+                stateStringId = R.string.uploading;
+            }
+            else
+            {
+                pictureId = orderToShow.getPictureIds()[i];
+
+                if(orderToShow.getSubmissionDate() == null)
+                {
+                    statePictureId = R.drawable.uploaded;
+                    stateStringId = R.string.uploaded;
+                }
+                else
+                {
+                    statePictureId = R.drawable.printed;
+                    stateStringId = R.string.printed;
+                }
+            }
+
+
             if(i % numPicturesX == 0)
             {
                 if(row != null)
@@ -108,22 +144,46 @@ public class OrderDetailActivity extends Activity
             LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             FrameLayout thumbnailLayout = (FrameLayout)inflater.inflate(R.layout.thumbnail, null);
 
-            ImageView img = (ImageView)thumbnailLayout.findViewById(R.id.thumbnail_image);
+            final ImageView img = (ImageView)thumbnailLayout.findViewById(R.id.thumbnail_image);
             ViewGroup.LayoutParams layout = img.getLayoutParams();
             layout.width = cx;
             layout.height = cx;
             img.setLayoutParams(layout);
             img.setImageDrawable(getResources().getDrawable(R.drawable.test_thumbnail));
 
+            if(i >= numOrderPictures)
+            {
+                img.setImageURI(Uri.fromFile(new File(uploadingFilename)));
+
+            }
+            else
+            {
+                File thumbnailFile = DownloadThumbnailTask.getFile(this, pictureId);
+                if(thumbnailFile.exists() && thumbnailFile.length() > 500)
+                    img.setImageURI(Uri.fromFile(thumbnailFile));
+                else
+                {
+                    // Have to download thumbnail
+                    new DownloadThumbnailTask(this, getWindowManager(), pictureId)
+                    {
+                        protected void onPostExecute(Void result)
+                        {
+                            super.onPostExecute(result);
+                            File newThumbnailFile = getFile(false);
+                            if(newThumbnailFile.exists() && newThumbnailFile.length() > 500)
+                                img.setImageURI(Uri.fromFile(newThumbnailFile));
+                        }
+                    }.execute();
+                }
+            }
+
             ImageView stateImg = (ImageView)thumbnailLayout.findViewById(R.id.thumbnail_state_image);
-            stateImg.setImageDrawable(getResources().getDrawable(R.drawable.uploading));
+            stateImg.setImageDrawable(getResources().getDrawable(statePictureId));
 
             TextView stateTextView = (TextView)thumbnailLayout.findViewById(R.id.state_text);
-            stateTextView.setText(getResources().getString(R.string.uploading));
+            stateTextView.setText(getResources().getString(stateStringId));
 
             row.addView(thumbnailLayout);
-
-            ++i;
         }
 
         if(row != null)
