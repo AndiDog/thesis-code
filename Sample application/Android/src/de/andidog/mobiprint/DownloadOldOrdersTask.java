@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.CharBuffer;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -81,7 +80,7 @@ public class DownloadOldOrdersTask extends AsyncTask<Void, Void, JSONArray>
                 int len = in.read(buffer, 0, buffer.length);
                 return new JSONArray(String.valueOf(buffer, 0, len));
             }
-            else if(!forceUseCache)
+            else
             {
                 DefaultHttpClient client = new DefaultHttpClient();
                 HttpResponse response;
@@ -101,10 +100,10 @@ public class DownloadOldOrdersTask extends AsyncTask<Void, Void, JSONArray>
 
                 res = new JSONObject(builder.toString());
 
-                return res.getJSONArray("orders");
+                JSONArray ret = res.getJSONArray("orders");
+                cacheResult(ret);
+                return ret;
             }
-
-            return null;
         }
         catch(Exception e)
         {
@@ -122,7 +121,5 @@ public class DownloadOldOrdersTask extends AsyncTask<Void, Void, JSONArray>
             Toast toast = Toast.makeText(context, error, Toast.LENGTH_LONG);
             toast.show();
         }
-        else
-            cacheResult(result);
     }
 }

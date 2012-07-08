@@ -84,7 +84,7 @@ public class OrderCollectionAdapter extends ArrayAdapter<Order>
 
             dateTextView.setText(dateFormatter.format(order.getSubmissionDate())
                             .replace("---", getMonthDayEnding(order.getSubmissionDate())));
-            numPicturesTextView.setText(String.format(getContext().getResources().getString(R.string.num_pictures),
+            numPicturesTextView.setText(String.format(getContext().getResources().getString(R.string.num_pictures_fmt),
                                                       order.getPictureIds().length));
         }
 
