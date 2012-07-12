@@ -8,9 +8,18 @@ import android.widget.TabHost.TabSpec;
 
 public class TabsActivity extends TabActivity
 {
+    private static TabsActivity instance;
+
+    public static TabsActivity getInstance()
+    {
+        return instance;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        instance = this;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 

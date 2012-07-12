@@ -8,14 +8,20 @@ import java.util.Set;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.database.DataSetObserver;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -26,6 +32,10 @@ public class OrderDetailActivity extends Activity
     private OrderCollectionAdapter adapter;
 
     private Order orderToShow;
+
+    private boolean showCurrentOrder;
+
+    private static final String TAG = "OrderDetailActivity";
 
     @Override
     public void onConfigurationChanged(Configuration newConfig)
@@ -41,14 +51,41 @@ public class OrderDetailActivity extends Activity
         super.onCreate(savedInstanceState);
 
         // TODO: either this or the order ID
-        boolean showCurrentOrder = getIntent().getExtras().getBoolean("showCurrentOrder", false);
+        showCurrentOrder = getIntent().getExtras().getBoolean("showCurrentOrder", false);
 
         adapter = OrderCollectionAdapter.getInstance(this);
 
         orderToShow = null;
 
+        relayout();
+    }
+
+    private void relayout()
+    {
         if(showCurrentOrder)
         {
+            adapter.setNotifyOnChange(true);
+            adapter.registerDataSetObserver(new DataSetObserver() {
+                @Override
+                public void onChanged()
+                {
+                    relayout();
+                }
+            });
+            PictureUploadTask.registerObserver(new DataSetObserver() {
+                @Override
+                public void onChanged()
+                {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            relayout();
+                        }
+                    });
+                }
+            });
+
             ArrayList<Order> allOrders;
             synchronized(adapter)
             {
@@ -74,11 +111,6 @@ public class OrderDetailActivity extends Activity
                                                orderToShow.getPictureIds().length);
         ((TextView)findViewById(R.id.order_num_pictures)).setText(numPicturesText);
 
-        relayout();
-    }
-
-    private void relayout()
-    {
         // Lay out in a way that each thumbnail is at least 1.5 cm wide.
         // Cannot use order_detail_layout's width because on orientation change, it stays the same and only after this
         // call gets a different width.
@@ -153,7 +185,19 @@ public class OrderDetailActivity extends Activity
 
             if(i >= numOrderPictures)
             {
-                img.setImageURI(Uri.fromFile(new File(uploadingFilename)));
+                Bitmap bmp = BitmapFactory.decodeFile(uploadingFilename);
+                if(bmp == null)
+                    Log.e(TAG, "Failed to decode picture " + uploadingFilename);
+                else
+                {
+                    int imageWidthPx = Math.min(bmp.getWidth(), cx);
+                    int imageHeightPx = bmp.getHeight() * imageWidthPx / bmp.getWidth();
+
+                    Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, imageWidthPx, imageHeightPx, true);
+                    bmp.recycle();
+
+                    img.setImageBitmap(scaledBmp);
+                }
             }
             else
             {

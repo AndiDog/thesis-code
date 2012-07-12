@@ -12,7 +12,7 @@
         android:scaleType="centerInside" />
 
     <CheckBox
-        android:id="@+id/pictures_scrollview"
+        android:id="@+id/picture_checkbox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/select_for_printing" />

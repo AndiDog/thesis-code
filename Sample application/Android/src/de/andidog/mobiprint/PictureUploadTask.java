@@ -1,30 +1,29 @@
 package de.andidog.mobiprint;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-public class PictureUploadTask extends AsyncTask<Void, Void, Void>
+public class PictureUploadTask extends AsyncTask<String, Void, Void>
 {
     private Context context;
 
     private String error;
 
-    protected String filename;
+    private static List<DataSetObserver> observers = new ArrayList<DataSetObserver>();
 
     private static Set<String> uploadingPictureIds = new HashSet<String>();
 
-    public PictureUploadTask(Context context, String filename)
+    public PictureUploadTask(Context context)
     {
         this.context = context;
         this.error = null;
-        this.filename = filename;
-
-        if(isPictureUploading(filename))
-            throw new RuntimeException("Can't start picture upload of the same file twice");
     }
 
     public synchronized static Set<String> getUploadingPictures()
@@ -38,10 +37,25 @@ public class PictureUploadTask extends AsyncTask<Void, Void, Void>
     }
 
     @Override
-    protected Void doInBackground(Void... params)
+    protected Void doInBackground(String... params)
     {
         try
         {
+            for(String filename : params)
+            {
+                if(isPictureUploading(filename))
+                    throw new RuntimeException("Can't start picture upload of the same file twice");
+
+                uploadingPictureIds.add(filename);
+            }
+
+            notifyUploadingPicturesChanged();
+
+            for(String filename : params)
+            {
+                // TODO: ACTUAL UPLOAD
+            }
+
             return null;
         }
         catch(Exception e)
@@ -50,6 +64,17 @@ public class PictureUploadTask extends AsyncTask<Void, Void, Void>
 
             return null;
         }
+        finally
+        {
+            // TODO: RESET ISUPLOADING
+            notifyUploadingPicturesChanged();
+        }
+    }
+
+    private static void notifyUploadingPicturesChanged()
+    {
+        for(DataSetObserver observer : observers)
+            observer.onChanged();
     }
 
     @Override
@@ -60,5 +85,10 @@ public class PictureUploadTask extends AsyncTask<Void, Void, Void>
             Toast toast = Toast.makeText(context, error, Toast.LENGTH_LONG);
             toast.show();
         }
+    }
+
+    public static void registerObserver(DataSetObserver dataSetObserver)
+    {
+        observers.add(dataSetObserver);
     }
 }
