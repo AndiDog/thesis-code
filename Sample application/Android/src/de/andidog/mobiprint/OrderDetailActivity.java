@@ -29,6 +29,8 @@ public class OrderDetailActivity extends Activity
 {
     private OrderCollectionAdapter adapter;
 
+    private Integer orderIdToShow;
+
     private Order orderToShow;
 
     private boolean showCurrentOrder;
@@ -48,8 +50,11 @@ public class OrderDetailActivity extends Activity
     {
         super.onCreate(savedInstanceState);
 
-        // TODO: either this or the order ID
         showCurrentOrder = getIntent().getExtras().getBoolean("showCurrentOrder", false);
+        if(!showCurrentOrder)
+            orderIdToShow = getIntent().getExtras().getInt("orderId");
+        else
+            orderIdToShow = null;
 
         adapter = OrderCollectionAdapter.getInstance(this);
 
@@ -91,26 +96,35 @@ public class OrderDetailActivity extends Activity
 
     private void relayout()
     {
+        ArrayList<Order> allOrders;
+        synchronized(adapter)
+        {
+            allOrders = adapter.getAllOrders();
+        }
+
+        orderToShow = null;
+
         if(showCurrentOrder)
         {
-            ArrayList<Order> allOrders;
-            synchronized(adapter)
-            {
-                allOrders = adapter.getAllOrders();
-            }
-
             for(Order order : allOrders)
                 if(order.getSubmissionDate() == null)
                 {
                     orderToShow = order;
                     break;
                 }
-
-            if(orderToShow == null)
-                orderToShow = new Order();
         }
         else
-            throw new UnsupportedOperationException("not implemented yet");
+        {
+            for(Order order : allOrders)
+                if(order.getId() == orderIdToShow)
+                {
+                    orderToShow = order;
+                    break;
+                }
+        }
+
+        if(orderToShow == null)
+            orderToShow = new Order();
 
         setContentView(R.layout.order_detail);
 

@@ -6,8 +6,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +56,20 @@ public class OldOrdersActivity extends ListActivity
                 });
             }
         });
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id)
+    {
+        super.onListItemClick(l, v, position, id);
+
+        Order order = adapter.getItem(position);
+        if(order == null)
+            return;
+
+        Intent orderDetailIntent = new Intent(this, OrderDetailActivity.class);
+        orderDetailIntent.putExtra("orderId", order.getId());
+        startActivity(orderDetailIntent);
     }
 
     private void refresh(boolean forceUseCache, boolean forceRequest)
