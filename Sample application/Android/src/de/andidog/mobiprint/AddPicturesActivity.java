@@ -58,7 +58,7 @@ public class AddPicturesActivity extends ListActivity
     {
         final boolean forceUseCache_ = forceUseCache;
 
-        ScanPictureFoldersTask task = new ScanPictureFoldersTask(this, this, forceUseCache) {
+        ScanPictureFoldersTask task = new ScanPictureFoldersTask(this, forceUseCache) {
             @Override
             protected void onPostExecute(List<PictureFolder> result)
             {

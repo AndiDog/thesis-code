@@ -64,7 +64,8 @@ public class AddPicturesSelectionActivity extends Activity
 
                 if(numSelectedPictures > 0)
                 {
-                    new PictureUploadTask(context).execute(filenamesToUpload.toArray(new String[0]));
+                    String[] filenamesToUploadArray = filenamesToUpload.toArray(new String[numSelectedPictures]);
+                    new PictureUploadTask(context).execute(filenamesToUploadArray);
 
                     finish();
                     Toast.makeText(context,

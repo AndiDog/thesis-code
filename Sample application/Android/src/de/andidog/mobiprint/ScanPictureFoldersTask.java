@@ -14,7 +14,6 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -22,17 +21,14 @@ import android.widget.Toast;
 
 public class ScanPictureFoldersTask extends AsyncTask<Void, Void, List<PictureFolder>>
 {
-    private Activity activity;
-
     protected Context context;
 
     private String error;
 
     private boolean forceUseCache;
 
-    public ScanPictureFoldersTask(Activity activity, Context context, boolean forceUseCache)
+    public ScanPictureFoldersTask(Context context, boolean forceUseCache)
     {
-        this.activity = activity;
         this.context = context;
         this.error = null;
         this.forceUseCache = forceUseCache;

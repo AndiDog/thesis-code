@@ -23,13 +23,19 @@ public class DownloadOldOrdersTask extends AsyncTask<Void, Void, JSONArray>
 
     private String error;
 
+    private boolean forceRequest;
+
     private boolean forceUseCache;
 
-    public DownloadOldOrdersTask(Context context, boolean forceUseCache)
+    public DownloadOldOrdersTask(Context context, boolean forceUseCache, boolean forceRequest)
     {
+        if(forceUseCache && forceRequest)
+            throw new RuntimeException("Assertion failed: !(forceUseCache && forceRequest)");
+
         this.context = context;
         this.error = null;
         this.forceUseCache = forceUseCache;
+        this.forceRequest = forceRequest;
     }
 
     private void cacheResult(JSONArray result)
@@ -69,7 +75,7 @@ public class DownloadOldOrdersTask extends AsyncTask<Void, Void, JSONArray>
             File cachedFile = new File(cacheDir.getAbsolutePath(), "orders.json");
             FileInputStream stream = null;
 
-            if(cachedFile.exists() && cachedFile.length() < 1048576 &&
+            if(!forceRequest && cachedFile.exists() && cachedFile.length() < 1048576 &&
                (System.currentTimeMillis() - cachedFile.lastModified() < 30000 || forceUseCache))
             {
                 stream = new FileInputStream(cachedFile);

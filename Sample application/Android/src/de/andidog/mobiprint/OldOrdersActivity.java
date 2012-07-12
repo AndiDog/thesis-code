@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.ListActivity;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,9 +15,16 @@ public class OldOrdersActivity extends ListActivity
 {
     private OrderCollectionAdapter adapter;
 
+    private static OldOrdersActivity instance;
+
     private int lastOrdersHashCode = -1;
 
     private TextView heading;
+
+    public static OldOrdersActivity getInstance()
+    {
+        return instance;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -29,24 +37,34 @@ public class OldOrdersActivity extends ListActivity
         adapter = OrderCollectionAdapter.getInstance(this);
         setListAdapter(adapter);
 
-        refresh(true);
-        refresh();
+        refresh(true, false);
+        refresh(false, false);
+
+        PictureUploadTask.registerObserver(new DataSetObserver() {
+            @Override
+            public void onChanged()
+            {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        refresh(false, true);
+                    }
+                });
+            }
+        });
     }
 
-    private void refresh()
-    {
-        refresh(false);
-    }
-
-    private void refresh(boolean forceUseCache)
+    private void refresh(boolean forceUseCache, boolean forceRequest)
     {
         final boolean forceUseCache_ = forceUseCache;
+        final boolean forceRequest_ = forceRequest;
 
-        DownloadOldOrdersTask task = new DownloadOldOrdersTask(this, forceUseCache) {
+        DownloadOldOrdersTask task = new DownloadOldOrdersTask(this, forceUseCache, forceRequest) {
             @Override
             protected void onPostExecute(JSONArray result)
             {
-                if(!forceUseCache_)
+                if(!forceUseCache_ && !forceRequest_)
                 {
                     Thread th = new Thread(new Runnable() {
                         public void run() {
@@ -58,7 +76,7 @@ public class OldOrdersActivity extends ListActivity
                             {
                             }
 
-                            refresh(false);
+                            refresh(false, false);
                         };
                     });
 

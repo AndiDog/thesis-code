@@ -1,9 +1,16 @@
 package de.andidog.mobiprint;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -18,7 +25,7 @@ public class PictureUploadTask extends AsyncTask<String, Void, Void>
 
     private static List<DataSetObserver> observers = new ArrayList<DataSetObserver>();
 
-    private static Set<String> uploadingPictureIds = new HashSet<String>();
+    private static Set<String> uploadingPictureFilenames = new HashSet<String>();
 
     public PictureUploadTask(Context context)
     {
@@ -26,34 +33,54 @@ public class PictureUploadTask extends AsyncTask<String, Void, Void>
         this.error = null;
     }
 
-    public synchronized static Set<String> getUploadingPictures()
+    public static Set<String> getUploadingPictures()
     {
-        return new HashSet<String>(uploadingPictureIds);
+        synchronized(uploadingPictureFilenames)
+        {
+            return new HashSet<String>(uploadingPictureFilenames);
+        }
     }
 
-    public synchronized static boolean isPictureUploading(String filename)
+    public static boolean isPictureUploading(String filename)
     {
-        return uploadingPictureIds.contains(filename);
+        synchronized(uploadingPictureFilenames)
+        {
+            return uploadingPictureFilenames.contains(filename);
+        }
     }
 
     @Override
     protected Void doInBackground(String... params)
     {
+        for(String filename : params)
+        {
+            if(isPictureUploading(filename))
+                throw new RuntimeException("Can't start picture upload of the same file twice");
+        }
+
         try
         {
-            for(String filename : params)
+            synchronized(uploadingPictureFilenames)
             {
-                if(isPictureUploading(filename))
-                    throw new RuntimeException("Can't start picture upload of the same file twice");
-
-                uploadingPictureIds.add(filename);
+                for(String filename : params)
+                    uploadingPictureFilenames.add(filename);
             }
 
             notifyUploadingPicturesChanged();
 
             for(String filename : params)
             {
-                // TODO: ACTUAL UPLOAD
+                DefaultHttpClient client = new DefaultHttpClient();
+                HttpResponse response;
+
+                HttpPut request = new HttpPut(Settings.BASE_URI + "pictures/");
+                MultipartEntity entity = new MultipartEntity();
+                entity.addPart("picture", new FileBody(new File(filename), "image/jpeg"));
+                request.setEntity(entity);
+                response = client.execute(request);
+
+                if(response.getStatusLine().getStatusCode() < 200 || response.getStatusLine().getStatusCode() >= 300)
+                    throw new Exception("Status " + response.getStatusLine());
             }
 
             return null;
@@ -66,12 +93,17 @@ public class PictureUploadTask extends AsyncTask<String, Void, Void>
         }
         finally
         {
-            // TODO: RESET ISUPLOADING
+            synchronized(uploadingPictureFilenames)
+            {
+                for(String filename : params)
+                    uploadingPictureFilenames.remove(filename);
+            }
+
             notifyUploadingPicturesChanged();
         }
     }
 
-    private static void notifyUploadingPicturesChanged()
+    private synchronized static void notifyUploadingPicturesChanged()
     {
         for(DataSetObserver observer : observers)
             observer.onChanged();
@@ -87,7 +119,7 @@ public class PictureUploadTask extends AsyncTask<String, Void, Void>
         }
     }
 
-    public static void registerObserver(DataSetObserver dataSetObserver)
+    public synchronized static void registerObserver(DataSetObserver dataSetObserver)
     {
         observers.add(dataSetObserver);
     }

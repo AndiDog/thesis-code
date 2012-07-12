@@ -17,11 +17,9 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -57,11 +55,6 @@ public class OrderDetailActivity extends Activity
 
         orderToShow = null;
 
-        relayout();
-    }
-
-    private void relayout()
-    {
         if(showCurrentOrder)
         {
             adapter.setNotifyOnChange(true);
@@ -69,7 +62,13 @@ public class OrderDetailActivity extends Activity
                 @Override
                 public void onChanged()
                 {
-                    relayout();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            relayout();
+                        }
+                    });
                 }
             });
             PictureUploadTask.registerObserver(new DataSetObserver() {
@@ -85,7 +84,15 @@ public class OrderDetailActivity extends Activity
                     });
                 }
             });
+        }
 
+        relayout();
+    }
+
+    private void relayout()
+    {
+        if(showCurrentOrder)
+        {
             ArrayList<Order> allOrders;
             synchronized(adapter)
             {
@@ -185,25 +192,47 @@ public class OrderDetailActivity extends Activity
 
             if(i >= numOrderPictures)
             {
-                Bitmap bmp = BitmapFactory.decodeFile(uploadingFilename);
-                if(bmp == null)
-                    Log.e(TAG, "Failed to decode picture " + uploadingFilename);
-                else
+                for(int n = 0; n < 2; ++n)
                 {
-                    int imageWidthPx = Math.min(bmp.getWidth(), cx);
-                    int imageHeightPx = bmp.getHeight() * imageWidthPx / bmp.getWidth();
+                    try
+                    {
+                        Bitmap bmp = BitmapFactory.decodeFile(uploadingFilename);
+                        if(bmp == null)
+                            Log.e(TAG, "Failed to decode picture " + uploadingFilename);
+                        else
+                        {
+                            int imageWidthPx = Math.min(bmp.getWidth(), cx);
+                            int imageHeightPx = bmp.getHeight() * imageWidthPx / bmp.getWidth();
 
-                    Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, imageWidthPx, imageHeightPx, true);
-                    bmp.recycle();
+                            Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, imageWidthPx, imageHeightPx, true);
+                            bmp.recycle();
+                            bmp = null;
 
-                    img.setImageBitmap(scaledBmp);
+                            img.setImageBitmap(scaledBmp);
+                        }
+
+                        break;
+                    }
+                    catch(OutOfMemoryError e)
+                    {
+                        System.gc();
+                    }
                 }
             }
             else
             {
                 File thumbnailFile = DownloadThumbnailTask.getFile(this, pictureId);
                 if(thumbnailFile.exists() && thumbnailFile.length() > 500)
-                    img.setImageURI(Uri.fromFile(thumbnailFile));
+                {
+                    try
+                    {
+                        img.setImageURI(Uri.fromFile(thumbnailFile));
+                    }
+                    catch(OutOfMemoryError e)
+                    {
+                        System.gc();
+                    }
+                }
                 else
                 {
                     // Have to download thumbnail
@@ -214,7 +243,14 @@ public class OrderDetailActivity extends Activity
                             super.onPostExecute(result);
                             File newThumbnailFile = getFile(false);
                             if(newThumbnailFile.exists() && newThumbnailFile.length() > 500)
-                                img.setImageURI(Uri.fromFile(newThumbnailFile));
+                                try
+                                {
+                                    img.setImageURI(Uri.fromFile(newThumbnailFile));
+                                }
+                                catch(OutOfMemoryError e)
+                                {
+                                    System.gc();
+                                }
                         }
                     }.execute();
                 }
