@@ -27,6 +27,9 @@
             android:name=".AddPicturesActivity"
             android:configChanges="orientation|keyboardHidden" />
         <activity
+            android:name=".AddPicturesSelectionActivity"
+            android:configChanges="orientation|keyboardHidden" />
+        <activity
             android:name=".OldOrdersActivity"
             android:configChanges="orientation|keyboardHidden" />
         <activity

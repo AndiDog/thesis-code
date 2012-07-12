@@ -151,7 +151,8 @@ public class ScanPictureFoldersTask extends AsyncTask<Void, Void, List<PictureFo
             public boolean accept(File file)
             {
                 return !file.getName().startsWith(".")
-                       && (file.isDirectory() || (file.isFile() && file.getName().toLowerCase().endsWith(".jpg")));
+                       && (file.isDirectory() || (file.isFile() && file.getName().toLowerCase().endsWith(".jpg")
+                                                  && file.length() < 2048576));
             }
         });
 

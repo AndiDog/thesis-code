@@ -3,11 +3,11 @@ package de.andidog.mobiprint;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +32,21 @@ public class AddPicturesActivity extends ListActivity
 
         refresh(true);
         refresh();
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id)
+    {
+        super.onListItemClick(l, v, position, id);
+
+        PictureFolder folder = adapter.getItem(position);
+
+        if(folder == null)
+            return;
+
+        Intent selectPicturesIntent = new Intent(this, AddPicturesSelectionActivity.class);
+        selectPicturesIntent.putExtra("path", folder.getPath());
+        startActivity(selectPicturesIntent);
     }
 
     private void refresh()

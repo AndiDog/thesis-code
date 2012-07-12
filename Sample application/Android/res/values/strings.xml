@@ -14,5 +14,7 @@
     <string name="uploaded">Uploaded</string>
     <string name="printed">Printed</string>
     <string name="add_pictures_heading_fmt">There are %d folders with pictures:</string>
+    <string name="select_for_printing">Add the above picture</string>
+    <string name="num_pictures_in_folder_fmt">There are %d pictures in this folder:</string>
 
 </resources>

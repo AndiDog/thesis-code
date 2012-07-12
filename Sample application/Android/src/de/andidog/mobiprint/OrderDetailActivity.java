@@ -154,7 +154,6 @@ public class OrderDetailActivity extends Activity
             if(i >= numOrderPictures)
             {
                 img.setImageURI(Uri.fromFile(new File(uploadingFilename)));
-
             }
             else
             {
