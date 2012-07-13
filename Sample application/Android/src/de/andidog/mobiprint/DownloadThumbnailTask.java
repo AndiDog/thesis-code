@@ -136,7 +136,7 @@ public class DownloadThumbnailTask extends AsyncTask<Void, Void, Void>
     {
         if(error != null)
         {
-            Toast toast = Toast.makeText(context, error, Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(context, error, Toast.LENGTH_SHORT);
             toast.show();
         }
     }

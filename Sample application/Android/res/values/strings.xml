@@ -21,7 +21,7 @@
     <string name="username">Username:</string>
     <string name="password">Password:</string>
     <string name="confirm_order">Confirm order</string>
-    <string name="submit_ellipsis">Submit&#8230;</string>
+    <string name="submit_for_printing">Submit for printing…</string>
     <string name="submit_order">Submit order</string>
     <string name="submit_heading_fmt">To submit your order of %d pictures, select a pick-up location close to you and enter your details.</string>
     <string name="enter_address">Enter an address to show stores near you:</string>

@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 public class DownloadStoresTask extends AsyncTask<String, Void, JSONArray>
 {
+    private boolean cancel;
+
     protected Context context;
 
     private String error;
@@ -29,11 +31,28 @@ public class DownloadStoresTask extends AsyncTask<String, Void, JSONArray>
         this.error = null;
     }
 
+    public void cancel()
+    {
+        cancel = true;
+    }
+
     @Override
     protected JSONArray doInBackground(String... params)
     {
         if(params.length != 1)
             throw new AssertionError();
+
+        // This is for delaying the task while the user types, and so that a task can be canceled
+        try
+        {
+            Thread.sleep(2000);
+        }
+        catch(InterruptedException e)
+        {
+        }
+
+        if(cancel)
+            return null;
 
         String loc = params[0];
 
@@ -79,7 +98,7 @@ public class DownloadStoresTask extends AsyncTask<String, Void, JSONArray>
     @Override
     protected void onPostExecute(JSONArray result)
     {
-        if(result == null)
+        if(error != null)
         {
             Toast toast = Toast.makeText(context, error, Toast.LENGTH_LONG);
             toast.show();

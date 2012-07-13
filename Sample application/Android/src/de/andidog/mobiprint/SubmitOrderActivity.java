@@ -39,6 +39,8 @@ public class SubmitOrderActivity extends Activity
 
     private String currentLocation = null;
 
+    private DownloadStoresTask downloadStoresTask = null;
+
     private EditText locationEditText;
 
     private LocationListener locationListener;
@@ -180,7 +182,6 @@ public class SubmitOrderActivity extends Activity
                     @Override
                     public void afterTextChanged(Editable s)
                     {
-                        setCurrentLocation(s.toString());
                     }
 
                     @Override
@@ -191,6 +192,7 @@ public class SubmitOrderActivity extends Activity
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count)
                     {
+                        setCurrentLocation(s.toString());
                     }
                 });
             }
@@ -263,11 +265,14 @@ public class SubmitOrderActivity extends Activity
     private synchronized void setCurrentLocation(String currentLocation)
     {
         boolean initial = this.currentLocation == null;
+        String previousLocation = this.currentLocation;
         this.currentLocation = currentLocation.trim();
 
-        if(initial || !locationEditText.getText().toString().equals(this.currentLocation))
+        if(initial || !previousLocation.equals(this.currentLocation))
         {
-            locationEditText.setText(this.currentLocation);
+            if(!locationEditText.getText().toString().trim().equals(this.currentLocation))
+                locationEditText.setText(this.currentLocation);
+
             updateStores();
 
             if(this.currentLocation.length() > 0)
@@ -362,14 +367,20 @@ public class SubmitOrderActivity extends Activity
         locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
     }
 
-    private void updateStores()
+    private synchronized void updateStores()
     {
+        if(downloadStoresTask != null)
+            downloadStoresTask.cancel();
+
         Log.i("STORES", "Updating stores from location " + currentLocation);
-        new DownloadStoresTask(this) {
+        downloadStoresTask = (DownloadStoresTask)new DownloadStoresTask(this) {
             @Override
             protected void onPostExecute(JSONArray result)
             {
                 super.onPostExecute(result);
+
+                if(result == null)
+                    return;
 
                 final RadioGroup locations = (RadioGroup)findViewById(R.id.locations);
                 locations.removeAllViews();
