@@ -6,8 +6,8 @@ Ext.define("MobiPrint.model.PictureFolder", {
             // Shamelessly copied from http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
             for(var i = 0; i < s.length; ++i)
             {
-                char = s.charCodeAt(i);
-                hash = ((hash<<5)-hash) + char;
+                character = s.charCodeAt(i);
+                hash = ((hash<<5)-hash) + character;
                 hash = hash & hash // convert to 32-bit integer
             }
 

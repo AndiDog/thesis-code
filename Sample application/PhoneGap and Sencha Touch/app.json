@@ -33,17 +33,19 @@
      */
     "js": [
         {
-            "path": "app/settings.js"
+            "path": "app/settings.js",
+            "update": "full"
         },
         {
             "path": "lib/cordova-1.9.0rc1.js"
         },
         {
-            "path": "app/extensions.js"
+            "path": "app/extensions.js",
+            "update": "full"
         },
         {
             "path": "i18n/i18n.js",
-            "bundle": true
+            "update": "full"
         },
         {
             "path": "i18n/strings_en.js",
@@ -55,7 +57,7 @@
         {
             "path": "app.js",
             "bundle": true,  /* Indicates that all class dependencies are concatenated into this file when build */
-            "update": "delta"
+            "update": "full"
         }
     ],
 

@@ -1,6 +1,8 @@
+console.log("i18n")
+
 language = {}
 
-function applyLanguage(locale)
+window.applyLanguage = function(locale)
 {
     strings = language[locale]
 
@@ -26,7 +28,7 @@ LazyI18nString.prototype.toString = function()
 // Lazy translation function, works even if language is not set yet (necessary
 // for view definitions as "config: {}" that are executed before the
 // application's launch function)
-function _(key)
+window._ = function(key)
 {
     return new LazyI18nString(key)
 }
@@ -39,3 +41,5 @@ function translationFromKey(key)
 
     return strings[key]
 }
+
+console.log("i18n~")
