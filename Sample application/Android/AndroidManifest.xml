@@ -35,6 +35,9 @@
         <activity
             android:name=".OrderDetailActivity"
             android:configChanges="orientation|keyboardHidden" />
+        <activity
+            android:name=".SubmitOrderActivity"
+            android:configChanges="orientation|keyboardHidden" />
     </application>
 
 </manifest>

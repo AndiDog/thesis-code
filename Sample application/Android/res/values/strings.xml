@@ -18,5 +18,12 @@
     <string name="num_pictures_in_folder_fmt">There are %d pictures in this folder:</string>
     <string name="no_pictures_selected">You did not select any pictures.</string>
     <string name="will_upload_n_pictures_fmt">%d pictures will be uploaded. Check the current order tab for the status.</string>
+    <string name="username">Username:</string>
+    <string name="password">Password:</string>
+    <string name="confirm_order">Confirm order</string>
+    <string name="submit_ellipsis">Submit&#8230;</string>
+    <string name="submit_order">Submit order</string>
+    <string name="submit_heading_fmt">To submit your order of %d pictures, select a pick-up location close to you and enter your details.</string>
+    <string name="enter_address">Enter an address to show stores near you:</string>
 
 </resources>

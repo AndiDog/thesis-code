@@ -7,6 +7,7 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
@@ -16,7 +17,10 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -127,6 +131,30 @@ public class OrderDetailActivity extends Activity
             orderToShow = new Order();
 
         setContentView(R.layout.order_detail);
+
+        Button submitButton = (Button)findViewById(R.id.submit_current_order_button);
+
+        if(!showCurrentOrder)
+            submitButton.setVisibility(View.GONE);
+        else
+        {
+            final Context context = this;
+
+            if(orderToShow.getPictureIds().length > 0)
+            {
+                submitButton.setVisibility(View.VISIBLE);
+                submitButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Intent submitOrderIntent = new Intent(context, SubmitOrderActivity.class);
+                        startActivity(submitOrderIntent);
+                    }
+                });
+            }
+            else
+                submitButton.setVisibility(View.GONE);
+        }
 
         String numPicturesText = String.format(getResources().getString(R.string.order_num_pictures_fmt),
                                                orderToShow.getPictureIds().length);
