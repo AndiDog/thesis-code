@@ -5,7 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -36,6 +41,8 @@ public class SubmitOrderActivity extends Activity
 
     private LocationListener locationListener;
 
+    private List<RadioButton> radioButtons = new ArrayList<RadioButton>();
+
     private static final String TAG = "SubmitOrderActivity";
 
     private void addLocationRadioButton(final Store location)
@@ -48,6 +55,8 @@ public class SubmitOrderActivity extends Activity
 
         RadioButton radioButton = (RadioButton)locationLayout.findViewById(R.id.select_location);
         radioButton.setId(id);
+        radioButtons.add(radioButton);
+
         TextView nameTextView = (TextView)locationLayout.findViewById(R.id.location_name);
         nameTextView.setText(location.getName());
         nameTextView.setClickable(false);
@@ -55,14 +64,18 @@ public class SubmitOrderActivity extends Activity
         addressTextView.setText(location.getAddress());
         addressTextView.setClickable(false);
 
-        locationLayout.setOnClickListener(new OnClickListener() {
+        OnClickListener radioButtonOnClickListener = new OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                // Note: View ID is set to location ID
-                locations.check(id);
+                // RadioGroup.check does not work because we don't use RadioButtons directly as child views
+                for(RadioButton radioButton : radioButtons)
+                    radioButton.setChecked(radioButton.getId() == id);
             }
-        });
+        };
+
+        radioButton.setOnClickListener(radioButtonOnClickListener);
+        locationLayout.setOnClickListener(radioButtonOnClickListener);
 
         locations.addView(locationLayout);
     }
@@ -78,9 +91,6 @@ public class SubmitOrderActivity extends Activity
 
         try
         {
-            boolean bam=cachedFile.exists();
-            long lbam=cachedFile.length();
-
             if(cachedFile.exists() && cachedFile.length() > 5)
             {
                 stream = new FileInputStream(cachedFile);
@@ -134,9 +144,6 @@ public class SubmitOrderActivity extends Activity
         TextView heading = (TextView)findViewById(R.id.submit_heading);
         heading.setText(String.format(getResources().getString(R.string.submit_heading_fmt),
                                       currentOrder.getPictureIds().length));
-
-        addLocationRadioButton(new Store(1, "LITTLE", "somewhere"));
-        addLocationRadioButton(new Store(2, "F-Markt", "somewhere else"));
 
         startLocating();
 
@@ -284,5 +291,33 @@ public class SubmitOrderActivity extends Activity
     private void updateStores()
     {
         Log.i("STORES", "Updating stores from location " + currentLocation);
+        new DownloadStoresTask(this) {
+            @Override
+            protected void onPostExecute(JSONArray result)
+            {
+                super.onPostExecute(result);
+
+                final RadioGroup locations = (RadioGroup)findViewById(R.id.locations);
+                locations.removeAllViews();
+                radioButtons.clear();
+
+                for(int i = 0; i < result.length() && i < 5; ++i)
+                {
+                    JSONObject storeJson;
+                    try
+                    {
+                        storeJson = result.getJSONObject(i);
+                        addLocationRadioButton(new Store(storeJson.getInt("id"),
+                                                         storeJson.getString("name"),
+                                                         storeJson.getString("address")));
+                    }
+                    catch(JSONException e)
+                    {
+                        e.printStackTrace();
+                        Toast.makeText(context, "Stores JSON invalid", Toast.LENGTH_LONG).show();
+                    }
+                }
+            };
+        }.execute(currentLocation);
     }
 }
