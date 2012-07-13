@@ -29,6 +29,11 @@ public class OldOrdersActivity extends ListActivity
         return instance;
     }
 
+    public OldOrdersActivity()
+    {
+        instance = this;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -171,5 +176,10 @@ public class OldOrdersActivity extends ListActivity
         };
 
         task.execute();
+    }
+
+    public void triggerFullRefresh()
+    {
+        refresh(false, true);
     }
 }

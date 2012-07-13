@@ -25,6 +25,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -145,6 +147,15 @@ public class SubmitOrderActivity extends Activity
         heading.setText(String.format(getResources().getString(R.string.submit_heading_fmt),
                                       currentOrder.getPictureIds().length));
 
+        Button submitButton = (Button)findViewById(R.id.submit_order_button);
+        submitButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                onSubmitOrderButtonClick();
+            }
+        });
+
         startLocating();
 
         new AsyncTask<Void, Void, Void>() {
@@ -184,6 +195,69 @@ public class SubmitOrderActivity extends Activity
                 });
             }
         }.execute();
+    }
+
+    private void onSubmitOrderButtonClick()
+    {
+        CheckBox confirmCheckbox = (CheckBox)findViewById(R.id.confirm_order);
+        EditText usernameEditText = (EditText)findViewById(R.id.username);
+        EditText passwordEditText = (EditText)findViewById(R.id.password);
+
+        Integer storeId = null;
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+
+        for(RadioButton radioButton : radioButtons)
+            if(radioButton.isChecked())
+            {
+                storeId = radioButton.getId();
+                break;
+            }
+
+        String error = null;
+
+        if(username.length() == 0 || password.length() == 0)
+            error = getResources().getString(R.string.must_enter_credentials);
+        else if(storeId == null)
+            error = getResources().getString(R.string.must_select_store);
+        else if(!confirmCheckbox.isChecked())
+            error = getResources().getString(R.string.must_confirm_order);
+
+        if(error != null)
+            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+        else
+        {
+            Order currentOrder = null;
+
+            for(Order order : adapter.getAllOrders())
+                if(order.getSubmissionDate() == null)
+                {
+                    currentOrder = order;
+                    break;
+                }
+
+            if(currentOrder == null)
+                throw new AssertionError();
+
+            new SubmitOrderTask(this, currentOrder.getId(), storeId, username, password) {
+                @Override
+                protected void onPostExecute(Void result)
+                {
+                    super.onPostExecute(result);
+
+                    if(error != null)
+                        return;
+
+                    finish();
+
+                    // Reload list of orders
+                    OldOrdersActivity.getInstance().triggerFullRefresh();
+
+                    TabsActivity.getInstance().getTabHost().setCurrentTab(0);
+                    Toast.makeText(context, R.string.order_submitted, Toast.LENGTH_LONG).show();
+                }
+            }.execute();
+        }
     }
 
     private synchronized void setCurrentLocation(String currentLocation)

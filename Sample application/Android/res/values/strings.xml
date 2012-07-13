@@ -25,5 +25,9 @@
     <string name="submit_order">Submit order</string>
     <string name="submit_heading_fmt">To submit your order of %d pictures, select a pick-up location close to you and enter your details.</string>
     <string name="enter_address">Enter an address to show stores near you:</string>
+    <string name="must_enter_credentials">You must enter your username and password.</string>
+    <string name="must_select_store">You must select a store.</string>
+    <string name="must_confirm_order">You must confirm the order.</string>
+    <string name="order_submitted">The order was submitted successfully.</string>
 
 </resources>
