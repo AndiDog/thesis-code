@@ -112,9 +112,6 @@ public class DownloadThumbnailTask extends AsyncTask<Void, Void, Void>
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, 1);
                 expires = cal.getTime();
-
-                // TODO: remote this
-                throw new RuntimeException("unexpected: no expires header");
             }
 
             OutputStreamWriter jsonFileStream = new OutputStreamWriter(new FileOutputStream(getFile(true)));
