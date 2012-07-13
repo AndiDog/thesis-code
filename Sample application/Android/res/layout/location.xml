@@ -14,19 +14,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="9dp"
-        android:paddingTop="4dp" >
+        android:paddingTop="0dp" >
 
         <TextView
             android:id="@+id/location_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="18dp"/>
 
         <TextView
             android:id="@+id/location_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/tertiary_text_dark"
-            android:textSize="11dp" />
+            android:textSize="13dp" />
     </LinearLayout>
 
 </LinearLayout>

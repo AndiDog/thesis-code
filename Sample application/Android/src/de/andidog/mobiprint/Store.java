@@ -1,6 +1,6 @@
 package de.andidog.mobiprint;
 
-public class Location
+public class Store
 {
     private String address;
 
@@ -8,7 +8,7 @@ public class Location
 
     private String name;
 
-    public Location(int id, String name, String address)
+    public Store(int id, String name, String address)
     {
         this.address = address;
         this.id = id;
