@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="igp-50-x9A">
+    <dependencies>
+        <deployment defaultVersion="1296" identifier="iOS"/>
+        <development defaultVersion="4200" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller - Current order-->
+        <scene sceneID="Poe-fb-hog">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gdh-gX-RJF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="5Gs-6n-uYp" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" tag="2" title="Current order" image="ios-current-order-tab.png" id="Wqy-8i-CZH"/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="dsN-Fu-0Zb">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="-172" y="187"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="Z9U-9r-YiP">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iNJ-bG-mNg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tabBarController definesPresentationContext="YES" id="igp-50-x9A" sceneMemberID="viewController">
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="rk9-AV-6SI">
+                        <rect key="frame" x="129" y="330" width="163" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="lv6-DX-5tr" kind="relationship" relationship="viewControllers" id="BgB-AW-DyR"/>
+                        <segue destination="WN2-VZ-zBS" kind="relationship" relationship="viewControllers" id="kwE-DL-NRw"/>
+                        <segue destination="5Gs-6n-uYp" kind="relationship" relationship="viewControllers" id="nua-7x-hY4"/>
+                    </connections>
+                </tabBarController>
+            </objects>
+            <point key="canvasLocation" x="-756" y="-677"/>
+        </scene>
+        <!--Navigation Controller - Add pictures-->
+        <scene sceneID="Dox-wZ-e3a">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="88c-8Y-hjQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="WN2-VZ-zBS" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" tag="1" title="Add pictures" image="ios-add-pictures-tab.png" id="z4P-SG-V5R"/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="r9d-mM-Ah6">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="-203" y="-632"/>
+        </scene>
+        <!--Navigation Controller - Old orders-->
+        <scene sceneID="dy0-oc-gzb">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qD2-Io-7RS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="lv6-DX-5tr" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Old orders" image="ios-old-orders-tab.png" id="HQ5-gV-0NW"/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="hw8-V9-Tiz">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="-219" y="-1261"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="ios-add-pictures-tab.png" width="32" height="32"/>
+        <image name="ios-current-order-tab.png" width="32" height="32"/>
+        <image name="ios-old-orders-tab.png" width="32" height="32"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>

@@ -1,0 +1,337 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DA6E1C7615B5B43400438B26 /* ios-add-pictures-tab.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6E1C7315B5B43400438B26 /* ios-add-pictures-tab.png */; };
+		DA6E1C7715B5B43400438B26 /* ios-current-order-tab.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6E1C7415B5B43400438B26 /* ios-current-order-tab.png */; };
+		DA6E1C7815B5B43400438B26 /* ios-old-orders-tab.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6E1C7515B5B43400438B26 /* ios-old-orders-tab.png */; };
+		DA8A367415B59E3C003A719D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A367315B59E3C003A719D /* UIKit.framework */; };
+		DA8A367615B59E3C003A719D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A367515B59E3C003A719D /* Foundation.framework */; };
+		DA8A367815B59E3C003A719D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A367715B59E3C003A719D /* CoreGraphics.framework */; };
+		DA8A367A15B59E3C003A719D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A367915B59E3C003A719D /* CoreData.framework */; };
+		DA8A368015B59E3C003A719D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA8A367E15B59E3C003A719D /* InfoPlist.strings */; };
+		DA8A368215B59E3C003A719D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368115B59E3C003A719D /* main.m */; };
+		DA8A368615B59E3C003A719D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368515B59E3C003A719D /* AppDelegate.m */; };
+		DA8A368915B59E3C003A719D /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA8A368715B59E3C003A719D /* MainStoryboard.storyboard */; };
+		DA8A368C15B59E3C003A719D /* MobiPrint.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368A15B59E3C003A719D /* MobiPrint.xcdatamodeld */; };
+		DA8A368F15B59E3D003A719D /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368E15B59E3D003A719D /* MasterViewController.m */; };
+		DA8A369215B59E3D003A719D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A369115B59E3D003A719D /* DetailViewController.m */; };
+		DA8A369915B59E8F003A719D /* icon-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369815B59E8F003A719D /* icon-57x57.png */; };
+		DA8A369B15B59EA3003A719D /* icon-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369A15B59EA3003A719D /* icon-114x114.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		DA6E1C7315B5B43400438B26 /* ios-add-pictures-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-add-pictures-tab.png"; path = "Resources/ios-add-pictures-tab.png"; sourceTree = "<group>"; };
+		DA6E1C7415B5B43400438B26 /* ios-current-order-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-current-order-tab.png"; path = "Resources/ios-current-order-tab.png"; sourceTree = "<group>"; };
+		DA6E1C7515B5B43400438B26 /* ios-old-orders-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-old-orders-tab.png"; path = "Resources/ios-old-orders-tab.png"; sourceTree = "<group>"; };
+		DA8A366F15B59E3C003A719D /* MobiPrint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobiPrint.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA8A367315B59E3C003A719D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DA8A367515B59E3C003A719D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DA8A367715B59E3C003A719D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DA8A367915B59E3C003A719D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DA8A367D15B59E3C003A719D /* MobiPrint-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MobiPrint-Info.plist"; sourceTree = "<group>"; };
+		DA8A367F15B59E3C003A719D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA8A368115B59E3C003A719D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DA8A368315B59E3C003A719D /* MobiPrint-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MobiPrint-Prefix.pch"; sourceTree = "<group>"; };
+		DA8A368415B59E3C003A719D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DA8A368515B59E3C003A719D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DA8A368815B59E3C003A719D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		DA8A368B15B59E3C003A719D /* MobiPrint.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MobiPrint.xcdatamodel; sourceTree = "<group>"; };
+		DA8A368D15B59E3D003A719D /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		DA8A368E15B59E3D003A719D /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		DA8A369015B59E3D003A719D /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		DA8A369115B59E3D003A719D /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		DA8A369815B59E8F003A719D /* icon-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-57x57.png"; sourceTree = "<group>"; };
+		DA8A369A15B59EA3003A719D /* icon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-114x114.png"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DA8A366C15B59E3C003A719D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA8A367415B59E3C003A719D /* UIKit.framework in Frameworks */,
+				DA8A367615B59E3C003A719D /* Foundation.framework in Frameworks */,
+				DA8A367815B59E3C003A719D /* CoreGraphics.framework in Frameworks */,
+				DA8A367A15B59E3C003A719D /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DA8A366415B59E3C003A719D = {
+			isa = PBXGroup;
+			children = (
+				DA8A369A15B59EA3003A719D /* icon-114x114.png */,
+				DA8A369815B59E8F003A719D /* icon-57x57.png */,
+				DA8A367B15B59E3C003A719D /* MobiPrint */,
+				DA8A367215B59E3C003A719D /* Frameworks */,
+				DA8A367015B59E3C003A719D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DA8A367015B59E3C003A719D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DA8A366F15B59E3C003A719D /* MobiPrint.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DA8A367215B59E3C003A719D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA8A367315B59E3C003A719D /* UIKit.framework */,
+				DA8A367515B59E3C003A719D /* Foundation.framework */,
+				DA8A367715B59E3C003A719D /* CoreGraphics.framework */,
+				DA8A367915B59E3C003A719D /* CoreData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA8A367B15B59E3C003A719D /* MobiPrint */ = {
+			isa = PBXGroup;
+			children = (
+				DA8A369C15B5AFF2003A719D /* Resources */,
+				DA8A368415B59E3C003A719D /* AppDelegate.h */,
+				DA8A368515B59E3C003A719D /* AppDelegate.m */,
+				DA8A368715B59E3C003A719D /* MainStoryboard.storyboard */,
+				DA8A368D15B59E3D003A719D /* MasterViewController.h */,
+				DA8A368E15B59E3D003A719D /* MasterViewController.m */,
+				DA8A369015B59E3D003A719D /* DetailViewController.h */,
+				DA8A369115B59E3D003A719D /* DetailViewController.m */,
+				DA8A368A15B59E3C003A719D /* MobiPrint.xcdatamodeld */,
+				DA8A367C15B59E3C003A719D /* Supporting Files */,
+			);
+			path = MobiPrint;
+			sourceTree = "<group>";
+		};
+		DA8A367C15B59E3C003A719D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DA8A367D15B59E3C003A719D /* MobiPrint-Info.plist */,
+				DA8A367E15B59E3C003A719D /* InfoPlist.strings */,
+				DA8A368115B59E3C003A719D /* main.m */,
+				DA8A368315B59E3C003A719D /* MobiPrint-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DA8A369C15B5AFF2003A719D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DA6E1C7315B5B43400438B26 /* ios-add-pictures-tab.png */,
+				DA6E1C7415B5B43400438B26 /* ios-current-order-tab.png */,
+				DA6E1C7515B5B43400438B26 /* ios-old-orders-tab.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DA8A366E15B59E3C003A719D /* MobiPrint */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA8A369515B59E3D003A719D /* Build configuration list for PBXNativeTarget "MobiPrint" */;
+			buildPhases = (
+				DA8A366B15B59E3C003A719D /* Sources */,
+				DA8A366C15B59E3C003A719D /* Frameworks */,
+				DA8A366D15B59E3C003A719D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MobiPrint;
+			productName = MobiPrint;
+			productReference = DA8A366F15B59E3C003A719D /* MobiPrint.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DA8A366615B59E3C003A719D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = DA8A366915B59E3C003A719D /* Build configuration list for PBXProject "MobiPrint" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DA8A366415B59E3C003A719D;
+			productRefGroup = DA8A367015B59E3C003A719D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DA8A366E15B59E3C003A719D /* MobiPrint */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DA8A366D15B59E3C003A719D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA8A368015B59E3C003A719D /* InfoPlist.strings in Resources */,
+				DA8A368915B59E3C003A719D /* MainStoryboard.storyboard in Resources */,
+				DA8A369915B59E8F003A719D /* icon-57x57.png in Resources */,
+				DA8A369B15B59EA3003A719D /* icon-114x114.png in Resources */,
+				DA6E1C7615B5B43400438B26 /* ios-add-pictures-tab.png in Resources */,
+				DA6E1C7715B5B43400438B26 /* ios-current-order-tab.png in Resources */,
+				DA6E1C7815B5B43400438B26 /* ios-old-orders-tab.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DA8A366B15B59E3C003A719D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA8A368215B59E3C003A719D /* main.m in Sources */,
+				DA8A368615B59E3C003A719D /* AppDelegate.m in Sources */,
+				DA8A368C15B59E3C003A719D /* MobiPrint.xcdatamodeld in Sources */,
+				DA8A368F15B59E3D003A719D /* MasterViewController.m in Sources */,
+				DA8A369215B59E3D003A719D /* DetailViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DA8A367E15B59E3C003A719D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA8A367F15B59E3C003A719D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DA8A368715B59E3C003A719D /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA8A368815B59E3C003A719D /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DA8A369315B59E3D003A719D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		DA8A369415B59E3D003A719D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DA8A369615B59E3D003A719D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MobiPrint/MobiPrint-Prefix.pch";
+				INFOPLIST_FILE = "MobiPrint/MobiPrint-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DA8A369715B59E3D003A719D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MobiPrint/MobiPrint-Prefix.pch";
+				INFOPLIST_FILE = "MobiPrint/MobiPrint-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DA8A366915B59E3C003A719D /* Build configuration list for PBXProject "MobiPrint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA8A369315B59E3D003A719D /* Debug */,
+				DA8A369415B59E3D003A719D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA8A369515B59E3D003A719D /* Build configuration list for PBXNativeTarget "MobiPrint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA8A369615B59E3D003A719D /* Debug */,
+				DA8A369715B59E3D003A719D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		DA8A368A15B59E3C003A719D /* MobiPrint.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DA8A368B15B59E3C003A719D /* MobiPrint.xcdatamodel */,
+			);
+			currentVersion = DA8A368B15B59E3C003A719D /* MobiPrint.xcdatamodel */;
+			path = MobiPrint.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = DA8A366615B59E3C003A719D /* Project object */;
+}
