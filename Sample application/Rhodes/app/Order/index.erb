@@ -10,9 +10,6 @@
 %>
 
 <div data-role="page">
-  <div data-role="header">
-    <h3><%=h Localization::Views[:old_orders_in_total] % num_old_orders %></h3>
-  </div>
   <div data-role="content">
     <ul data-role="listview">
       <% for order in orders

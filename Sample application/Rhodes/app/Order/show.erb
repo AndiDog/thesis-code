@@ -6,9 +6,6 @@
   end
 %>
 <div data-role="page">
-  <div data-role="header">
-    <h3><%=h is_old_order ? Localization::Views[:old_order] : Localization::Views[:current_order] %></h3>
-  </div>
   <div data-role="content">
     <%
       numOrderedPictures = @order['pictureIds'].length

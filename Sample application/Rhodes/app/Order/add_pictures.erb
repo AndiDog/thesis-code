@@ -1,5 +1,6 @@
 <div data-role="page">
   <div data-role="content">
+    <p><%=h Localization::Views[:n_folders_with_pictures] % folders.size %></p>
     <ul data-role="listview">
       <% for directory, numPictures in folders %>
         <li><a href="<%= url_for :action => :add_pictures_from_folder, :query => { :directory => directory } %>"><%=h directory.gsub(/^.*[\/\\]/, '') %> <p class="ui-li-aside"><%=h Localization::Views[:n_pictures] % numPictures %></p></a></li>
