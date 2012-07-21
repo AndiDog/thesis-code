@@ -97,16 +97,19 @@ function OldOrdersTab()
             var row = Titanium.UI.createTableViewRow({
                 title: moment(orders[i].submissionDate).format("dddd, MMMM Do YYYY"),
                 hasDetail: true,
-                customData: {order: orders[i]}
+                customData: {order: orders[i]},
+                height: 50
             })
 
             var labelLeft = Ti.UI.createLabel({
-                left: 10,
-                text: moment(orders[i].submissionDate).format("dddd, MMMM Do YYYY")
+                left: 10,                
+                text: moment(orders[i].submissionDate).format("dddd, MMMM Do YYYY"),
+                touchEnabled: false
             })
             var labelRight = Ti.UI.createLabel({
                 right: 10,
-                text: String.format(L('numPictures'), orders[i].pictureIds.length)
+                text: String.format(L('numPictures'), orders[i].pictureIds.length),
+                touchEnabled: false
             })
 
             row.add(labelLeft)

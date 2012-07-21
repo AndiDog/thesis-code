@@ -10,7 +10,7 @@
         <target device="android">true</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>2.0.1.GA2</sdk-version>
+    <sdk-version>2.1.0.GA</sdk-version>
     <id>org.dyndns.andidogs.mobiPrint</id>
     <name>MobiPrint</name>
     <version>1.0</version>
