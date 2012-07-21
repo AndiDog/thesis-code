@@ -179,8 +179,16 @@ function OrderDetailView(order, isCurrentOrder)
                     return eventListener
                 }
 
-                if(cellIndex < numberOfOrderPictures && !Ti.Filesystem.getFile(filename).exists())
-                    Ti.App.addEventListener('update-thumbnail-' + this.order.pictureIds[cellIndex], callback(image, this.order.pictureIds[cellIndex], row, rowHeight, view, view2))
+                if(cellIndex < numberOfOrderPictures && !Ti.Filesystem.getFile(filename).exists() &&
+                   !(this.order.pictureIds[cellIndex] in this.updateThumbnailCallbacks))
+                {
+                    var cb = callback(image, this.order.pictureIds[cellIndex], row, rowHeight, view, view2)
+                    
+                    // Only register event listener once, not on every relayout (actually, callbacks should
+                      // be removed later to avoid memory leaks)
+                    this.updateThumbnailCallbacks[this.order.pictureIds[cellIndex]] = true
+                    Ti.App.addEventListener('update-thumbnail-' + this.order.pictureIds[cellIndex], cb)
+                }
 
                 var state = cellIndex < numberOfOrderPictures ? this.getPictureState(this.order.pictureIds[cellIndex]) : 'uploading'
 
@@ -285,6 +293,8 @@ function OrderDetailView(order, isCurrentOrder)
     })
 
     this.window = self
+
+    this.updateThumbnailCallbacks = {}
 
     this.headerLabel = Ti.UI.createLabel({
         text: '...',
