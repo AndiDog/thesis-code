@@ -69,17 +69,19 @@ public class DownloadOldOrdersTask extends AsyncTask<Void, Void, JSONArray>
     @Override
     protected JSONArray doInBackground(Void... params)
     {
+        FileInputStream stream = null;
+        InputStreamReader in = null;
+
         try
         {
             File cacheDir = context.getCacheDir();
             File cachedFile = new File(cacheDir.getAbsolutePath(), "orders.json");
-            FileInputStream stream = null;
 
             if(!forceRequest && cachedFile.exists() && cachedFile.length() < 1048576 &&
                (System.currentTimeMillis() - cachedFile.lastModified() < 30000 || forceUseCache))
             {
                 stream = new FileInputStream(cachedFile);
-                InputStreamReader in = new InputStreamReader(stream);
+                in = new InputStreamReader(stream);
 
                 // Fair enough :D
                 char[] buffer = new char[(int)cachedFile.length()*4];
@@ -116,6 +118,19 @@ public class DownloadOldOrdersTask extends AsyncTask<Void, Void, JSONArray>
             error = "Failed to retrieve old orders: " + e.toString();
 
             return null;
+        }
+        finally
+        {
+            try
+            {
+                if(in != null)
+                    in.close();
+                if(stream != null)
+                    stream.close();
+            }
+            catch(IOException e)
+            {
+            }
         }
     }
 

@@ -3,6 +3,7 @@ package de.andidog.mobiprint;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -57,6 +58,9 @@ public class DownloadThumbnailTask extends AsyncTask<Void, Void, Void>
     @Override
     protected Void doInBackground(Void... params)
     {
+        FileInputStream stream = null;
+        InputStreamReader in = null;
+
         try
         {
             File cachedFile = getFile(false);
@@ -64,8 +68,8 @@ public class DownloadThumbnailTask extends AsyncTask<Void, Void, Void>
             if(cachedFile.exists() && cachedFile.length() > 500)
             {
                 File jsonFile = getFile(true);
-                FileInputStream stream = new FileInputStream(jsonFile);
-                InputStreamReader in = new InputStreamReader(stream);
+                stream = new FileInputStream(jsonFile);
+                in = new InputStreamReader(stream);
 
                 // Fair enough :D
                 char[] buffer = new char[(int)jsonFile.length() * 4];
@@ -128,6 +132,19 @@ public class DownloadThumbnailTask extends AsyncTask<Void, Void, Void>
             error = "Failed to retrieve thumbnail: " + e.toString();
 
             return null;
+        }
+        finally
+        {
+            try
+            {
+                if(in != null)
+                    in.close();
+                if(stream != null)
+                    stream.close();
+            }
+            catch(IOException e)
+            {
+            }
         }
     }
 

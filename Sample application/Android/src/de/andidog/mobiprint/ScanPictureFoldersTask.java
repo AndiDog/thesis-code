@@ -75,17 +75,19 @@ public class ScanPictureFoldersTask extends AsyncTask<Void, Void, List<PictureFo
     @Override
     protected List<PictureFolder> doInBackground(Void... params)
     {
+        FileInputStream stream = null;
+        InputStreamReader in = null;
+
         try
         {
             File cacheDir = context.getCacheDir();
             File cachedFile = new File(cacheDir.getAbsolutePath(), "picture-folders.json");
-            FileInputStream stream = null;
 
             if(cachedFile.exists() && cachedFile.length() < 1048576
                && (System.currentTimeMillis() - cachedFile.lastModified() < 30000 || forceUseCache))
             {
                 stream = new FileInputStream(cachedFile);
-                InputStreamReader in = new InputStreamReader(stream);
+                in = new InputStreamReader(stream);
 
                 // Fair enough :D
                 char[] buffer = new char[(int)cachedFile.length() * 4];
@@ -110,7 +112,8 @@ public class ScanPictureFoldersTask extends AsyncTask<Void, Void, List<PictureFo
                 List<PictureFolder> ret = new ArrayList<PictureFolder>();
                 scan(root, ret);
 
-                cacheResult(ret);
+                if(ret.size() > 0)
+                    cacheResult(ret);
 
                 return ret;
             }
@@ -120,6 +123,19 @@ public class ScanPictureFoldersTask extends AsyncTask<Void, Void, List<PictureFo
             error = "Failed to scan for picture folders: " + e.toString();
 
             return null;
+        }
+        finally
+        {
+            try
+            {
+                if(in != null)
+                    in.close();
+                if(stream != null)
+                    stream.close();
+            }
+            catch(IOException e)
+            {
+            }
         }
     }
 

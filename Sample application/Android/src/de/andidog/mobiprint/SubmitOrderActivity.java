@@ -92,13 +92,14 @@ public class SubmitOrderActivity extends Activity
         File cacheDir = getCacheDir();
         File cachedFile = new File(cacheDir.getAbsolutePath(), "location.txt");
         FileInputStream stream = null;
+        InputStreamReader in = null;
 
         try
         {
             if(cachedFile.exists() && cachedFile.length() > 5)
             {
                 stream = new FileInputStream(cachedFile);
-                InputStreamReader in = new InputStreamReader(stream);
+                in = new InputStreamReader(stream);
 
                 // Fair enough :D
                 char[] buffer = new char[(int)cachedFile.length()*4];
@@ -110,6 +111,19 @@ public class SubmitOrderActivity extends Activity
         {
             e.printStackTrace();
             Toast.makeText(this, "Failed to read cached location: " + e, Toast.LENGTH_LONG).show();
+        }
+        finally
+        {
+            try
+            {
+                if(in != null)
+                    in.close();
+                if(stream != null)
+                    stream.close();
+            }
+            catch(IOException e)
+            {
+            }
         }
 
         return null;
