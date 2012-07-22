@@ -22,7 +22,8 @@ function AddPicturesTab()
         {
             var row = Titanium.UI.createTableViewRow({
                 customData: {path: folderPath},
-                hasDetail: true
+                hasDetail: true,
+                height: 50
             })
 
             var labelLeft = Ti.UI.createLabel({
