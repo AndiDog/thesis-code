@@ -19,17 +19,19 @@
 		DA8A368615B59E3C003A719D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368515B59E3C003A719D /* AppDelegate.m */; };
 		DA8A368915B59E3C003A719D /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA8A368715B59E3C003A719D /* MainStoryboard.storyboard */; };
 		DA8A368C15B59E3C003A719D /* MobiPrint.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368A15B59E3C003A719D /* MobiPrint.xcdatamodeld */; };
-		DA8A368F15B59E3D003A719D /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368E15B59E3D003A719D /* MasterViewController.m */; };
+		DA8A368F15B59E3D003A719D /* OldOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368E15B59E3D003A719D /* OldOrdersViewController.m */; };
 		DA8A369215B59E3D003A719D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A369115B59E3D003A719D /* DetailViewController.m */; };
 		DA8A369915B59E8F003A719D /* icon-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369815B59E8F003A719D /* icon-57x57.png */; };
 		DA8A369B15B59EA3003A719D /* icon-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369A15B59EA3003A719D /* icon-114x114.png */; };
+		DA9F1CD115BD7A40003CA8AD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA9F1CD315BD7A40003CA8AD /* Localizable.strings */; };
 		DAD2138715BD68B200AEC2BF /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */; };
 		DAD2138815BD68B200AEC2BF /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAD2138015BD68B200AEC2BF /* LICENSE.txt */; };
-		DAD2138915BD68B200AEC2BF /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = DAD2138115BD68B200AEC2BF /* Makefile */; };
 		DAD2138A15BD68B200AEC2BF /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAD2138215BD68B200AEC2BF /* README.txt */; };
+		DAD279B915BDA21D00E31539 /* YAJLiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD279B815BDA21D00E31539 /* YAJLiOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA24FB1115BD8A8200F6AAD2 /* settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
 		DA6E1C7315B5B43400438B26 /* ios-add-pictures-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-add-pictures-tab.png"; path = "Resources/ios-add-pictures-tab.png"; sourceTree = "<group>"; };
 		DA6E1C7415B5B43400438B26 /* ios-current-order-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-current-order-tab.png"; path = "Resources/ios-current-order-tab.png"; sourceTree = "<group>"; };
 		DA6E1C7515B5B43400438B26 /* ios-old-orders-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-old-orders-tab.png"; path = "Resources/ios-old-orders-tab.png"; sourceTree = "<group>"; };
@@ -46,17 +48,18 @@
 		DA8A368515B59E3C003A719D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DA8A368815B59E3C003A719D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		DA8A368B15B59E3C003A719D /* MobiPrint.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MobiPrint.xcdatamodel; sourceTree = "<group>"; };
-		DA8A368D15B59E3D003A719D /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		DA8A368E15B59E3D003A719D /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		DA8A368D15B59E3D003A719D /* OldOrdersViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OldOrdersViewController.h; sourceTree = "<group>"; };
+		DA8A368E15B59E3D003A719D /* OldOrdersViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OldOrdersViewController.m; sourceTree = "<group>"; };
 		DA8A369015B59E3D003A719D /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		DA8A369115B59E3D003A719D /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		DA8A369815B59E8F003A719D /* icon-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-57x57.png"; sourceTree = "<group>"; };
 		DA8A369A15B59EA3003A719D /* icon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-114x114.png"; sourceTree = "<group>"; };
+		DA9F1CD215BD7A40003CA8AD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAD2137E15BD68B200AEC2BF /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
 		DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISO8601DateFormatter.m; sourceTree = "<group>"; };
 		DAD2138015BD68B200AEC2BF /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		DAD2138115BD68B200AEC2BF /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		DAD2138215BD68B200AEC2BF /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		DAD279B815BDA21D00E31539 /* YAJLiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YAJLiOS.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +71,7 @@
 				DA8A367615B59E3C003A719D /* Foundation.framework in Frameworks */,
 				DA8A367815B59E3C003A719D /* CoreGraphics.framework in Frameworks */,
 				DA8A367A15B59E3C003A719D /* CoreData.framework in Frameworks */,
+				DAD279B915BDA21D00E31539 /* YAJLiOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +81,7 @@
 		DA8A366415B59E3C003A719D = {
 			isa = PBXGroup;
 			children = (
+				DA9F1CD315BD7A40003CA8AD /* Localizable.strings */,
 				DA8A369A15B59EA3003A719D /* icon-114x114.png */,
 				DA8A369815B59E8F003A719D /* icon-57x57.png */,
 				DA8A367B15B59E3C003A719D /* MobiPrint */,
@@ -96,6 +101,7 @@
 		DA8A367215B59E3C003A719D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DAD279B815BDA21D00E31539 /* YAJLiOS.framework */,
 				DA8A367315B59E3C003A719D /* UIKit.framework */,
 				DA8A367515B59E3C003A719D /* Foundation.framework */,
 				DA8A367715B59E3C003A719D /* CoreGraphics.framework */,
@@ -112,12 +118,13 @@
 				DA8A368415B59E3C003A719D /* AppDelegate.h */,
 				DA8A368515B59E3C003A719D /* AppDelegate.m */,
 				DA8A368715B59E3C003A719D /* MainStoryboard.storyboard */,
-				DA8A368D15B59E3D003A719D /* MasterViewController.h */,
-				DA8A368E15B59E3D003A719D /* MasterViewController.m */,
+				DA8A368D15B59E3D003A719D /* OldOrdersViewController.h */,
+				DA8A368E15B59E3D003A719D /* OldOrdersViewController.m */,
 				DA8A369015B59E3D003A719D /* DetailViewController.h */,
 				DA8A369115B59E3D003A719D /* DetailViewController.m */,
 				DA8A368A15B59E3C003A719D /* MobiPrint.xcdatamodeld */,
 				DA8A367C15B59E3C003A719D /* Supporting Files */,
+				DA24FB1115BD8A8200F6AAD2 /* settings.h */,
 			);
 			path = MobiPrint;
 			sourceTree = "<group>";
@@ -157,7 +164,6 @@
 				DAD2137E15BD68B200AEC2BF /* ISO8601DateFormatter.h */,
 				DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */,
 				DAD2138015BD68B200AEC2BF /* LICENSE.txt */,
-				DAD2138115BD68B200AEC2BF /* Makefile */,
 				DAD2138215BD68B200AEC2BF /* README.txt */,
 			);
 			name = Iso8601;
@@ -222,6 +228,7 @@
 				DA6E1C7815B5B43400438B26 /* ios-old-orders-tab.png in Resources */,
 				DAD2138815BD68B200AEC2BF /* LICENSE.txt in Resources */,
 				DAD2138A15BD68B200AEC2BF /* README.txt in Resources */,
+				DA9F1CD115BD7A40003CA8AD /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,10 +242,9 @@
 				DA8A368215B59E3C003A719D /* main.m in Sources */,
 				DA8A368615B59E3C003A719D /* AppDelegate.m in Sources */,
 				DA8A368C15B59E3C003A719D /* MobiPrint.xcdatamodeld in Sources */,
-				DA8A368F15B59E3D003A719D /* MasterViewController.m in Sources */,
+				DA8A368F15B59E3D003A719D /* OldOrdersViewController.m in Sources */,
 				DA8A369215B59E3D003A719D /* DetailViewController.m in Sources */,
 				DAD2138715BD68B200AEC2BF /* ISO8601DateFormatter.m in Sources */,
-				DAD2138915BD68B200AEC2BF /* Makefile in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +265,14 @@
 				DA8A368815B59E3C003A719D /* en */,
 			);
 			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+		DA9F1CD315BD7A40003CA8AD /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA9F1CD215BD7A40003CA8AD /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -312,9 +326,21 @@
 		DA8A369615B59E3D003A719D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MobiPrint/MobiPrint-Prefix.pch";
 				INFOPLIST_FILE = "MobiPrint/MobiPrint-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/MobiPrint\"",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -323,9 +349,21 @@
 		DA8A369715B59E3D003A719D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MobiPrint/MobiPrint-Prefix.pch";
 				INFOPLIST_FILE = "MobiPrint/MobiPrint-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/MobiPrint\"",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
