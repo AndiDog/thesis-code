@@ -23,6 +23,10 @@
 		DA8A369215B59E3D003A719D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A369115B59E3D003A719D /* DetailViewController.m */; };
 		DA8A369915B59E8F003A719D /* icon-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369815B59E8F003A719D /* icon-57x57.png */; };
 		DA8A369B15B59EA3003A719D /* icon-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369A15B59EA3003A719D /* icon-114x114.png */; };
+		DAD2138715BD68B200AEC2BF /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */; };
+		DAD2138815BD68B200AEC2BF /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAD2138015BD68B200AEC2BF /* LICENSE.txt */; };
+		DAD2138915BD68B200AEC2BF /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = DAD2138115BD68B200AEC2BF /* Makefile */; };
+		DAD2138A15BD68B200AEC2BF /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAD2138215BD68B200AEC2BF /* README.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +52,11 @@
 		DA8A369115B59E3D003A719D /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		DA8A369815B59E8F003A719D /* icon-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-57x57.png"; sourceTree = "<group>"; };
 		DA8A369A15B59EA3003A719D /* icon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-114x114.png"; sourceTree = "<group>"; };
+		DAD2137E15BD68B200AEC2BF /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
+		DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISO8601DateFormatter.m; sourceTree = "<group>"; };
+		DAD2138015BD68B200AEC2BF /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		DAD2138115BD68B200AEC2BF /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		DAD2138215BD68B200AEC2BF /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +107,7 @@
 		DA8A367B15B59E3C003A719D /* MobiPrint */ = {
 			isa = PBXGroup;
 			children = (
+				DAD2137B15BD688900AEC2BF /* Libraries */,
 				DA8A369C15B5AFF2003A719D /* Resources */,
 				DA8A368415B59E3C003A719D /* AppDelegate.h */,
 				DA8A368515B59E3C003A719D /* AppDelegate.m */,
@@ -131,6 +141,26 @@
 				DA6E1C7515B5B43400438B26 /* ios-old-orders-tab.png */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		DAD2137B15BD688900AEC2BF /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				DAD2137D15BD688F00AEC2BF /* Iso8601 */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		DAD2137D15BD688F00AEC2BF /* Iso8601 */ = {
+			isa = PBXGroup;
+			children = (
+				DAD2137E15BD68B200AEC2BF /* ISO8601DateFormatter.h */,
+				DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */,
+				DAD2138015BD68B200AEC2BF /* LICENSE.txt */,
+				DAD2138115BD68B200AEC2BF /* Makefile */,
+				DAD2138215BD68B200AEC2BF /* README.txt */,
+			);
+			name = Iso8601;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,6 +220,8 @@
 				DA6E1C7615B5B43400438B26 /* ios-add-pictures-tab.png in Resources */,
 				DA6E1C7715B5B43400438B26 /* ios-current-order-tab.png in Resources */,
 				DA6E1C7815B5B43400438B26 /* ios-old-orders-tab.png in Resources */,
+				DAD2138815BD68B200AEC2BF /* LICENSE.txt in Resources */,
+				DAD2138A15BD68B200AEC2BF /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +237,8 @@
 				DA8A368C15B59E3C003A719D /* MobiPrint.xcdatamodeld in Sources */,
 				DA8A368F15B59E3D003A719D /* MasterViewController.m in Sources */,
 				DA8A369215B59E3D003A719D /* DetailViewController.m in Sources */,
+				DAD2138715BD68B200AEC2BF /* ISO8601DateFormatter.m in Sources */,
+				DAD2138915BD68B200AEC2BF /* Makefile in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
