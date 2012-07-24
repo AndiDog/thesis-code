@@ -167,10 +167,13 @@ function OrderDetailView(order, isCurrentOrder)
                         if(image.image == null)
                         {
                             image = null
-                            _this.recreateLayout()
 
                             // Only do this once, then release the old image instance
+                            if(pictureId in _this.updateThumbnailCallbacks)
+                                delete _this.updateThumbnailCallbacks[pictureId]
                             Ti.App.removeEventListener('update-thumbnail-' + pictureId, eventListener)
+
+                            _this.recreateLayout()
 
                             atfsys.OptimiseMemory()
                         }
@@ -183,9 +186,8 @@ function OrderDetailView(order, isCurrentOrder)
                    !(this.order.pictureIds[cellIndex] in this.updateThumbnailCallbacks))
                 {
                     var cb = callback(image, this.order.pictureIds[cellIndex], row, rowHeight, view, view2)
-                    
-                    // Only register event listener once, not on every relayout (actually, callbacks should
-                      // be removed later to avoid memory leaks)
+
+                    // Only register event listener once, not on every relayout
                     this.updateThumbnailCallbacks[this.order.pictureIds[cellIndex]] = true
                     Ti.App.addEventListener('update-thumbnail-' + this.order.pictureIds[cellIndex], cb)
                 }
@@ -248,14 +250,16 @@ function OrderDetailView(order, isCurrentOrder)
 
         var oldTable = this.table
 
-        this.table = Ti.UI.createTableView({
+        var newTable = Ti.UI.createTableView({
             data: tableData,
             top: 5
         })
+        this.table = newTable
 
         if(oldTable != null)
             this.window.remove(oldTable)
-        this.window.add(this.table)
+
+        this.window.add(newTable)
     }
 
     this.updateOrder = function(order)
