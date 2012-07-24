@@ -52,6 +52,8 @@ PICTURE_QUOTA = 300 * 2**20
 # Picture filenames are always named <id>.<sha1>.jpg
 PICTURE_REGEX = re.compile(r"^[1-9]\d{0,9}\.[a-f0-9]{40}\.jpg$")
 
+SURVEY = True
+
 if not os.path.exists(PICTURE_DIRECTORY):
     os.mkdir(PICTURE_DIRECTORY)
 if not os.path.exists(os.path.dirname(DATABASE_FILENAME)):
@@ -242,6 +244,10 @@ def stores():
 @options("/order/<id:int>/submit/")
 @post("/order/<id:int>/submit/")
 def submitOrder(id):
+    if SURVEY:
+        abort(404, "Sorry, order submission has been disabled during the survey to provide equal test data!")
+        return
+
     checkId(id)
 
     username, password, storeId = (request.POST.get("username", None),
@@ -289,6 +295,10 @@ def submitOrder(id):
     return {"order" : order}
 
 def uploadPictureCommon():
+    if SURVEY:
+        abort(404, "Sorry, picture upload has been disabled during the survey to provide equal test data!")
+        return
+
     picture = request.files.picture
 
     # Bottle is a bit stupid in that it uses cgi.FieldStorage for a file or u"" for a non-existing field
