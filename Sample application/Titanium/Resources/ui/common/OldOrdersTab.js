@@ -45,7 +45,10 @@ function OldOrdersTab()
             onerror: function(e) {
                 Ti.API.error(e.error);
 
-                alert('Error retrieving list of old orders: ' + e.error)
+                Ti.UI.createNotification({
+                    duration: Ti.UI.NOTIFICATION_DURATION_SHORT,
+                    message: 'Error retrieving list of old orders: ' + e.error
+                }).show()
             },
             timeout: 5000
         })

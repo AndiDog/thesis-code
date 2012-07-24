@@ -74,7 +74,10 @@ function ThumbnailDownloadCache()
 
                 Ti.API.error(e.error);
 
-                alert('Error retrieving thumbnail ' + id + ': ' + e.error)
+                Ti.UI.createNotification({
+                    duration: Ti.UI.NOTIFICATION_DURATION_SHORT,
+                    message: 'Error retrieving thumbnail ' + id + ': ' + e.error
+                }).show()
             },
             timeout: 5000,
             cache: true // iOS only (http://developer.appcelerator.com/apidoc/mobile/latest/Titanium.Network.HTTPClient.cache-property.html)
