@@ -124,7 +124,7 @@
     [fetchRequest setFetchBatchSize:20];
 
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"submissionDate" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"submissionDate" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
 
     [fetchRequest setSortDescriptors:sortDescriptors];
@@ -296,7 +296,7 @@
         return;
     }
 
-    NSLog(@"JSON success");
+    NSLog(@"Got list of orders");
 
     id appDelegate = (id)[[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *managedObjectContext = [appDelegate managedObjectContext];
@@ -353,8 +353,6 @@
             [self showUpdateErrorWithDescription:[NSString stringWithFormat:@"Failed to save order: %@", [error localizedDescription]]];
             return;
         }
-        else
-            NSLog(@"Saved new order!");
     }
 
     [self.tableView reloadData];
