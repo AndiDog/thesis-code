@@ -121,14 +121,17 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="OrderCell" id="A8j-dv-4Vb">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="OrderCell" id="A8j-dv-4Vb">
                                 <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <connections>
+                                    <segue destination="eS0-OQ-6YC" kind="push" identifier="showOrderDetail" id="tkM-XY-yor"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -144,23 +147,27 @@
             </objects>
             <point key="canvasLocation" x="392" y="-1252"/>
         </scene>
+        <!--Order Detail View Controller-->
+        <scene sceneID="6iD-Ea-YbW">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MEQ-HL-YQB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="eS0-OQ-6YC" customClass="OrderDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="M4k-KF-ohA">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="pFb-Le-Zzi"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="848" y="-1252"/>
+        </scene>
     </scenes>
     <resources>
         <image name="ios-add-pictures-tab.png" width="32" height="32"/>
         <image name="ios-current-order-tab.png" width="32" height="32"/>
         <image name="ios-old-orders-tab.png" width="32" height="32"/>
     </resources>
-    <classes>
-        <class className="MasterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MasterViewController.h"/>
-        </class>
-        <class className="OldOrdersViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OldOrdersViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="ordersCountLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

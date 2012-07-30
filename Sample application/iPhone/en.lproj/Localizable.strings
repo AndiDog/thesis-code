@@ -1,4 +1,6 @@
+"CurrentOrder" = "Current order";
 "DismissError" = "Dismiss";
 "Error" = "Error";
 "FailedToUpdateOrders" = "Failed to update orders.";
+"OldOrder" = "Old order";
 "NumOrders" = "There are %d old orders:";

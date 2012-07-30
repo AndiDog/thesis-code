@@ -29,6 +29,7 @@
 		DAD2138A15BD68B200AEC2BF /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAD2138215BD68B200AEC2BF /* README.txt */; };
 		DAD279B915BDA21D00E31539 /* YAJLiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD279B815BDA21D00E31539 /* YAJLiOS.framework */; };
 		DAD494F515C320EC00127889 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD494F415C320EB00127889 /* MasterViewController.m */; };
+		DAD55B7E15C6F4F300DDBE50 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD55B7D15C6F4F300DDBE50 /* OrderDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,8 @@
 		DAD279B815BDA21D00E31539 /* YAJLiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YAJLiOS.framework; sourceTree = "<group>"; };
 		DAD494F315C320EB00127889 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		DAD494F415C320EB00127889 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		DAD55B7C15C6F4F300DDBE50 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
+		DAD55B7D15C6F4F300DDBE50 /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +133,8 @@
 				DA8A367C15B59E3C003A719D /* Supporting Files */,
 				DA24FB1115BD8A8200F6AAD2 /* settings.h */,
 				DAB07F1415C2E1A40036D837 /* MobiPrint.xcdatamodeld */,
+				DAD55B7C15C6F4F300DDBE50 /* OrderDetailViewController.h */,
+				DAD55B7D15C6F4F300DDBE50 /* OrderDetailViewController.m */,
 			);
 			path = MobiPrint;
 			sourceTree = "<group>";
@@ -251,6 +256,7 @@
 				DAD2138715BD68B200AEC2BF /* ISO8601DateFormatter.m in Sources */,
 				DAB07F1615C2E1A40036D837 /* MobiPrint.xcdatamodeld in Sources */,
 				DAD494F515C320EC00127889 /* MasterViewController.m in Sources */,
+				DAD55B7E15C6F4F300DDBE50 /* OrderDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

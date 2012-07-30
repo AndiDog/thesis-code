@@ -1,4 +1,5 @@
 #import "OldOrdersViewController.h"
+#import "OrderDetailViewController.h"
 #import "settings.h"
 #import "YAJLiOS/YAJL.h"
 #import "ISO8601DateFormatter.h"
@@ -102,10 +103,11 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+    if([[segue identifier] isEqualToString:@"showOrderDetail"])
+    {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        // TODO: [[segue destinationViewController] setDetailItem:object];
+        [((OrderDetailViewController*)[segue destinationViewController]) setOrder:object];
     }
 }
 
