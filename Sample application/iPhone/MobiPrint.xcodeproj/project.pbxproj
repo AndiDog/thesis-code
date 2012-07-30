@@ -18,16 +18,17 @@
 		DA8A368215B59E3C003A719D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368115B59E3C003A719D /* main.m */; };
 		DA8A368615B59E3C003A719D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368515B59E3C003A719D /* AppDelegate.m */; };
 		DA8A368915B59E3C003A719D /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA8A368715B59E3C003A719D /* MainStoryboard.storyboard */; };
-		DA8A368C15B59E3C003A719D /* MobiPrint.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368A15B59E3C003A719D /* MobiPrint.xcdatamodeld */; };
 		DA8A368F15B59E3D003A719D /* OldOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368E15B59E3D003A719D /* OldOrdersViewController.m */; };
 		DA8A369215B59E3D003A719D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A369115B59E3D003A719D /* DetailViewController.m */; };
 		DA8A369915B59E8F003A719D /* icon-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369815B59E8F003A719D /* icon-57x57.png */; };
 		DA8A369B15B59EA3003A719D /* icon-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369A15B59EA3003A719D /* icon-114x114.png */; };
 		DA9F1CD115BD7A40003CA8AD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA9F1CD315BD7A40003CA8AD /* Localizable.strings */; };
+		DAB07F1615C2E1A40036D837 /* MobiPrint.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DAB07F1415C2E1A40036D837 /* MobiPrint.xcdatamodeld */; };
 		DAD2138715BD68B200AEC2BF /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */; };
 		DAD2138815BD68B200AEC2BF /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAD2138015BD68B200AEC2BF /* LICENSE.txt */; };
 		DAD2138A15BD68B200AEC2BF /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAD2138215BD68B200AEC2BF /* README.txt */; };
 		DAD279B915BDA21D00E31539 /* YAJLiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD279B815BDA21D00E31539 /* YAJLiOS.framework */; };
+		DAD494F515C320EC00127889 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD494F415C320EB00127889 /* MasterViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +48,6 @@
 		DA8A368415B59E3C003A719D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DA8A368515B59E3C003A719D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DA8A368815B59E3C003A719D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		DA8A368B15B59E3C003A719D /* MobiPrint.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MobiPrint.xcdatamodel; sourceTree = "<group>"; };
 		DA8A368D15B59E3D003A719D /* OldOrdersViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OldOrdersViewController.h; sourceTree = "<group>"; };
 		DA8A368E15B59E3D003A719D /* OldOrdersViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OldOrdersViewController.m; sourceTree = "<group>"; };
 		DA8A369015B59E3D003A719D /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
@@ -55,11 +55,14 @@
 		DA8A369815B59E8F003A719D /* icon-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-57x57.png"; sourceTree = "<group>"; };
 		DA8A369A15B59EA3003A719D /* icon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-114x114.png"; sourceTree = "<group>"; };
 		DA9F1CD215BD7A40003CA8AD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DAB07F1515C2E1A40036D837 /* MobiPrint.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MobiPrint.xcdatamodel; sourceTree = "<group>"; };
 		DAD2137E15BD68B200AEC2BF /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
 		DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISO8601DateFormatter.m; sourceTree = "<group>"; };
 		DAD2138015BD68B200AEC2BF /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		DAD2138215BD68B200AEC2BF /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		DAD279B815BDA21D00E31539 /* YAJLiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YAJLiOS.framework; sourceTree = "<group>"; };
+		DAD494F315C320EB00127889 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		DAD494F415C320EB00127889 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +116,8 @@
 		DA8A367B15B59E3C003A719D /* MobiPrint */ = {
 			isa = PBXGroup;
 			children = (
+				DAD494F315C320EB00127889 /* MasterViewController.h */,
+				DAD494F415C320EB00127889 /* MasterViewController.m */,
 				DAD2137B15BD688900AEC2BF /* Libraries */,
 				DA8A369C15B5AFF2003A719D /* Resources */,
 				DA8A368415B59E3C003A719D /* AppDelegate.h */,
@@ -122,9 +127,9 @@
 				DA8A368E15B59E3D003A719D /* OldOrdersViewController.m */,
 				DA8A369015B59E3D003A719D /* DetailViewController.h */,
 				DA8A369115B59E3D003A719D /* DetailViewController.m */,
-				DA8A368A15B59E3C003A719D /* MobiPrint.xcdatamodeld */,
 				DA8A367C15B59E3C003A719D /* Supporting Files */,
 				DA24FB1115BD8A8200F6AAD2 /* settings.h */,
+				DAB07F1415C2E1A40036D837 /* MobiPrint.xcdatamodeld */,
 			);
 			path = MobiPrint;
 			sourceTree = "<group>";
@@ -241,10 +246,11 @@
 			files = (
 				DA8A368215B59E3C003A719D /* main.m in Sources */,
 				DA8A368615B59E3C003A719D /* AppDelegate.m in Sources */,
-				DA8A368C15B59E3C003A719D /* MobiPrint.xcdatamodeld in Sources */,
 				DA8A368F15B59E3D003A719D /* OldOrdersViewController.m in Sources */,
 				DA8A369215B59E3D003A719D /* DetailViewController.m in Sources */,
 				DAD2138715BD68B200AEC2BF /* ISO8601DateFormatter.m in Sources */,
+				DAB07F1615C2E1A40036D837 /* MobiPrint.xcdatamodeld in Sources */,
+				DAD494F515C320EC00127889 /* MasterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,12 +399,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		DA8A368A15B59E3C003A719D /* MobiPrint.xcdatamodeld */ = {
+		DAB07F1415C2E1A40036D837 /* MobiPrint.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				DA8A368B15B59E3C003A719D /* MobiPrint.xcdatamodel */,
+				DAB07F1515C2E1A40036D837 /* MobiPrint.xcdatamodel */,
 			);
-			currentVersion = DA8A368B15B59E3C003A719D /* MobiPrint.xcdatamodel */;
+			currentVersion = DAB07F1515C2E1A40036D837 /* MobiPrint.xcdatamodel */;
 			path = MobiPrint.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

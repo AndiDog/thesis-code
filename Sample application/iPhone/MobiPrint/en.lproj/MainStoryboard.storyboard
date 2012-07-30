@@ -48,9 +48,42 @@
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="r9d-mM-Ah6">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <connections>
+                        <segue destination="2KN-RE-uxJ" kind="relationship" relationship="rootViewController" id="US4-vt-1yf"/>
+                    </connections>
                 </navigationController>
             </objects>
             <point key="canvasLocation" x="-203" y="-632"/>
+        </scene>
+        <!--Master View Controller-->
+        <scene sceneID="FWH-Ed-S8F">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eOg-Ag-c61" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="2KN-RE-uxJ" customClass="MasterViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xWi-eP-bFC">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MyCell" id="lIV-wM-bcD">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="2KN-RE-uxJ" id="b9S-zR-IIQ"/>
+                            <outlet property="delegate" destination="2KN-RE-uxJ" id="3aW-0h-cXa"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="BNa-Pc-opM"/>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="384" y="-634"/>
         </scene>
         <!--Navigation Controller - Old orders-->
         <scene sceneID="dy0-oc-gzb">
@@ -88,7 +121,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Order" id="A8j-dv-4Vb">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="OrderCell" id="A8j-dv-4Vb">
                                 <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -118,6 +151,9 @@
         <image name="ios-old-orders-tab.png" width="32" height="32"/>
     </resources>
     <classes>
+        <class className="MasterViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MasterViewController.h"/>
+        </class>
         <class className="OldOrdersViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OldOrdersViewController.h"/>
             <relationships>

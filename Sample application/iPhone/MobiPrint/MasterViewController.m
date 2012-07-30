@@ -1,20 +1,23 @@
-#import "OldOrdersViewController.h"
-#import "settings.h"
-#import "YAJLiOS/YAJL.h"
+//
+//  MasterViewController.m
+//  listtest
+//
+//  Created by Dog on 27/07/2012.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//
 
-@interface OldOrdersViewController ()
+#import "MasterViewController.h"
+
+#import "DetailViewController.h"
+
+@interface MasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
 
-@implementation OldOrdersViewController
-{
-    NSURLConnection *_connection;
-    NSMutableData *_webData;
-}
+@implementation MasterViewController
 
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
-@synthesize ordersCountLabel;
 
 - (void)awakeFromNib
 {
@@ -23,14 +26,16 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
     id appDelegate = (id)[[UIApplication sharedApplication] delegate];
     self.managedObjectContext = [appDelegate managedObjectContext];
-
-    [super viewDidLoad];
+    
 	// Do any additional setup after loading the view, typically from a nib.
-    [self controllerDidChangeContent:nil];
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-    [self updateOrders];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
+    self.navigationItem.rightBarButtonItem = addButton;
 }
 
 - (void)viewDidUnload
@@ -49,18 +54,21 @@
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
     NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-
+    
     // If appropriate, configure the new managed object.
     // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-    [newManagedObject setValue:[NSNumber numberWithInt:5] forKey:@"id"];
-
+    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
+    
     // Save the context.
     NSError *error = nil;
     if (![context save:&error]) {
          // Replace this implementation with code to handle the error appropriately.
-         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
+    }
+    else {
+        NSLog(@"BAM");
     }
 }
 
@@ -79,18 +87,36 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OrderCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyCell"];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return NO;
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+             // Replace this implementation with code to handle the error appropriately.
+             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }   
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // The table view should not be re-orderable.
     return NO;
 }
 
@@ -99,7 +125,7 @@
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        // TODO: [[segue destinationViewController] setDetailItem:object];
+        [[segue destinationViewController] setDetailItem:object];
     }
 }
 
@@ -110,79 +136,37 @@
     if (__fetchedResultsController != nil) {
         return __fetchedResultsController;
     }
-
+    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     // Edit the entity name as appropriate.
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
-
+    
     // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
-
+    
     // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"submissionDate" ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-
+    
     [fetchRequest setSortDescriptors:sortDescriptors];
-
+    
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
-
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
-
-    return __fetchedResultsController;
-
-
-    /*
-    if (__fetchedResultsController != nil) {
-        return __fetchedResultsController;
-    }
-
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-
-    // Only old orders
-    //[fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"submissionDate <> ''"]];
-
-    // Set the batch size to a suitable number.
-    [fetchRequest setFetchBatchSize:20];
-
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"submissionDate" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-
-    [fetchRequest setSortDescriptors:sortDescriptors];
-
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-
+    
 	NSError *error = nil;
 	if (![self.fetchedResultsController performFetch:&error]) {
 	     // Replace this implementation with code to handle the error appropriately.
-	     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+	     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
 	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	    abort();
 	}
-
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] init];
-
-    return __fetchedResultsController;*/
-}
+    
+    return __fetchedResultsController;
+}    
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
@@ -196,7 +180,7 @@
         case NSFetchedResultsChangeInsert:
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
-
+            
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
@@ -208,20 +192,20 @@
       newIndexPath:(NSIndexPath *)newIndexPath
 {
     UITableView *tableView = self.tableView;
-
+    
     switch(type) {
         case NSFetchedResultsChangeInsert:
             [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
-
+            
         case NSFetchedResultsChangeDelete:
             [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
-
+            
         case NSFetchedResultsChangeUpdate:
             [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
             break;
-
+            
         case NSFetchedResultsChangeMove:
             [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]withRowAnimation:UITableViewRowAnimationFade];
@@ -232,96 +216,22 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableView endUpdates];
-
-    int count = 7; // TODO
-    [self.ordersCountLabel setText:[NSString stringWithFormat:NSLocalizedString(@"NumOrders", @""), count]];
 }
 
 /*
-// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
+ 
+ - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     // In the simplest, most efficient, case, reload the table view.
-    //[self.tableView reloadData];
-}*/
+    [self.tableView reloadData];
+}
+ */
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [NSString stringWithFormat:@"%@:%@", @"S", [[object valueForKey:@"submissionDate"] description]];
-}
-
-- (void)updateOrders
-{
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", WEB_SERVICE_BASE_URI, @"orders/"]]];
-    _webData = [NSMutableData data];
-
-    _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-
-    NSLog(@"Request started");
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-    [_webData setLength: 0];
-
-    if([httpResponse statusCode] < 200 || [httpResponse statusCode] >= 300)
-    {
-        // TODO: show error message
-        return;
-    }
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [_webData appendData:data];
-}
-
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    NSLog(@"Failed to update old orders");
-}
-
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    _connection = nil;
-
-    NSLog(@"Received orders");
-    NSString *jsonString = [[NSString alloc] initWithBytes: [_webData mutableBytes] length:[_webData length] encoding:NSUTF8StringEncoding];
-
-    NSDictionary *json = [_webData yajl_JSON];
-
-    if(!json)
-    {
-        NSLog(@"JSON could not be parsed");
-    }
-    else
-    {
-        NSLog(@"JSON success");
-
-        id appDelegate = (id)[[UIApplication sharedApplication] delegate];
-        NSManagedObjectContext *managedObjectContext = [appDelegate managedObjectContext];
-
-        NSManagedObject *newOrder;
-        newOrder = [NSEntityDescription insertNewObjectForEntityForName:@"Order"
-                                        inManagedObjectContext:managedObjectContext];
-        [newOrder setValue:[NSNumber numberWithInt:1] forKey:@"id"];
-        [newOrder setValue:@"1,2,3" forKey:@"pictureIds"];
-        [newOrder setValue:@"2012" forKey:@"submissionDate"];
-        [newOrder setValue:[NSNumber numberWithInt:0] forKey:@"storeId"];
-        NSError *error;
-        if(![managedObjectContext save:&error])
-        {
-            NSLog(@"Failed to save new order: %@", [error localizedDescription]);
-        }
-        else
-        {
-            NSLog(@"Saved new order!");
-            [self.tableView reloadData];
-        }
-    }
 }
 
 @end

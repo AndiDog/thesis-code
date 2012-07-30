@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="OrderModel" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="storeId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="submissionDate" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="pictureIds" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PictureModel" inverseName="order" inverseEntity="PictureModel" syncable="YES"/>
+    </entity>
+    <entity name="PictureModel" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="order" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="OrderModel" inverseName="pictureIds" inverseEntity="OrderModel" syncable="YES"/>
+    </entity>
+    <fetchRequest name="OldOrdersFetchRequest" entity="OrderModel" predicateString="submissionDate == nil"/>
+    <elements>
+        <element name="OrderModel" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="PictureModel" positionX="160" positionY="192" width="128" height="75"/>
+    </elements>
+</model>
