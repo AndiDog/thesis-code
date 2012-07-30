@@ -10,6 +10,7 @@
 @implementation OldOrdersViewController
 {
     NSURLConnection *_connection;
+    NSTimer *_updateTimer;
     NSMutableData *_webData;
 }
 
@@ -244,6 +245,10 @@
     _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 
     NSLog(@"Request started");
+
+    // Run in 60 second interval
+    if(!_updateTimer)
+        _updateTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateOrders) userInfo:nil repeats:true];
 }
 
 -(void)showUpdateErrorWithDescription:(NSString*)description
