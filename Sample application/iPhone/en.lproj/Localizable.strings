@@ -1,1 +1,4 @@
+"DismissError" = "Dismiss";
+"Error" = "Error";
+"FailedToUpdateOrders" = "Failed to update orders.";
 "NumOrders" = "There are %d old orders:";

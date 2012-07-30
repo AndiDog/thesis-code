@@ -1,6 +1,7 @@
 #import "OldOrdersViewController.h"
 #import "settings.h"
 #import "YAJLiOS/YAJL.h"
+#import "ISO8601DateFormatter.h"
 
 @interface OldOrdersViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -116,6 +117,9 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
 
+    // Only old orders
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"submissionDate <> ''"]];
+
     // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
 
@@ -127,7 +131,7 @@
 
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
 
@@ -140,48 +144,6 @@
 	}
 
     return __fetchedResultsController;
-
-
-    /*
-    if (__fetchedResultsController != nil) {
-        return __fetchedResultsController;
-    }
-
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-
-    // Only old orders
-    //[fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"submissionDate <> ''"]];
-
-    // Set the batch size to a suitable number.
-    [fetchRequest setFetchBatchSize:20];
-
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"submissionDate" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-
-    [fetchRequest setSortDescriptors:sortDescriptors];
-
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-	     // Replace this implementation with code to handle the error appropriately.
-	     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
-
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] init];
-
-    return __fetchedResultsController;*/
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
@@ -233,7 +195,7 @@
 {
     [self.tableView endUpdates];
 
-    int count = 7; // TODO
+    int count = [[[self fetchedResultsController] fetchedObjects] count];
     [self.ordersCountLabel setText:[NSString stringWithFormat:NSLocalizedString(@"NumOrders", @""), count]];
 }
 
@@ -249,7 +211,29 @@
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@:%@", @"S", [[object valueForKey:@"submissionDate"] description]];
+
+    // Can be assumed to be in ISO 8601 format since we only show old orders
+    NSString *submissionDate = [object valueForKey:@"submissionDate"];
+    NSDate *date = [[[ISO8601DateFormatter alloc] init] dateFromString:submissionDate];
+
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"EEEE, MMMM d"];
+    [formatter setLocale:[NSLocale currentLocale]];
+
+    NSString *firstPart = [formatter stringFromDate:date];
+    [formatter setDateFormat:@"yyyy"];
+    NSString *secondPart = [formatter stringFromDate:date];
+
+    NSString *dayPostfix = @"th";
+
+    if([firstPart hasSuffix:@"1"])
+        dayPostfix = @"st";
+    else if([firstPart hasSuffix:@"2"])
+        dayPostfix = @"nd";
+    else if([firstPart hasSuffix:@"3"])
+        dayPostfix = @"rd";
+
+    cell.textLabel.text = [NSString stringWithFormat:@"%@%@ %@", firstPart, dayPostfix, secondPart];
 }
 
 - (void)updateOrders
@@ -262,6 +246,15 @@
     NSLog(@"Request started");
 }
 
+-(void)showUpdateErrorWithDescription:(NSString*)description
+{
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
+                                message:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"FailedToUpdateOrders", @""), description]
+                               delegate:nil
+                      cancelButtonTitle:NSLocalizedString(@"DismissError", @"")
+                      otherButtonTitles:nil] show];
+}
+
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
@@ -269,7 +262,8 @@
 
     if([httpResponse statusCode] < 200 || [httpResponse statusCode] >= 300)
     {
-        // TODO: show error message
+        [self showUpdateErrorWithDescription:[NSString stringWithFormat:@"Status code %@", [httpResponse statusCode]]];
+
         return;
     }
 }
@@ -282,6 +276,8 @@
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     NSLog(@"Failed to update old orders");
+
+    [self showUpdateErrorWithDescription:@"Connection error"];
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -296,32 +292,72 @@
     if(!json)
     {
         NSLog(@"JSON could not be parsed");
+        [self showUpdateErrorWithDescription:@"JSON parsing error"];
+        return;
     }
-    else
+
+    NSLog(@"JSON success");
+
+    id appDelegate = (id)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *managedObjectContext = [appDelegate managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:managedObjectContext];
+
+    NSError *error;
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSArray *array = [managedObjectContext executeFetchRequest:request error:&error];
+    if(array == nil)
     {
-        NSLog(@"JSON success");
+        NSLog(@"Failed to clear orders: %@", [error localizedDescription]);
+        [self showUpdateErrorWithDescription:@"Failed to retrieve saved orders"];
+        return;
+    }
 
-        id appDelegate = (id)[[UIApplication sharedApplication] delegate];
-        NSManagedObjectContext *managedObjectContext = [appDelegate managedObjectContext];
+    for(NSManagedObject *persistedOrder in array)
+        [managedObjectContext deleteObject:persistedOrder];
 
+    if(![managedObjectContext save:&error])
+    {
+        NSLog(@"Failed to delete orders: %@", [error localizedDescription]);
+        [self showUpdateErrorWithDescription:@"Failed to delete orders"];
+    }
+
+    NSArray *ordersArray = [json valueForKey:@"orders"];
+    for(NSDictionary *order in ordersArray)
+    {
         NSManagedObject *newOrder;
         newOrder = [NSEntityDescription insertNewObjectForEntityForName:@"Order"
                                         inManagedObjectContext:managedObjectContext];
-        [newOrder setValue:[NSNumber numberWithInt:1] forKey:@"id"];
-        [newOrder setValue:@"1,2,3" forKey:@"pictureIds"];
-        [newOrder setValue:@"2012" forKey:@"submissionDate"];
-        [newOrder setValue:[NSNumber numberWithInt:0] forKey:@"storeId"];
-        NSError *error;
-        if(![managedObjectContext save:&error])
+        [newOrder setValue:[NSNumber numberWithInt:[[order valueForKey:@"id"] intValue]] forKey:@"id"];
+
+        NSString *pictureIds = @"";
+        for(NSNumber *pictureId in [order valueForKey:@"pictureIds"])
+            pictureIds = [NSString stringWithFormat:@"%@%d,", pictureIds, [pictureId intValue]];
+
+        [newOrder setValue:pictureIds forKey:@"pictureIds"];
+
+        if([order valueForKey:@"submissionDate"] == [NSNull null])
         {
-            NSLog(@"Failed to save new order: %@", [error localizedDescription]);
+            [newOrder setValue:@"" forKey:@"submissionDate"];
+            [newOrder setValue:0 forKey:@"storeId"];
         }
         else
         {
-            NSLog(@"Saved new order!");
-            [self.tableView reloadData];
+            [newOrder setValue:[order valueForKey:@"submissionDate"] forKey:@"submissionDate"];
+            [newOrder setValue:[NSNumber numberWithInt:[[order valueForKey:@"storeId"] intValue]] forKey:@"storeId"];
         }
+
+        if(![managedObjectContext save:&error])
+        {
+            NSLog(@"Failed to save new order: %@", [error localizedDescription]);
+            [self showUpdateErrorWithDescription:[NSString stringWithFormat:@"Failed to save order: %@", [error localizedDescription]]];
+            return;
+        }
+        else
+            NSLog(@"Saved new order!");
     }
+
+    [self.tableView reloadData];
 }
 
 @end
