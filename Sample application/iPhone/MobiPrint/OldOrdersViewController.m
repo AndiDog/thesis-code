@@ -38,7 +38,11 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+
+    _connection = nil;
+    [_updateTimer invalidate];
+    _updateTimer = nil;
+    _webData = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
