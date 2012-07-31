@@ -11,6 +11,16 @@
     NSFileHandle *_thumbnailFile;
 }
 
++ (NSMutableDictionary*)downloadingThumbnails
+{
+    static NSMutableDictionary *downloadingThumbnails = nil;
+
+    if(downloadingThumbnails == nil)
+        downloadingThumbnails = [[NSMutableDictionary alloc] init];
+
+    return downloadingThumbnails;
+}
+
 -(void)dealloc
 {
     [_thumbnailFile closeFile];
@@ -61,6 +71,14 @@
         return;
     }
 
+    if([[ThumbnailDownloadHandler downloadingThumbnails] valueForKey:[NSString stringWithFormat:@"%d", _pictureId]] != nil)
+    {
+        NSLog(@"Thumbnail %d already downloading, not starting another request", _pictureId);
+        return;
+    }
+
+    [[ThumbnailDownloadHandler downloadingThumbnails] setValue:self forKey:[NSString stringWithFormat:@"%d", _pictureId]];
+
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@picture/%d/thumbnail/?size=%d", WEB_SERVICE_BASE_URI, _pictureId, 100]]];
 
     _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -103,6 +121,8 @@
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    [[ThumbnailDownloadHandler downloadingThumbnails] setValue:nil forKey:[NSString stringWithFormat:@"%d", _pictureId]];
+
     [_thumbnailFile closeFile];
     _thumbnailFile = nil;
 
@@ -121,6 +141,8 @@
     _thumbnailFile = nil;
 
     NSLog(@"Received thumbnail %d", _pictureId);
+
+    [[ThumbnailDownloadHandler downloadingThumbnails] setValue:nil forKey:[NSString stringWithFormat:@"%d", _pictureId]];
 
     [_resultDelegate thumbnailDownloadSuccess:_pictureId];
 }
