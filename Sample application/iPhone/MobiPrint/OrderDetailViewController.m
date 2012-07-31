@@ -92,6 +92,7 @@
         NSString *thumbnailFilename = [ThumbnailDownloadHandler filenameForPictureId:pictureId];
         int thumbnailFileSize = 0;
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(x, y, cx, cx)];
+        [imageView setContentMode:UIViewContentModeScaleAspectFit];
 
         if([[NSFileManager defaultManager] fileExistsAtPath:thumbnailFilename])
         {
