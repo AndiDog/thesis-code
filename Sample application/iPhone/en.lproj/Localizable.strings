@@ -3,4 +3,9 @@
 "Error" = "Error";
 "FailedToUpdateOrders" = "Failed to update orders.";
 "OldOrder" = "Old order";
+"OrderHasNPicturesFmt" = "This order contains %d pictures:";
 "NumOrders" = "There are %d old orders:";
+"NumPicturesFmt" = "%d pictures";
+"Printed" = "Printed";
+"Uploaded" = "Uploaded";
+"Uploading" = "Uploading";

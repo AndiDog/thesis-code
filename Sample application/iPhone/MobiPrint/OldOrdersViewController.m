@@ -3,6 +3,7 @@
 #import "settings.h"
 #import "YAJLiOS/YAJL.h"
 #import "ISO8601DateFormatter.h"
+#import "NSString+CountString.h"
 
 @interface OldOrdersViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -240,7 +241,12 @@
     else if([firstPart hasSuffix:@"3"])
         dayPostfix = @"rd";
 
-    cell.textLabel.text = [NSString stringWithFormat:@"%@%@ %@", firstPart, dayPostfix, secondPart];
+    UILabel *dateLabel = (UILabel*)[cell viewWithTag:1];
+    UILabel *numPicsLabel = (UILabel*)[cell viewWithTag:2];
+    int numPics = [((NSString*)[object valueForKey:@"pictureIds"]) countOccurencesOfString:@","];
+
+    dateLabel.text = [NSString stringWithFormat:@"%@%@ %@", firstPart, dayPostfix, secondPart];
+    numPicsLabel.text = [NSString stringWithFormat:NSLocalizedString(@"NumPicturesFmt", @""), numPics];
 }
 
 - (void)updateOrders
@@ -296,7 +302,6 @@
     _connection = nil;
 
     NSLog(@"Received orders");
-    NSString *jsonString = [[NSString alloc] initWithBytes: [_webData mutableBytes] length:[_webData length] encoding:NSUTF8StringEncoding];
 
     NSDictionary *json = [_webData yajl_JSON];
 
