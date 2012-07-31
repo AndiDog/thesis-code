@@ -30,6 +30,11 @@
     return YES;
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self relayout];
+}
+
 - (void)relayout
 {
     // Clear old subviews
@@ -63,7 +68,7 @@
     self.headingLabel.text = [NSString stringWithFormat:NSLocalizedString(@"OrderHasNPicturesFmt", @""), numPictures + numUploadingPictures];
 
     const int screenWidth = self.thumbnailsTable.bounds.size.width;
-    const int picturesPerRow = 3;
+    const int picturesPerRow = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? 3 : 5;
     const int cx = ((screenWidth - 6) / picturesPerRow) - 10;
     int x;
     int y;
