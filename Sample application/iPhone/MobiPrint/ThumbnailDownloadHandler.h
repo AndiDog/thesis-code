@@ -12,6 +12,7 @@
 
 @interface ThumbnailDownloadHandler : NSObject
 
++(NSString*)filenameForPictureId:(int)pictureId;
 -(id)initWithPictureId:(int)pictureId resultDelegate:(id)resultDelegate;
 -(void)go;
 
