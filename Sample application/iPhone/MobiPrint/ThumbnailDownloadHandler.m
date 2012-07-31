@@ -4,6 +4,8 @@
 @implementation ThumbnailDownloadHandler
 {
     NSURLConnection *_connection;
+    NSString *_docDir;
+    NSString *_filename;
     ThumbnailDownloadDelegate* _resultDelegate;
     int _pictureId;
     NSFileHandle *_thumbnailFile;
@@ -31,11 +33,7 @@
             return nil;
         }
 
-        NSString *docDir = [paths objectAtIndex:0];
-
-        // TODO: build filename
-        
-        // TODO: open file
+        _docDir = [paths objectAtIndex:0];
     }
 
     return self;
@@ -58,35 +56,59 @@
 {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     
-    // TODO: open file here?!
-    
     if([httpResponse statusCode] < 200 || [httpResponse statusCode] >= 300)
     {
+        [connection cancel];
+        
         [_resultDelegate thumbnailDownloadError:[NSString stringWithFormat:@"Status code %@", [httpResponse statusCode]]];
         
         return;
     }
+    
+    _filename = [_docDir stringByAppendingFormat:@"/thumbnail-%d.jpg", _pictureId];
+
+    // Make sure file exists
+    [[NSFileManager defaultManager] createFileAtPath:_filename contents:nil attributes:nil];
+    
+    _thumbnailFile = [NSFileHandle fileHandleForWritingAtPath:_filename];
+    if(!_thumbnailFile)
+    {
+        [connection cancel];
+        
+        [_resultDelegate thumbnailDownloadError:[NSString stringWithFormat:@"Failed to open thumbnail file for writing", [httpResponse statusCode]]];
+        NSLog(@"Could not open '%@' for writing", _filename);
+        
+        return;
+    } 
 }
 
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    // TODO: write to file
+    [_thumbnailFile writeData:data];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"Failed to update old orders");
+    [_thumbnailFile closeFile];
+    _thumbnailFile = nil;
     
-    [_resultDelegate thumbnailDownloadError:@"Connection error"];
+    NSError *fileError;
+    [[NSFileManager defaultManager] removeItemAtPath:_filename error:&fileError];
+    
+    NSLog(@"Failed to download thumbnail: %@", [error localizedDescription]);
+    
+    [_resultDelegate thumbnailDownloadError:[NSString stringWithFormat:@"Connection error: %@", [error localizedDescription]]];
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     _connection = nil;
+    [_thumbnailFile closeFile];
+    _thumbnailFile = nil;
     
     NSLog(@"Received thumbnail %d", _pictureId);
     
-    
+    [_resultDelegate thumbnailDownloadSuccess:_pictureId];
 }
 
 @end

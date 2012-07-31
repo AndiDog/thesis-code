@@ -1,7 +1,8 @@
 "CurrentOrder" = "Current order";
 "DismissError" = "Dismiss";
 "Error" = "Error";
-"FailedToUpdateOrders" = "Failed to update orders.";
+"FailedToDownloadThumbnail" = "Failed to download thumbnail";
+"FailedToUpdateOrders" = "Failed to update orders";
 "OldOrder" = "Old order";
 "OrderHasNPicturesFmt" = "This order contains %d pictures:";
 "NumOrders" = "There are %d old orders:";

@@ -3,6 +3,7 @@
 @protocol ThumbnailDownloadDelegateProtocol
 
 - (void)thumbnailDownloadError:(NSString*)error;
+- (void)thumbnailDownloadSuccess:(int)pictureId;
 
 @end
 

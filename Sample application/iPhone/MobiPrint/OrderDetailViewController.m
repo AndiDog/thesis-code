@@ -110,7 +110,7 @@
 -(void)showThumbnailErrorWithDescription:(NSString*)description
 {
     [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
-                                message:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"FailedToUpdateOrders", @""), description]
+                                message:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"FailedToDownloadThumbnail", @""), description]
                                delegate:nil
                       cancelButtonTitle:NSLocalizedString(@"DismissError", @"")
                       otherButtonTitles:nil] show];
@@ -124,6 +124,11 @@
 -(void)thumbnailDownloadError:(NSString*)error
 {
     [self showThumbnailErrorWithDescription:error];
+}
+
+- (void)thumbnailDownloadSuccess:(int)pictureId
+{
+    NSLog(@"Success callback: %d", pictureId);
 }
 
 @end
