@@ -82,7 +82,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="num-orders" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="QDY-ro-vVu">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <accessibility key="accessibilityConfiguration">
                                 <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
                             </accessibility>
@@ -139,7 +139,7 @@
             </objects>
             <point key="canvasLocation" x="392" y="-1252"/>
         </scene>
-        <!--Picture Folders View Controller-->
+        <!--Picture Folders View Controller - Add pictures-->
         <scene sceneID="luU-jD-Wx3">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bNf-iI-lxU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -151,7 +151,7 @@
                         <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="num-folders" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="9RK-HS-2aH">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="33"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -193,7 +193,7 @@
                             <outlet property="delegate" destination="R4C-Lk-1VL" id="jsw-fc-4vP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="pw6-HU-GXr"/>
+                    <navigationItem key="navigationItem" title="Add pictures" id="pw6-HU-GXr"/>
                     <connections>
                         <outlet property="foldersCountLabel" destination="9RK-HS-2aH" id="mSB-9U-XOD"/>
                     </connections>
