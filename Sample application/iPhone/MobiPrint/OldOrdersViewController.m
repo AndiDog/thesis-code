@@ -31,7 +31,7 @@
     self.managedObjectContext = [appDelegate managedObjectContext];
 
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+
     [self controllerDidChangeContent:nil];
 
     [self updateOrders];
@@ -49,7 +49,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return YES;
 }
 
 - (void)insertNewObject:(id)sender
@@ -248,6 +248,8 @@
     dateLabel.text = [NSString stringWithFormat:@"%@%@ %@", firstPart, dayPostfix, secondPart];
     numPicsLabel.text = [NSString stringWithFormat:NSLocalizedString(@"NumPicturesFmt", @""), numPics];
 }
+
+#pragma mark - Own methods
 
 - (void)updateOrders
 {
