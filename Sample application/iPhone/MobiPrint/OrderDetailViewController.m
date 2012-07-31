@@ -1,4 +1,5 @@
 #import "OrderDetailViewController.h"
+#import "ThumbnailDownloadHandler.h"
 
 @implementation OrderDetailViewController
 
@@ -12,6 +13,8 @@
 
     if(self.order)
         [self relayout];
+
+    [self startThumbnailDownloadOfPictureId:1];
 }
 
 - (void)viewDidUnload
@@ -102,6 +105,25 @@
     // Relayout only if the view was loaded already
     if(self.thumbnailsTable.frame.size.width > 0)
         [self relayout];
+}
+
+-(void)showThumbnailErrorWithDescription:(NSString*)description
+{
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
+                                message:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"FailedToUpdateOrders", @""), description]
+                               delegate:nil
+                      cancelButtonTitle:NSLocalizedString(@"DismissError", @"")
+                      otherButtonTitles:nil] show];
+}
+
+-(void)startThumbnailDownloadOfPictureId:(int)pictureId
+{
+    [[[ThumbnailDownloadHandler alloc] initWithPictureId:pictureId resultDelegate:self] go];
+}
+
+-(void)thumbnailDownloadError:(NSString*)error
+{
+    [self showThumbnailErrorWithDescription:error];
 }
 
 @end

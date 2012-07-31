@@ -15,6 +15,7 @@
 		DA78F18C15C83E20000BF03E /* printed.png in Resources */ = {isa = PBXBuildFile; fileRef = DA78F18915C83E20000BF03E /* printed.png */; };
 		DA78F18D15C83E20000BF03E /* uploaded.png in Resources */ = {isa = PBXBuildFile; fileRef = DA78F18A15C83E20000BF03E /* uploaded.png */; };
 		DA78F18E15C83E20000BF03E /* uploading.png in Resources */ = {isa = PBXBuildFile; fileRef = DA78F18B15C83E20000BF03E /* uploading.png */; };
+		DA78F19115C848D9000BF03E /* ThumbnailDownloadHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DA78F19015C848D9000BF03E /* ThumbnailDownloadHandler.m */; };
 		DA8A367415B59E3C003A719D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A367315B59E3C003A719D /* UIKit.framework */; };
 		DA8A367615B59E3C003A719D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A367515B59E3C003A719D /* Foundation.framework */; };
 		DA8A367815B59E3C003A719D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8A367715B59E3C003A719D /* CoreGraphics.framework */; };
@@ -48,6 +49,8 @@
 		DA78F18915C83E20000BF03E /* printed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = printed.png; sourceTree = "<group>"; };
 		DA78F18A15C83E20000BF03E /* uploaded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uploaded.png; sourceTree = "<group>"; };
 		DA78F18B15C83E20000BF03E /* uploading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uploading.png; sourceTree = "<group>"; };
+		DA78F18F15C848D9000BF03E /* ThumbnailDownloadHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailDownloadHandler.h; sourceTree = "<group>"; };
+		DA78F19015C848D9000BF03E /* ThumbnailDownloadHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailDownloadHandler.m; sourceTree = "<group>"; };
 		DA8A366F15B59E3C003A719D /* MobiPrint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobiPrint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA8A367315B59E3C003A719D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DA8A367515B59E3C003A719D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -148,6 +151,8 @@
 				DAD55B7D15C6F4F300DDBE50 /* OrderDetailViewController.m */,
 				DA78F18315C82022000BF03E /* NSString+CountString.h */,
 				DA78F18415C82022000BF03E /* NSString+CountString.m */,
+				DA78F18F15C848D9000BF03E /* ThumbnailDownloadHandler.h */,
+				DA78F19015C848D9000BF03E /* ThumbnailDownloadHandler.m */,
 			);
 			path = MobiPrint;
 			sourceTree = "<group>";
@@ -279,6 +284,7 @@
 				DAD494F515C320EC00127889 /* MasterViewController.m in Sources */,
 				DAD55B7E15C6F4F300DDBE50 /* OrderDetailViewController.m in Sources */,
 				DA78F18515C82022000BF03E /* NSString+CountString.m in Sources */,
+				DA78F19115C848D9000BF03E /* ThumbnailDownloadHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
