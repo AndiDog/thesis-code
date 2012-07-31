@@ -49,41 +49,11 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="2KN-RE-uxJ" kind="relationship" relationship="rootViewController" id="US4-vt-1yf"/>
+                        <segue destination="R4C-Lk-1VL" kind="relationship" relationship="rootViewController" id="kSJ-ue-2nu"/>
                     </connections>
                 </navigationController>
             </objects>
             <point key="canvasLocation" x="-203" y="-632"/>
-        </scene>
-        <!--Master View Controller-->
-        <scene sceneID="FWH-Ed-S8F">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="eOg-Ag-c61" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tableViewController id="2KN-RE-uxJ" customClass="MasterViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xWi-eP-bFC">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MyCell" id="lIV-wM-bcD">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="2KN-RE-uxJ" id="b9S-zR-IIQ"/>
-                            <outlet property="delegate" destination="2KN-RE-uxJ" id="3aW-0h-cXa"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="BNa-Pc-opM"/>
-                </tableViewController>
-            </objects>
-            <point key="canvasLocation" x="384" y="-634"/>
         </scene>
         <!--Navigation Controller - Old orders-->
         <scene sceneID="dy0-oc-gzb">
@@ -130,7 +100,7 @@
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="order-date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="oIm-pB-lmq">
                                             <rect key="frame" x="8" y="11" width="187" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
                                             </accessibility>
@@ -140,7 +110,7 @@
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="right" text="num-pics" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="roz-p9-z4G">
                                             <rect key="frame" x="203" y="11" width="77" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
                                             </accessibility>
@@ -168,6 +138,68 @@
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="392" y="-1252"/>
+        </scene>
+        <!--Picture Folders View Controller-->
+        <scene sceneID="luU-jD-Wx3">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bNf-iI-lxU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="R4C-Lk-1VL" customClass="PictureFoldersViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" tag="1000" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="jBU-9K-cqe">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="num-folders" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="9RK-HS-2aH">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="33"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PictureFolderCell" id="3lf-jT-XYe">
+                                <rect key="frame" x="0.0" y="55" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="folder-name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Fy7-CD-ghL">
+                                            <rect key="frame" x="8" y="11" width="179" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
+                                            <accessibility key="accessibilityConfiguration">
+                                                <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
+                                            </accessibility>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="right" text="num-pics" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="ZRu-An-CYM">
+                                            <rect key="frame" x="203" y="11" width="77" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES"/>
+                                            <accessibility key="accessibilityConfiguration">
+                                                <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
+                                            </accessibility>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="R4C-Lk-1VL" id="wa9-UJ-S9U"/>
+                            <outlet property="delegate" destination="R4C-Lk-1VL" id="jsw-fc-4vP"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="pw6-HU-GXr"/>
+                    <connections>
+                        <outlet property="foldersCountLabel" destination="9RK-HS-2aH" id="mSB-9U-XOD"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="378" y="-626"/>
         </scene>
         <!--Order Detail View Controller - order-detail-->
         <scene sceneID="6iD-Ea-YbW">
@@ -208,9 +240,6 @@
         <image name="ios-old-orders-tab.png" width="32" height="32"/>
     </resources>
     <classes>
-        <class className="MasterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MasterViewController.h"/>
-        </class>
         <class className="OldOrdersViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OldOrdersViewController.h"/>
             <relationships>
@@ -221,7 +250,13 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OrderDetailViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="headingLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="thumbnailsTable" candidateClass="UIView"/>
+                <relationship kind="outlet" name="thumbnailsTable" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="PictureFoldersViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PictureFoldersViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="foldersCountLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
     </classes>

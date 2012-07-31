@@ -7,6 +7,7 @@
 "OrderHasNPicturesFmt" = "This order contains %d pictures:";
 "NumOrders" = "There are %d old orders:";
 "NumPicturesFmt" = "%d pictures";
+"NumPictureFoldersFmt" = "There are %d folders with pictures:";
 "Printed" = "Printed";
 "Uploaded" = "Uploaded";
 "Uploading" = "Uploading";
