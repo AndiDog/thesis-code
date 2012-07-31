@@ -1,5 +1,6 @@
 #import "OrderDetailViewController.h"
 #import "ThumbnailDownloadHandler.h"
+#import "PictureUploadHandler.h"
 
 @implementation OrderDetailViewController
 
@@ -45,8 +46,15 @@
             [pictureIds addObject:[NSNumber numberWithInt:[pictureIdString intValue]]];
 
     int numPictures = [pictureIds count];
-    int numUploadingPictures = 0;
     bool isOldOrder = [((NSString*)[self.order valueForKey:@"submissionDate"]) length] > 0;
+
+    NSArray *uploadingPictures;
+    if(isOldOrder)
+        uploadingPictures = [[NSArray alloc] init];
+    else
+        uploadingPictures = [PictureUploadHandler getUploadingPictures];
+
+    int numUploadingPictures = [uploadingPictures count];
 
     self.title = isOldOrder
                  ? NSLocalizedString(@"CurrentOrder", @"")
@@ -71,11 +79,12 @@
     for(int i = 0; i < numPictures + numUploadingPictures; ++i)
     {
         int pictureId;
+        NSString *filename;
 
         if(i < numPictures)
             pictureId = [[pictureIds objectAtIndex:i] intValue];
         else
-            @throw [NSException exceptionWithName:@"Unimplemented" reason:@"" userInfo:nil];
+            filename = [uploadingPictures objectAtIndex:i - numPictures];
 
         if(i % picturesPerRow == 0)
         {
@@ -89,31 +98,40 @@
         else
             x += cx + 10;
 
-        NSString *thumbnailFilename = [ThumbnailDownloadHandler filenameForPictureId:pictureId];
-        int thumbnailFileSize = 0;
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(x, y, cx, cx)];
         [imageView setContentMode:UIViewContentModeScaleAspectFit];
 
-        if([[NSFileManager defaultManager] fileExistsAtPath:thumbnailFilename])
+        if(i < numPictures)
         {
-            NSError *attributesError;
-            NSDictionary *fileAttributes;
-            if(!(fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:thumbnailFilename error:&attributesError]))
-                NSLog(@"Failed to get attributes of thumbnail file: %@", [attributesError localizedDescription]);
-            else
-                thumbnailFileSize = [[fileAttributes objectForKey:NSFileSize] intValue];
-        }
+            NSString *thumbnailFilename = [ThumbnailDownloadHandler filenameForPictureId:pictureId];
+            int thumbnailFileSize = 0;
 
-        if(thumbnailFileSize > 1000)
-        {
-            UIImage *img = [[UIImage alloc] initWithContentsOfFile:thumbnailFilename];
-            [imageView setImage:img];
+            if([[NSFileManager defaultManager] fileExistsAtPath:thumbnailFilename])
+            {
+                NSError *attributesError;
+                NSDictionary *fileAttributes;
+                if(!(fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:thumbnailFilename error:&attributesError]))
+                    NSLog(@"Failed to get attributes of thumbnail file: %@", [attributesError localizedDescription]);
+                else
+                    thumbnailFileSize = [[fileAttributes objectForKey:NSFileSize] intValue];
+            }
+
+            if(thumbnailFileSize > 1000)
+            {
+                UIImage *img = [[UIImage alloc] initWithContentsOfFile:thumbnailFilename];
+                [imageView setImage:img];
+            }
+            else
+            {
+                [imageView setImage:placeholderImg];
+
+                [self startThumbnailDownloadOfPictureId:pictureId];
+            }
         }
         else
         {
-            [imageView setImage:placeholderImg];
-
-            [self startThumbnailDownloadOfPictureId:pictureId];
+            UIImage *img = [[UIImage alloc] initWithContentsOfFile:filename];
+            [imageView setImage:img];
         }
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + stateImageSize + 2, y + cx + stateImagePaddingY, cx - stateImageSize - 2, stateImageSize)];
@@ -121,11 +139,23 @@
 
         label.font = labelFont;
 
-        // TODO: distinguish states
-        if(true)
+        if(i < numPictures)
         {
-            label.text = NSLocalizedString(@"Uploaded", @"");
-            [stateImageView setImage:uploadedStateImg];
+            if(isOldOrder)
+            {
+                label.text = NSLocalizedString(@"Printed", @"");
+                [stateImageView setImage:printedStateImg];
+            }
+            else
+            {
+                label.text = NSLocalizedString(@"Uploaded", @"");
+                [stateImageView setImage:uploadedStateImg];
+            }
+        }
+        else
+        {
+            label.text = NSLocalizedString(@"Uploading", @"");
+            [stateImageView setImage:uploadingStateImg];
         }
 
         [imageView setTag:10000 + pictureId];
