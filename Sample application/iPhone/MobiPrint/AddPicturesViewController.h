@@ -1,13 +1,11 @@
-//
-//  AddPicturesViewController.h
-//  MobiPrint
-//
-//  Created by Dog on 01/08/2012.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 
 @interface AddPicturesViewController : UIViewController
+
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *addPictureButton;
+
+@property (nonatomic, strong) IBOutlet UIButton *uploadPicturesButton;
+
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 
 @end
