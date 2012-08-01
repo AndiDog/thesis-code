@@ -86,11 +86,6 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage*)image editingInfo:(NSDictionary*)editingInfo
 {
-    PictureUploadHandler *handler = [[PictureUploadHandler alloc] initWithImage:image target:(PictureUploadDelegate*)self];
-    [_uploadHandlers setObject:handler forKey:image];
-    [handler startPictureUpload];
-    return;
-
     [picker dismissModalViewControllerAnimated:YES];
 
     [_pickedImages addObject:image];
@@ -108,7 +103,38 @@
 
 - (void)onUploadPicturesButtonTapped
 {
-    NSLog(@"upload tapped!");
+    int numPicsToUpload = 0;
+
+    for(int i = 0; i < [_pickedImages count]; ++i)
+    {
+        if(![[_selected objectAtIndex:i] intValue])
+            continue;
+
+        ++numPicsToUpload;
+
+        UIImage *img = [_pickedImages objectAtIndex:i];
+        PictureUploadHandler *handler = [[PictureUploadHandler alloc] initWithImage:img target:(PictureUploadDelegate*)self];
+        [_uploadHandlers setObject:handler forKey:img];
+
+        // Run in background anyway, but this reduces the delay a bit because the transformation to JPEG is still done
+        // synchronously.
+        [handler performSelectorInBackground:@selector(startPictureUpload) withObject:nil];
+    }
+
+    [_pickedImages removeAllObjects];
+    [_selected removeAllObjects];
+    [self relayout:true];
+
+    if(numPicsToUpload > 0)
+    {
+        [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Info", @"")
+                                    message:[NSString stringWithFormat:NSLocalizedString(@"NPicturesWillBeUploaded", @""), numPicsToUpload]
+                                   delegate:nil
+                          cancelButtonTitle:NSLocalizedString(@"OK", @"")
+                          otherButtonTitles:nil] show];
+
+        self.tabBarController.selectedIndex = 2;
+    }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation

@@ -5,8 +5,11 @@
 "FailedToAddPicture" = "Failed to add picture";
 "FailedToDownloadThumbnail" = "Failed to download thumbnail";
 "FailedToUpdateOrders" = "Failed to update orders";
+"Info" = "Info";
 "OldOrder" = "Old order";
+"OK" = "OK";
 "OrderHasNPicturesFmt" = "This order contains %d pictures:";
+"NPicturesWillBeUploaded" = "%d pictures will be uploaded. Check the current order screen for the status.";
 "NumOrders" = "There are %d old orders:";
 "NumPicturesFmt" = "%d pictures";
 "NumPictureFoldersFmt" = "There are %d folders with pictures:";
