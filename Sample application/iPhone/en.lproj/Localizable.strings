@@ -1,6 +1,8 @@
+"AddAbovePicture" = "Add the above picture";
 "CurrentOrder" = "Current order";
 "DismissError" = "Dismiss";
 "Error" = "Error";
+"FailedToAddPicture" = "Failed to add picture";
 "FailedToDownloadThumbnail" = "Failed to download thumbnail";
 "FailedToUpdateOrders" = "Failed to update orders";
 "OldOrder" = "Old order";

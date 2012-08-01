@@ -49,11 +49,51 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="R4C-Lk-1VL" kind="relationship" relationship="rootViewController" id="kSJ-ue-2nu"/>
+                        <segue destination="WRM-AB-uvz" kind="relationship" relationship="rootViewController" id="tjI-Dq-S42"/>
                     </connections>
                 </navigationController>
             </objects>
             <point key="canvasLocation" x="-203" y="-632"/>
+        </scene>
+        <!--Add Pictures View Controller - Add pictures-->
+        <scene sceneID="314-vY-HZf">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oLq-aD-5ev" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="WRM-AB-uvz" customClass="AddPicturesViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Sh6-Ed-AjM">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wTe-Oy-Vmn">
+                                <rect key="frame" x="55" y="319" width="211" height="37"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Upload selected pictures">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="iYZ-j2-5wJ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="317"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add pictures" id="dph-35-naP">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ci4-oY-fq6"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addPictureButton" destination="ci4-oY-fq6" id="fxe-sg-xBt"/>
+                        <outlet property="scrollView" destination="iYZ-j2-5wJ" id="W6B-6W-Vfb"/>
+                        <outlet property="uploadPicturesButton" destination="wTe-Oy-Vmn" id="Kby-4p-6sd"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="332" y="-636"/>
         </scene>
         <!--Navigation Controller - Old orders-->
         <scene sceneID="dy0-oc-gzb">
@@ -139,68 +179,6 @@
             </objects>
             <point key="canvasLocation" x="392" y="-1252"/>
         </scene>
-        <!--Picture Folders View Controller - Add pictures-->
-        <scene sceneID="luU-jD-Wx3">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bNf-iI-lxU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="R4C-Lk-1VL" customClass="PictureFoldersViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" tag="1000" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="jBU-9K-cqe">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="num-folders" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="9RK-HS-2aH">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="33"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PictureFolderCell" id="3lf-jT-XYe">
-                                <rect key="frame" x="0.0" y="55" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="folder-name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Fy7-CD-ghL">
-                                            <rect key="frame" x="8" y="11" width="179" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
-                                            <accessibility key="accessibilityConfiguration">
-                                                <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
-                                            </accessibility>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="right" text="num-pics" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="ZRu-An-CYM">
-                                            <rect key="frame" x="203" y="11" width="77" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES"/>
-                                            <accessibility key="accessibilityConfiguration">
-                                                <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
-                                            </accessibility>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="R4C-Lk-1VL" id="wa9-UJ-S9U"/>
-                            <outlet property="delegate" destination="R4C-Lk-1VL" id="jsw-fc-4vP"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Add pictures" id="pw6-HU-GXr"/>
-                    <connections>
-                        <outlet property="foldersCountLabel" destination="9RK-HS-2aH" id="mSB-9U-XOD"/>
-                    </connections>
-                </viewController>
-            </objects>
-            <point key="canvasLocation" x="378" y="-626"/>
-        </scene>
         <!--Order Detail View Controller - order-detail-->
         <scene sceneID="6iD-Ea-YbW">
             <objects>
@@ -240,6 +218,14 @@
         <image name="ios-old-orders-tab.png" width="32" height="32"/>
     </resources>
     <classes>
+        <class className="AddPicturesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPicturesViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addPictureButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="uploadPicturesButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
         <class className="OldOrdersViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OldOrdersViewController.h"/>
             <relationships>
@@ -251,12 +237,6 @@
             <relationships>
                 <relationship kind="outlet" name="headingLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="thumbnailsTable" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="PictureFoldersViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PictureFoldersViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="foldersCountLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
     </classes>

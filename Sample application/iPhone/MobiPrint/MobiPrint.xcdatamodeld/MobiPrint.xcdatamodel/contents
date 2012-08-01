@@ -6,13 +6,7 @@
         <attribute name="storeId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="submissionDate" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="PictureFolder" syncable="YES">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="numPictures" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
     <elements>
         <element name="Order" positionX="160" positionY="192" width="128" height="105"/>
-        <element name="PictureFolder" positionX="160" positionY="192" width="128" height="90"/>
     </elements>
 </model>

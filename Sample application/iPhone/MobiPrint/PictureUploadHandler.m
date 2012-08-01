@@ -17,4 +17,11 @@
     return uploadingPictures;
 }
 
++ (void)startPictureUpload:(UIImage*)img editingInfo:(NSDictionary*)editingInfo
+{
+    // TODO: not working yet
+    NSData *data = [NSData dataWithContentsOfURL:[editingInfo objectForKey:UIImagePickerControllerReferenceURL]];
+    NSLog(@"starting upload of %@ = hash %@", data, [data hash]);
+}
+
 @end
