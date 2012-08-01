@@ -80,8 +80,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="317"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Please add pictures and then upload them with the button below." textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="YFp-1v-sdJ">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="317"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Please add pictures and then upload them with the button below." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="YFp-1v-sdJ">
+                                        <rect key="frame" x="8" y="7" width="304" height="69"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
