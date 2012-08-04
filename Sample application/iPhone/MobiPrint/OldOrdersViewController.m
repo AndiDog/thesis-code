@@ -76,13 +76,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [[self.fetchedResultsController sections] count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+    return [self.fetchedResultsController.fetchedObjects count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -373,7 +372,11 @@
         }
     }
 
+    // Some workaround because I didn't get fetchedResultsController to update the list automatically (maybe because
+    // I'm using different managed object contexts per thread?)
+    [self.fetchedResultsController performFetch:&error];
     [self.tableView reloadData];
+    [self controllerDidChangeContent:self.fetchedResultsController];
 }
 
 @end
