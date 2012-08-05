@@ -1,6 +1,8 @@
 #import "AddPicturesViewController.h"
 #import "PictureUploadHandler.h"
 
+static OldOrdersViewController *oldOrdersViewController = nil;
+
 @interface AddPicturesViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PictureUploadDelegateProtocol>
 
 @end
@@ -22,6 +24,11 @@
 @synthesize addPictureButton;
 @synthesize scrollView;
 @synthesize uploadPicturesButton;
+
++ (void)setOldOrdersViewController:(OldOrdersViewController*)controller
+{
+    oldOrdersViewController = controller;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -209,7 +216,10 @@
 {
     [_uploadHandlers removeObjectForKey:img];
 
-    NSLog(@"Upload finished with error (%@)", error);
+    if(error)
+        NSLog(@"Upload finished with error (%@)", error);
+    else
+        [oldOrdersViewController updateOrders];
 }
 
 @end
