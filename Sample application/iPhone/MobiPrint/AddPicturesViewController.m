@@ -146,12 +146,9 @@
 {
     if(full)
     {
-        if([_pickedImages count] > 0)
-        {
-            NSArray *subviews = [[self.scrollView subviews] copy];
-            for(UIView *subview in subviews)
-                [subview removeFromSuperview];
-        }
+        NSArray *subviews = [[self.scrollView subviews] copy];
+        for(UIView *subview in subviews)
+            [subview removeFromSuperview];
 
         _displayWidth = self.scrollView.frame.size.width - 16;
         _y = 8;
