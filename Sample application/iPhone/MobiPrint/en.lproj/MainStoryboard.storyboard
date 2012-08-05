@@ -249,14 +249,139 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="current-order" id="i0H-ZH-eaz"/>
+                    <navigationItem key="navigationItem" title="current-order" id="i0H-ZH-eaz">
+                        <barButtonItem key="rightBarButtonItem" title="Submit…" style="done" id="5Mr-J1-lYC"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="headingLabel" destination="fdg-VF-ixO" id="qUg-OW-xgZ"/>
+                        <outlet property="submitOrderButton" destination="5Mr-J1-lYC" id="5Xl-yh-8m9"/>
                         <outlet property="thumbnailsTable" destination="Und-tc-xWb" id="hBM-t4-nkF"/>
+                        <segue destination="BJj-nG-yJn" kind="push" identifier="showSubmitOrder" id="3a8-Xx-vYF"/>
                     </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="312" y="187"/>
+        </scene>
+        <!--Submit Order View Controller - Submit order-->
+        <scene sceneID="EhE-Ve-pdn">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wvu-LD-XZE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="BJj-nG-yJn" customClass="SubmitOrderViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gh2-Gh-GLV">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="j6I-hw-eXx">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="text" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="10" id="izG-FC-aNf">
+                                        <rect key="frame" x="8" y="0.0" width="304" height="70"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <searchBar contentMode="redraw" placeholder="Location" id="mJ2-CA-q9V">
+                                        <rect key="frame" x="0.0" y="98" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
+                                        <scopeButtonTitles>
+                                            <string>Title</string>
+                                            <string>Title</string>
+                                        </scopeButtonTitles>
+                                    </searchBar>
+                                    <view contentMode="scaleToFill" id="2Zc-8D-gXX">
+                                        <rect key="frame" x="8" y="176" width="304" height="201"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Username:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="p6N-5I-6A1">
+                                                <rect key="frame" x="0.0" y="11" width="111" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="PJD-c6-WmN">
+                                                <rect key="frame" x="128" y="6" width="176" height="31"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="alphabet" returnKeyType="next"/>
+                                            </textField>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Password:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="3tP-LE-xXI">
+                                                <rect key="frame" x="0.0" y="53" width="117" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="Jda-I2-FbL">
+                                                <rect key="frame" x="128" y="48" width="176" height="31"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                            </textField>
+                                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="gAm-vT-ftG">
+                                                <rect key="frame" x="38" y="104" width="79" height="27"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                            </switch>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Confirm order" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="AmE-U1-rbn">
+                                                <rect key="frame" x="125" y="107" width="174" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" highlighted="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jTv-8H-AHN">
+                                                <rect key="frame" x="8" y="153" width="288" height="37"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <color key="tintColor" red="1" green="0.43750403949481476" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="Submit order">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="QUH-6f-t2x">
+                                        <rect key="frame" x="8" y="146" width="304" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enter an address to show stores near you:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="4Up-BV-c1g">
+                                        <rect key="frame" x="8" y="72" width="304" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Submit order" id="T50-Og-r6G"/>
+                    <connections>
+                        <outlet property="confirmSwitch" destination="gAm-vT-ftG" id="4YV-YM-1Mg"/>
+                        <outlet property="formView" destination="2Zc-8D-gXX" id="k4a-Ip-frn"/>
+                        <outlet property="passwordField" destination="Jda-I2-FbL" id="5Hs-n5-tGg"/>
+                        <outlet property="scrollView" destination="j6I-hw-eXx" id="Snm-tk-BHS"/>
+                        <outlet property="storeResultsView" destination="QUH-6f-t2x" id="Cfb-lt-UcN"/>
+                        <outlet property="submitButton" destination="jTv-8H-AHN" id="5Sx-Ml-acQ"/>
+                        <outlet property="textLabel" destination="izG-FC-aNf" id="z5a-ig-eiK"/>
+                        <outlet property="usernameField" destination="PJD-c6-WmN" id="lM2-rF-2Cw"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="756" y="186"/>
         </scene>
     </scenes>
     <resources>
