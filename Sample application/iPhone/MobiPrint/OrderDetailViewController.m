@@ -4,6 +4,7 @@
 
 @implementation OrderDetailViewController
 
+@synthesize isCurrentOrder = _isCurrentOrder;
 @synthesize order = _order;
 @synthesize headingLabel;
 @synthesize thumbnailsTable;
@@ -12,10 +13,10 @@
 {
     [super viewDidLoad];
 
+    _isCurrentOrder = false;
+
     if(self.order)
         [self relayout];
-
-    [self startThumbnailDownloadOfPictureId:1];
 }
 
 - (void)viewDidUnload
@@ -62,8 +63,8 @@
     int numUploadingPictures = [uploadingPictures count];
 
     self.title = isOldOrder
-                 ? NSLocalizedString(@"CurrentOrder", @"")
-                 : NSLocalizedString(@"OldOrder", @"");
+                 ? NSLocalizedString(@"OldOrder", @"")
+                 : NSLocalizedString(@"CurrentOrder", @"");
 
     self.headingLabel.text = [NSString stringWithFormat:NSLocalizedString(@"OrderHasNPicturesFmt", @""), numPictures + numUploadingPictures];
 
@@ -84,12 +85,12 @@
     for(int i = 0; i < numPictures + numUploadingPictures; ++i)
     {
         int pictureId;
-        NSString *filename;
+        UIImage *uploadingImg;
 
         if(i < numPictures)
             pictureId = [[pictureIds objectAtIndex:i] intValue];
         else
-            filename = [uploadingPictures objectAtIndex:i - numPictures];
+            uploadingImg = [uploadingPictures objectAtIndex:i - numPictures];
 
         if(i % picturesPerRow == 0)
         {
@@ -134,10 +135,7 @@
             }
         }
         else
-        {
-            UIImage *img = [[UIImage alloc] initWithContentsOfFile:filename];
-            [imageView setImage:img];
-        }
+            [imageView setImage:uploadingImg];
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + stateImageSize + 2, y + cx + stateImagePaddingY, cx - stateImageSize - 2, stateImageSize)];
         UIImageView *stateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(x, y + cx + stateImagePaddingY, stateImageSize, stateImageSize)];

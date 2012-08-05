@@ -5,6 +5,8 @@
 #import "ISO8601DateFormatter.h"
 #import "NSString+CountString.h"
 
+static CurrentOrderDetailViewController *currentOrderViewController = nil;
+
 @interface OldOrdersViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
@@ -19,6 +21,11 @@
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize ordersCountLabel;
+
++ (void)setCurrentOrderViewController:(CurrentOrderDetailViewController*)controller
+{
+    currentOrderViewController = controller;
+}
 
 - (void)awakeFromNib
 {
@@ -339,6 +346,7 @@
         [self showUpdateErrorWithDescription:@"Failed to delete orders"];
     }
 
+    NSManagedObject *currentOrder = nil;
     NSArray *ordersArray = [json valueForKey:@"orders"];
     for(NSDictionary *order in ordersArray)
     {
@@ -355,6 +363,8 @@
 
         if([order valueForKey:@"submissionDate"] == [NSNull null])
         {
+            currentOrder = newOrder;
+
             [newOrder setValue:@"" forKey:@"submissionDate"];
             [newOrder setValue:0 forKey:@"storeId"];
         }
@@ -377,6 +387,8 @@
     [self.fetchedResultsController performFetch:&error];
     [self.tableView reloadData];
     [self controllerDidChangeContent:self.fetchedResultsController];
+
+    [currentOrderViewController ordersChanged:currentOrder];
 }
 
 @end

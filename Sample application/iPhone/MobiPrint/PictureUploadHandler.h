@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+#import "CurrentOrderDetailViewController.h"
+
 @protocol PictureUploadDelegateProtocol
 
 - (void)pictureUploadFinished:(UIImage*)img error:(NSString*)error;
@@ -10,6 +12,8 @@
 @end
 
 @interface PictureUploadHandler : NSObject
+
++ (void)setCurrentOrderViewController:(CurrentOrderDetailViewController*)controller;
 
 + (NSArray*)getUploadingPictures;
 

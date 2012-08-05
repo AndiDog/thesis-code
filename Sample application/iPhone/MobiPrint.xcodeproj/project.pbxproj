@@ -27,6 +27,7 @@
 		DA8A368F15B59E3D003A719D /* OldOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368E15B59E3D003A719D /* OldOrdersViewController.m */; };
 		DA8A369915B59E8F003A719D /* icon-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369815B59E8F003A719D /* icon-57x57.png */; };
 		DA8A369B15B59EA3003A719D /* icon-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369A15B59EA3003A719D /* icon-114x114.png */; };
+		DA99288B15CE787700EEAC9B /* CurrentOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA99288A15CE787700EEAC9B /* CurrentOrderDetailViewController.m */; };
 		DA9F1CD115BD7A40003CA8AD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA9F1CD315BD7A40003CA8AD /* Localizable.strings */; };
 		DAB07F1615C2E1A40036D837 /* MobiPrint.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DAB07F1415C2E1A40036D837 /* MobiPrint.xcdatamodeld */; };
 		DACDE80A15C884550014056E /* PictureUploadHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DACDE80915C884550014056E /* PictureUploadHandler.m */; };
@@ -72,6 +73,8 @@
 		DA8A368E15B59E3D003A719D /* OldOrdersViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OldOrdersViewController.m; sourceTree = "<group>"; };
 		DA8A369815B59E8F003A719D /* icon-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-57x57.png"; sourceTree = "<group>"; };
 		DA8A369A15B59EA3003A719D /* icon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-114x114.png"; sourceTree = "<group>"; };
+		DA99288915CE787700EEAC9B /* CurrentOrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentOrderDetailViewController.h; sourceTree = "<group>"; };
+		DA99288A15CE787700EEAC9B /* CurrentOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentOrderDetailViewController.m; sourceTree = "<group>"; };
 		DA9F1CD215BD7A40003CA8AD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAB07F1515C2E1A40036D837 /* MobiPrint.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MobiPrint.xcdatamodel; sourceTree = "<group>"; };
 		DACDE80815C884550014056E /* PictureUploadHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureUploadHandler.h; sourceTree = "<group>"; };
@@ -184,6 +187,8 @@
 				DACDE80915C884550014056E /* PictureUploadHandler.m */,
 				DAD1D6DC15C990D400B683EC /* AddPicturesViewController.h */,
 				DAD1D6DD15C990D400B683EC /* AddPicturesViewController.m */,
+				DA99288915CE787700EEAC9B /* CurrentOrderDetailViewController.h */,
+				DA99288A15CE787700EEAC9B /* CurrentOrderDetailViewController.m */,
 			);
 			path = MobiPrint;
 			sourceTree = "<group>";
@@ -339,6 +344,7 @@
 				DA78F19115C848D9000BF03E /* ThumbnailDownloadHandler.m in Sources */,
 				DACDE80A15C884550014056E /* PictureUploadHandler.m in Sources */,
 				DAD1D6DE15C990D400B683EC /* AddPicturesViewController.m in Sources */,
+				DA99288B15CE787700EEAC9B /* CurrentOrderDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

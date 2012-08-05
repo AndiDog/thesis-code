@@ -15,6 +15,9 @@
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="dsN-Fu-0Zb">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <connections>
+                        <segue destination="qsd-4A-WfO" kind="relationship" relationship="rootViewController" id="sUy-Q0-P8D"/>
+                    </connections>
                 </navigationController>
             </objects>
             <point key="canvasLocation" x="-172" y="187"/>
@@ -223,35 +226,44 @@
             </objects>
             <point key="canvasLocation" x="848" y="-1252"/>
         </scene>
+        <!--Current Order Detail View Controller - current-order-->
+        <scene sceneID="Z4B-E6-lfm">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SPT-G8-thc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="qsd-4A-WfO" customClass="CurrentOrderDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="v7C-y2-KG5">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="order-num-pics" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="fdg-VF-ixO">
+                                <rect key="frame" x="8" y="9" width="305" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Und-tc-xWb">
+                                <rect key="frame" x="0.0" y="38" width="320" height="329"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="current-order" id="i0H-ZH-eaz"/>
+                    <connections>
+                        <outlet property="headingLabel" destination="fdg-VF-ixO" id="qUg-OW-xgZ"/>
+                        <outlet property="thumbnailsTable" destination="Und-tc-xWb" id="hBM-t4-nkF"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="312" y="187"/>
+        </scene>
     </scenes>
     <resources>
         <image name="ios-add-pictures-tab.png" width="32" height="32"/>
         <image name="ios-current-order-tab.png" width="32" height="32"/>
         <image name="ios-old-orders-tab.png" width="32" height="32"/>
     </resources>
-    <classes>
-        <class className="AddPicturesViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPicturesViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="addPictureButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="uploadPicturesButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="OldOrdersViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OldOrdersViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="ordersCountLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="OrderDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OrderDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="headingLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="thumbnailsTable" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
