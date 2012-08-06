@@ -330,6 +330,8 @@ static OldOrdersViewController *oldOrdersViewController = nil;
                                    delegate:nil
                           cancelButtonTitle:NSLocalizedString(@"DismissError", @"")
                           otherButtonTitles:nil] show];
+
+        [self.navigationController popViewControllerAnimated:false];
     }
 }
 
