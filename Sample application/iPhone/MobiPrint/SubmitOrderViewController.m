@@ -314,7 +314,7 @@ static OldOrdersViewController *oldOrdersViewController = nil;
 {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
 
-    if(false)//[httpResponse statusCode] < 200 || [httpResponse statusCode] >= 300)
+    if([httpResponse statusCode] < 200 || [httpResponse statusCode] >= 300)
     {
         [self showSubmissionError:[NSString stringWithFormat:@"Status code %d", [httpResponse statusCode]]];
         return;
