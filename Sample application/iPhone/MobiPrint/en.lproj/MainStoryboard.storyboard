@@ -374,7 +374,8 @@
                         <outlet property="formView" destination="2Zc-8D-gXX" id="k4a-Ip-frn"/>
                         <outlet property="passwordField" destination="Jda-I2-FbL" id="5Hs-n5-tGg"/>
                         <outlet property="scrollView" destination="j6I-hw-eXx" id="Snm-tk-BHS"/>
-                        <outlet property="storeResultsView" destination="QUH-6f-t2x" id="Cfb-lt-UcN"/>
+                        <outlet property="storeResultsView" destination="QUH-6f-t2x" id="wJp-vq-OGC"/>
+                        <outlet property="storeSearchBar" destination="mJ2-CA-q9V" id="LXg-mV-Xlb"/>
                         <outlet property="submitButton" destination="jTv-8H-AHN" id="5Sx-Ml-acQ"/>
                         <outlet property="textLabel" destination="izG-FC-aNf" id="z5a-ig-eiK"/>
                         <outlet property="usernameField" destination="PJD-c6-WmN" id="lM2-rF-2Cw"/>

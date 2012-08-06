@@ -6,6 +6,8 @@
 
 @property (nonatomic, strong) IBOutlet UIView *formView;
 
+@property (nonatomic, strong) IBOutlet UISearchBar *storeSearchBar;
+
 @property (nonatomic, strong) IBOutlet UIView *storeResultsView;
 
 @property (nonatomic, strong) IBOutlet UITextField *passwordField;

@@ -4,6 +4,7 @@
 "Error" = "Error";
 "FailedToAddPicture" = "Failed to add picture";
 "FailedToDownloadThumbnail" = "Failed to download thumbnail";
+"FailedToGetLocation" = "Failed to retrieve your location";
 "FailedToUpdateOrders" = "Failed to update orders";
 "Info" = "Info";
 "OldOrder" = "Old order";
