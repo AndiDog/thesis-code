@@ -1,19 +1,25 @@
 #import <CoreLocation/CoreLocation.h>
+#import "StoresDownloadHandler.h"
 #import "SubmitOrderViewController.h"
 #import "NSString+CountString.h"
 
-@interface SubmitOrderViewController() <UISearchBarDelegate, CLLocationManagerDelegate>
+@interface SubmitOrderViewController() <UISearchBarDelegate, CLLocationManagerDelegate, StoresDownloadDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 @end
 
 @implementation SubmitOrderViewController
 {
     CLLocationManager *_locMan;
     NSManagedObject *_order;
+
+    // Array of StoresDownloadHandler
+    NSMutableArray *_requests;
+
+    NSArray *_stores;
 }
 
 @synthesize confirmSwitch;
 @synthesize formView;
-@synthesize storeResultsView;
+@synthesize storePicker;
 @synthesize storeSearchBar;
 @synthesize usernameField;
 @synthesize passwordField;
@@ -24,6 +30,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    _requests = [[NSMutableArray alloc] init];
 
     NSString *cachedLocation = [self readCachedLocation];
     if([cachedLocation length] > 0)
@@ -42,12 +50,14 @@
     [self.usernameField addTarget:self action:@selector(onUsernameFieldReturnPressed) forControlEvents:UIControlEventEditingDidEndOnExit];
 
     self.storeSearchBar.delegate = self;
+    self.storePicker.dataSource = self;
+    self.storePicker.delegate = self;
 
     int numPics = [((NSString*)[_order valueForKey:@"pictureIds"]) countOccurencesOfString:@","];
     self.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"SubmitTextFmt", @""), numPics];
 
     self.scrollView.contentSize = CGSizeMake(self.scrollView.contentSize.width,
-                                             self.formView.frame.origin.y + self.formView.frame.size.height);
+                                             self.formView.frame.origin.y + self.formView.frame.size.height + 8);
 }
 
 - (void)viewDidUnload
@@ -60,7 +70,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return YES;
+    return true;
 }
 
 - (void)setOrder:(NSManagedObject*)order
@@ -83,6 +93,11 @@
     NSLog(@"Search: %@", [searchBar text]);
     NSString *location = [searchBar text];
     [self writeCachedLocation:location];
+
+    StoresDownloadHandler *handler = [[StoresDownloadHandler alloc] initWithLocation:location resultDelegate:self];
+
+    [_requests addObject:handler];
+    [handler go];
 }
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar*)searchBar
@@ -162,6 +177,56 @@
 
     if(error)
         NSLog(@"Failed to cache location: %@", [error localizedDescription]);
+}
+
+- (void)storesRetrieved:(NSArray*)stores error:(NSString*)error
+{
+    if(error)
+    {
+        [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
+                                    message:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"FailedToGetStores", @""), error]
+                                   delegate:nil
+                          cancelButtonTitle:NSLocalizedString(@"DismissError", @"")
+                          otherButtonTitles:nil] show];
+    }
+    else
+    {
+        int selectedIndex = [self.storePicker selectedRowInComponent:0];
+        int selectedStoreId = -1;
+
+        if([_stores count] > 0 && selectedIndex >= 0)
+            selectedStoreId = [[((NSDictionary*)[_stores objectAtIndex:selectedIndex]) valueForKey:@"id"] intValue];
+
+        _stores = stores;
+        [self.storePicker reloadAllComponents];
+
+        if(selectedStoreId != -1)
+            for(int i = 0; i < [_stores count]; ++i)
+                if(selectedStoreId == [[((NSDictionary*)[_stores objectAtIndex:i]) valueForKey:@"id"] intValue])
+                {
+                    [self.storePicker selectRow:i inComponent:0 animated:false];
+                    break;
+                }
+    }
+}
+
+#pragma mark - Store picker view data source
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView*)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return [_stores count];
+}
+
+#pragma mark - Store picker view delegate
+
+- (NSString*)pickerView:(UIPickerView*)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [((NSDictionary*)[_stores objectAtIndex:row]) valueForKey:@"name"];
 }
 
 @end

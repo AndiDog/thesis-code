@@ -5,6 +5,7 @@
 "FailedToAddPicture" = "Failed to add picture";
 "FailedToDownloadThumbnail" = "Failed to download thumbnail";
 "FailedToGetLocation" = "Failed to retrieve your location";
+"FailedToGetStores" = "Failed to retrieve nearby stores";
 "FailedToUpdateOrders" = "Failed to update orders";
 "Info" = "Info";
 "OldOrder" = "Old order";

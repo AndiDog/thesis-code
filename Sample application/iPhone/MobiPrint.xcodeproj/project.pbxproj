@@ -27,6 +27,7 @@
 		DA8A368F15B59E3D003A719D /* OldOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8A368E15B59E3D003A719D /* OldOrdersViewController.m */; };
 		DA8A369915B59E8F003A719D /* icon-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369815B59E8F003A719D /* icon-57x57.png */; };
 		DA8A369B15B59EA3003A719D /* icon-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = DA8A369A15B59EA3003A719D /* icon-114x114.png */; };
+		DA95B54F15D008FB0012B5D1 /* StoresDownloadHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DA95B54E15D008FB0012B5D1 /* StoresDownloadHandler.m */; };
 		DA99288B15CE787700EEAC9B /* CurrentOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA99288A15CE787700EEAC9B /* CurrentOrderDetailViewController.m */; };
 		DA9A2DCE15CFD8C5005E723A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9A2DCD15CFD8C5005E723A /* CoreLocation.framework */; };
 		DA9C5C0315CEF154002BF8FC /* SubmitOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9C5C0215CEF154002BF8FC /* SubmitOrderViewController.m */; };
@@ -75,6 +76,8 @@
 		DA8A368E15B59E3D003A719D /* OldOrdersViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OldOrdersViewController.m; sourceTree = "<group>"; };
 		DA8A369815B59E8F003A719D /* icon-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-57x57.png"; sourceTree = "<group>"; };
 		DA8A369A15B59EA3003A719D /* icon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-114x114.png"; sourceTree = "<group>"; };
+		DA95B54D15D008FB0012B5D1 /* StoresDownloadHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoresDownloadHandler.h; sourceTree = "<group>"; };
+		DA95B54E15D008FB0012B5D1 /* StoresDownloadHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoresDownloadHandler.m; sourceTree = "<group>"; };
 		DA99288915CE787700EEAC9B /* CurrentOrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentOrderDetailViewController.h; sourceTree = "<group>"; };
 		DA99288A15CE787700EEAC9B /* CurrentOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentOrderDetailViewController.m; sourceTree = "<group>"; };
 		DA9A2DCD15CFD8C5005E723A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -198,6 +201,8 @@
 				DA99288A15CE787700EEAC9B /* CurrentOrderDetailViewController.m */,
 				DA9C5C0115CEF154002BF8FC /* SubmitOrderViewController.h */,
 				DA9C5C0215CEF154002BF8FC /* SubmitOrderViewController.m */,
+				DA95B54D15D008FB0012B5D1 /* StoresDownloadHandler.h */,
+				DA95B54E15D008FB0012B5D1 /* StoresDownloadHandler.m */,
 			);
 			path = MobiPrint;
 			sourceTree = "<group>";
@@ -355,6 +360,7 @@
 				DAD1D6DE15C990D400B683EC /* AddPicturesViewController.m in Sources */,
 				DA99288B15CE787700EEAC9B /* CurrentOrderDetailViewController.m in Sources */,
 				DA9C5C0315CEF154002BF8FC /* SubmitOrderViewController.m in Sources */,
+				DA95B54F15D008FB0012B5D1 /* StoresDownloadHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -295,7 +295,7 @@
                                         </scopeButtonTitles>
                                     </searchBar>
                                     <view contentMode="scaleToFill" id="2Zc-8D-gXX">
-                                        <rect key="frame" x="8" y="176" width="304" height="201"/>
+                                        <rect key="frame" x="8" y="365" width="304" height="201"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <subviews>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Username:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="p6N-5I-6A1">
@@ -351,11 +351,6 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
-                                    <view contentMode="scaleToFill" id="QUH-6f-t2x">
-                                        <rect key="frame" x="8" y="146" width="304" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                    </view>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enter an address to show stores near you:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="4Up-BV-c1g">
                                         <rect key="frame" x="8" y="72" width="304" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -363,6 +358,10 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <pickerView contentMode="scaleToFill" id="tIS-gg-Eu6">
+                                        <rect key="frame" x="0.0" y="142" width="320" height="216"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    </pickerView>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -371,10 +370,10 @@
                     <navigationItem key="navigationItem" title="Submit order" id="T50-Og-r6G"/>
                     <connections>
                         <outlet property="confirmSwitch" destination="gAm-vT-ftG" id="4YV-YM-1Mg"/>
-                        <outlet property="formView" destination="2Zc-8D-gXX" id="k4a-Ip-frn"/>
+                        <outlet property="formView" destination="2Zc-8D-gXX" id="Hu4-HX-6Q1"/>
                         <outlet property="passwordField" destination="Jda-I2-FbL" id="5Hs-n5-tGg"/>
                         <outlet property="scrollView" destination="j6I-hw-eXx" id="Snm-tk-BHS"/>
-                        <outlet property="storeResultsView" destination="QUH-6f-t2x" id="wJp-vq-OGC"/>
+                        <outlet property="storePicker" destination="tIS-gg-Eu6" id="Au5-jd-3DI"/>
                         <outlet property="storeSearchBar" destination="mJ2-CA-q9V" id="LXg-mV-Xlb"/>
                         <outlet property="submitButton" destination="jTv-8H-AHN" id="5Sx-Ml-acQ"/>
                         <outlet property="textLabel" destination="izG-FC-aNf" id="z5a-ig-eiK"/>
@@ -390,6 +389,49 @@
         <image name="ios-current-order-tab.png" width="32" height="32"/>
         <image name="ios-old-orders-tab.png" width="32" height="32"/>
     </resources>
+    <classes>
+        <class className="AddPicturesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPicturesViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addPictureButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="uploadPicturesButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="CurrentOrderDetailViewController" superclassName="OrderDetailViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CurrentOrderDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="submitOrderButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="OldOrdersViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OldOrdersViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="ordersCountLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="OrderDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OrderDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="headingLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="thumbnailsTable" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="SubmitOrderViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SubmitOrderViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="confirmSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="formView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="storePicker" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="storeSearchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="submitButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="textLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="usernameField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
