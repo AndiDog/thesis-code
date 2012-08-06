@@ -45,7 +45,7 @@
         [view removeFromSuperview];
 
     NSArray *pictureIdsArray = [[self.order valueForKey:@"pictureIds"] componentsSeparatedByString:@","];
-    NSMutableArray *pictureIds = [[NSMutableArray alloc] initWithCapacity:[pictureIdsArray count] - 1];
+    NSMutableArray *pictureIds = [[NSMutableArray alloc] initWithCapacity:[pictureIdsArray count]];
 
     for(NSString *pictureIdString in pictureIdsArray)
         if([pictureIdString length] > 0)
