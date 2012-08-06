@@ -69,11 +69,6 @@
 {
     NSLog(@"Orders changed");
 
-    if(currentOrder == nil)
-    {
-        NSLog(@"no curr");
-    }
-
     self.order = currentOrder;
 }
 
