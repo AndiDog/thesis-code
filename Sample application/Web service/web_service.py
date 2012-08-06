@@ -52,7 +52,7 @@ PICTURE_QUOTA = 300 * 2**20
 # Picture filenames are always named <id>.<sha1>.jpg
 PICTURE_REGEX = re.compile(r"^[1-9]\d{0,9}\.[a-f0-9]{40}\.jpg$")
 
-SURVEY = True
+SURVEY = False
 
 if not os.path.exists(PICTURE_DIRECTORY):
     os.mkdir(PICTURE_DIRECTORY)
