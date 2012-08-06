@@ -2,6 +2,9 @@
 #import "StoresDownloadHandler.h"
 #import "SubmitOrderViewController.h"
 #import "NSString+CountString.h"
+#import "settings.h"
+
+static OldOrdersViewController *oldOrdersViewController = nil;
 
 @interface SubmitOrderViewController() <UISearchBarDelegate, CLLocationManagerDelegate, StoresDownloadDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 @end
@@ -15,6 +18,9 @@
     NSMutableArray *_requests;
 
     NSArray *_stores;
+
+    // Submission request
+    NSURLConnection *_connection;
 }
 
 @synthesize confirmSwitch;
@@ -26,6 +32,12 @@
 @synthesize scrollView;
 @synthesize submitButton;
 @synthesize textLabel;
+
+
++ (void)setOldOrdersViewController:(OldOrdersViewController*)controller
+{
+    oldOrdersViewController = controller;
+}
 
 - (void)viewDidLoad
 {
@@ -52,6 +64,7 @@
     self.storeSearchBar.delegate = self;
     self.storePicker.dataSource = self;
     self.storePicker.delegate = self;
+    [self.submitButton addTarget:self action:@selector(onSubmitButtonClicked) forControlEvents:UIControlEventTouchUpInside];
 
     int numPics = [((NSString*)[_order valueForKey:@"pictureIds"]) countOccurencesOfString:@","];
     self.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"SubmitTextFmt", @""), numPics];
@@ -71,6 +84,58 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return true;
+}
+
+- (void)onSubmitButtonClicked
+{
+    if(!self.confirmSwitch.on)
+    {
+        [self showMissingInfoError:NSLocalizedString(@"MustConfirmOrder", @"")];
+        return;
+    }
+
+    if([self.storePicker selectedRowInComponent:0] == -1)
+    {
+        [self showMissingInfoError:NSLocalizedString(@"MustSelectStore", @"")];
+        return;
+    }
+
+    NSString *username = self.usernameField.text;
+    NSString *password = self.passwordField.text;
+
+    if([username length] == 0 || [password length] == 0)
+    {
+        [self showMissingInfoError:NSLocalizedString(@"MustEnterCredentials", @"")];
+        return;
+    }
+
+    int orderId = [[_order valueForKey:@"id"] intValue];
+    int storeId = -1;
+
+    int selectedIndex = [self.storePicker selectedRowInComponent:0];
+    storeId = [[((NSDictionary*)[_stores objectAtIndex:selectedIndex]) valueForKey:@"id"] intValue];
+
+    NSMutableURLRequest  *request = [NSMutableURLRequest  requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@order/%d/submit/", WEB_SERVICE_BASE_URI, orderId]]];
+
+    NSString *query = [NSString stringWithFormat:@"username=%@&password=%@&storeId=%d",
+                       [username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                       [password stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                       storeId];
+
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[query dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+
+    _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+- (void)showMissingInfoError:(NSString*)error
+{
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Info", @"")
+                                message:error
+                               delegate:nil
+                      cancelButtonTitle:NSLocalizedString(@"DismissError", @"")
+                      otherButtonTitles:nil] show];
 }
 
 - (void)setOrder:(NSManagedObject*)order
@@ -95,6 +160,11 @@
     [self writeCachedLocation:location];
 
     StoresDownloadHandler *handler = [[StoresDownloadHandler alloc] initWithLocation:location resultDelegate:self];
+
+    for(StoresDownloadHandler *oldHandler in _requests)
+        [oldHandler cancel];
+
+    [_requests removeAllObjects];
 
     [_requests addObject:handler];
     [handler go];
@@ -134,6 +204,15 @@
 {
     [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
                                 message:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"FailedToGetLocation", @""), description]
+                               delegate:nil
+                      cancelButtonTitle:NSLocalizedString(@"DismissError", @"")
+                      otherButtonTitles:nil] show];
+}
+
+- (void)showSubmissionError:(NSString*)description
+{
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
+                                message:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"FailedToSubmitOrder", @""), description]
                                delegate:nil
                       cancelButtonTitle:NSLocalizedString(@"DismissError", @"")
                       otherButtonTitles:nil] show];
@@ -227,6 +306,47 @@
 - (NSString*)pickerView:(UIPickerView*)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     return [((NSDictionary*)[_stores objectAtIndex:row]) valueForKey:@"name"];
+}
+
+#pragma mark - Connection
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+
+    if(false)//[httpResponse statusCode] < 200 || [httpResponse statusCode] >= 300)
+    {
+        [self showSubmissionError:[NSString stringWithFormat:@"Status code %d", [httpResponse statusCode]]];
+        return;
+    }
+    else
+    {
+        [oldOrdersViewController updateOrders];
+
+        self.tabBarController.selectedIndex = 0;
+
+        [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Info", @"")
+                                    message:NSLocalizedString(@"OrderSubmitted", @"")
+                                   delegate:nil
+                          cancelButtonTitle:NSLocalizedString(@"DismissError", @"")
+                          otherButtonTitles:nil] show];
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError*)error
+{
+    _connection = nil;
+
+    [self showSubmissionError:[error localizedDescription]];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    _connection = nil;
 }
 
 @end

@@ -1,6 +1,7 @@
 #import "OldOrdersViewController.h"
 #import "OrderDetailViewController.h"
 #import "AddPicturesViewController.h"
+#import "SubmitOrderViewController.h"
 #import "settings.h"
 #import "YAJLiOS/YAJL.h"
 #import "ISO8601DateFormatter.h"
@@ -36,6 +37,7 @@ static CurrentOrderDetailViewController *currentOrderViewController = nil;
 - (void)viewDidLoad
 {
     [AddPicturesViewController setOldOrdersViewController:self];
+    [SubmitOrderViewController setOldOrdersViewController:self];
 
     id appDelegate = (id)[[UIApplication sharedApplication] delegate];
     self.managedObjectContext = [appDelegate managedObjectContext];

@@ -1,5 +1,7 @@
 #import <UIKit/UIKit.h>
 
+#import "OldOrdersViewController.h"
+
 @interface SubmitOrderViewController : UIViewController
 
 @property (nonatomic, strong) IBOutlet UISwitch *confirmSwitch;
@@ -19,6 +21,8 @@
 @property (nonatomic, strong) IBOutlet UIButton *submitButton;
 
 @property (nonatomic, strong) IBOutlet UILabel *textLabel;
+
++ (void)setOldOrdersViewController:(OldOrdersViewController*)controller;
 
 - (void)setOrder:(NSManagedObject*)order;
 
