@@ -351,7 +351,6 @@ static CurrentOrderDetailViewController *currentOrderViewController = nil;
         [self showUpdateErrorWithDescription:@"Failed to delete orders"];
     }
 
-    NSManagedObject *currentOrder = nil;
     NSArray *ordersArray = [json valueForKey:@"orders"];
     for(NSDictionary *order in ordersArray)
     {
@@ -368,8 +367,6 @@ static CurrentOrderDetailViewController *currentOrderViewController = nil;
 
         if([order valueForKey:@"submissionDate"] == [NSNull null])
         {
-            currentOrder = newOrder;
-
             [newOrder setValue:@"" forKey:@"submissionDate"];
             [newOrder setValue:0 forKey:@"storeId"];
         }
@@ -393,7 +390,30 @@ static CurrentOrderDetailViewController *currentOrderViewController = nil;
     [self.tableView reloadData];
     [self controllerDidChangeContent:self.fetchedResultsController];
 
-    [currentOrderViewController ordersChanged:currentOrder];
+    // Try to refetch the current order.
+    // There is still a bug remaining: If the current order is submitted, then reset (in the web service's DB) to not
+    // submitted, this code will retrieve the current order as managed object whose values are inaccessible (all
+    // return nil). Could not resolve this issue, and since it may not be important I left it like this. The problem
+    // is that the current order screen correctly displays the order but you cannot click on the submit button because
+    // then it thinks there are no pictures in the order.
+    NSFetchRequest *currentOrderRequest = [[NSFetchRequest alloc] initWithEntityName:@"Order"];
+    [currentOrderRequest setPredicate:[NSPredicate predicateWithFormat:@"submissionDate = ''"]];
+    [currentOrderRequest setIncludesPropertyValues:true];
+    [currentOrderRequest setReturnsObjectsAsFaults:false];
+    NSArray *currentOrderResults = [managedObjectContext executeFetchRequest:currentOrderRequest error:&error];
+
+    if(error)
+    {
+        NSLog(@"Failed to fetch current order: %@", [error localizedDescription]);
+
+        [currentOrderViewController ordersChanged:nil];
+    }
+    else
+    {
+        NSManagedObject *currentOrder = [currentOrderResults count] > 0 ? [currentOrderResults objectAtIndex:0] : nil;
+
+        [currentOrderViewController ordersChanged:currentOrder];
+    }
 }
 
 @end
