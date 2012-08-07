@@ -207,8 +207,6 @@
 
 - (void)thumbnailDownloadSuccess:(int)pictureId
 {
-    NSLog(@"Success callback: %d", pictureId);
-
     UIImageView *imageView = (UIImageView*)[self.thumbnailsTable viewWithTag:10000 + pictureId];
     NSString *thumbnailFilename = [ThumbnailDownloadHandler filenameForPictureId:pictureId];
     UIImage *img = [[UIImage alloc] initWithContentsOfFile:thumbnailFilename];
