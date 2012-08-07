@@ -3,6 +3,9 @@
 #import "PictureUploadHandler.h"
 
 @implementation OrderDetailViewController
+{
+    bool _loaded;
+}
 
 @synthesize isCurrentOrder = _isCurrentOrder;
 @synthesize order = _order;
@@ -17,6 +20,8 @@
 
     if(self.order)
         [self relayout];
+
+    _loaded = true;
 }
 
 - (void)viewDidUnload
@@ -177,7 +182,7 @@
     _order = order;
 
     // Relayout only if the view was loaded already
-    if(self.thumbnailsTable.frame.size.width > 0)
+    if(_loaded)
         [self relayout];
 }
 
