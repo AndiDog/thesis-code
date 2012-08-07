@@ -2,6 +2,7 @@
 #import "CurrentOrderDetailViewController.h"
 #import "PictureUploadHandler.h"
 #import "SubmitOrderViewController.h"
+#import "OrderHelper.h"
 
 @implementation CurrentOrderDetailViewController
 {
@@ -42,9 +43,9 @@
     }
 
     if([results count] > 0)
-        [self ordersChanged:[results objectAtIndex:0]];
+        [self ordersChangedWithCurrentOrder:[OrderHelper orderToDictionary:[results objectAtIndex:0]]];
     else
-        [self ordersChanged:nil];
+        [self ordersChangedWithCurrentOrder:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -65,10 +66,8 @@
                           otherButtonTitles:nil] show];
 }
 
-- (void)ordersChanged:(NSManagedObject*)currentOrder
+- (void)ordersChangedWithCurrentOrder:(NSDictionary*)currentOrder
 {
-    NSLog(@"Orders changed");
-
     self.order = currentOrder;
 }
 

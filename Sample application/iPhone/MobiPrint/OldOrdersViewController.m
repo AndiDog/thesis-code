@@ -6,6 +6,7 @@
 #import "YAJLiOS/YAJL.h"
 #import "ISO8601DateFormatter.h"
 #import "NSString+CountString.h"
+#import "OrderHelper.h"
 
 static CurrentOrderDetailViewController *currentOrderViewController = nil;
 
@@ -119,7 +120,7 @@ static CurrentOrderDetailViewController *currentOrderViewController = nil;
     {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        [((OrderDetailViewController*)[segue destinationViewController]) setOrder:object];
+        [((OrderDetailViewController*)[segue destinationViewController]) setOrder:[OrderHelper orderToDictionary:object]];
     }
 }
 
@@ -406,13 +407,13 @@ static CurrentOrderDetailViewController *currentOrderViewController = nil;
     {
         NSLog(@"Failed to fetch current order: %@", [error localizedDescription]);
 
-        [currentOrderViewController ordersChanged:nil];
+        [currentOrderViewController ordersChangedWithCurrentOrder:nil];
     }
     else
     {
         NSManagedObject *currentOrder = [currentOrderResults count] > 0 ? [currentOrderResults objectAtIndex:0] : nil;
 
-        [currentOrderViewController ordersChanged:currentOrder];
+        [currentOrderViewController ordersChangedWithCurrentOrder:[OrderHelper orderToDictionary:currentOrder]];
     }
 }
 

@@ -177,7 +177,7 @@
     [self.thumbnailsTable setContentSize:CGSizeMake(screenWidth, y + cx + stateImageSize + stateImagePaddingY + 11)];
 }
 
-- (void)setOrder:(NSManagedObject*)order
+- (void)setOrder:(NSDictionary*)order
 {
     _order = order;
 

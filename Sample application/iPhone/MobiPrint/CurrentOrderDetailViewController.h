@@ -4,7 +4,7 @@
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *submitOrderButton;
 
-- (void)ordersChanged:(NSManagedObject*)currentOrder;
+- (void)ordersChangedWithCurrentOrder:(NSDictionary*)currentOrder;
 
 - (void)uploadingPicturesChanged;
 

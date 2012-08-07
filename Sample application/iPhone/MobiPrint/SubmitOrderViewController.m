@@ -12,7 +12,7 @@ static OldOrdersViewController *oldOrdersViewController = nil;
 @implementation SubmitOrderViewController
 {
     CLLocationManager *_locMan;
-    NSManagedObject *_order;
+    NSDictionary *_order;
 
     // Array of StoresDownloadHandler
     NSMutableArray *_requests;
@@ -138,7 +138,7 @@ static OldOrdersViewController *oldOrdersViewController = nil;
                       otherButtonTitles:nil] show];
 }
 
-- (void)setOrder:(NSManagedObject*)order
+- (void)setOrder:(NSDictionary*)order
 {
     _order = order;
 }

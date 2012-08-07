@@ -4,7 +4,7 @@
 
 @property (nonatomic) bool isCurrentOrder;
 
-@property (strong, nonatomic) NSManagedObject *order;
+@property (strong, nonatomic) NSDictionary *order;
 
 @property (nonatomic, strong) IBOutlet UILabel *headingLabel;
 

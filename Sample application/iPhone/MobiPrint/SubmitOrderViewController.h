@@ -24,6 +24,6 @@
 
 + (void)setOldOrdersViewController:(OldOrdersViewController*)controller;
 
-- (void)setOrder:(NSManagedObject*)order;
+- (void)setOrder:(NSDictionary*)order;
 
 @end
