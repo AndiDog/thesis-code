@@ -67,7 +67,7 @@ function AddPicturesFromFolderView(folderPath, filenames)
 
     var self = Ti.UI.createWindow({
         title: String.format(L('addPicturesFromFolderX'), /[^\/\\]+$/.exec(folderPath)[0]),
-        backgroundColor: '#000'
+        backgroundColor: Ti.Platform.osname == 'android' ? '#000' : '#fff'
     })
 
     this.table = Ti.UI.createTableView({

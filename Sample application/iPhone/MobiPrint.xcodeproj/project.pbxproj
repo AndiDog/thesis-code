@@ -448,6 +448,7 @@
 		DA8A369615B59E3D003A719D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Philipp Broeckl (W2N8VU75HE)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -464,6 +465,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9ACD5A28-FD60-4C1E-8D5F-4428EE511479";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -471,6 +473,7 @@
 		DA8A369715B59E3D003A719D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Philipp Broeckl (W2N8VU75HE)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -487,6 +490,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9ACD5A28-FD60-4C1E-8D5F-4428EE511479";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

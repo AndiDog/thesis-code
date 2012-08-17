@@ -41,7 +41,7 @@ function PictureUpload()
             timeout: 5000
         })
 
-        client.open('PUT', Ti.App.globals.webServiceBaseUri + 'pictures/')
+        client.open('PUT', require('globals').webServiceBaseUri + 'pictures/')
         client.send({picture: blob})
 
         this.uploadingFilenames[filename] = true

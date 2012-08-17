@@ -1,4 +1,5 @@
-var atfsys = require('uk.me.thepotters.atf.sys')
+var atfsys
+try { atfsys = require('uk.me.thepotters.atf.sys') } catch(e) { atfsys = { OptimiseMemory: function() {} } }
 var pictureUpload = require('/lib/PictureUpload')
 var SubmitOrderView = require('/ui/common/SubmitOrderView')
 var thumbnailDownloadCache = require('/lib/ThumbnailDownloadCache')
@@ -292,7 +293,7 @@ function OrderDetailView(order, isCurrentOrder)
 
     var self = Ti.UI.createWindow({
         title: isCurrentOrder ? L('currentOrder') : L('oldOrder'),
-        backgroundColor: '#000',
+        backgroundColor: Ti.Platform.osname == 'android' ? '#000' : '#fff',
         layout: 'vertical'
     })
 
@@ -320,7 +321,7 @@ function OrderDetailView(order, isCurrentOrder)
 
         submitButton.addEventListener('click', function() {
             if(_this.order.pictureIds.length > 0)
-                new SubmitOrderView(_this.order).open({modal: true})
+                Ti.UI.currentTabGroup.activeTab.open(new SubmitOrderView(_this.order))
             else
                 alert(L('haveToAddPicturesFirst'))
         })

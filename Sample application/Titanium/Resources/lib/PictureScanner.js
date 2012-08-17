@@ -1,4 +1,5 @@
-var atfsys = require('uk.me.thepotters.atf.sys')
+var atfsys
+try { atfsys = require('uk.me.thepotters.atf.sys') } catch(e) { atfsys = { OptimiseMemory: function() {} } }
 var moment = require('/lib/moment')
 
 function PictureScanner()

@@ -2,7 +2,7 @@
 #publisher:Andreas Sommer
 #url:http://andidogs.dyndns.org/
 #image:appicon.png
-#appid:org.dyndns.andidogs.mobiPrint
-#desc:MobiPrint, a sample application used in my Master's Thesis with the topic "Comparison and evaluation of cross platform frameworks for the development of mobile business applications"
+#appid:de.andidog.MobiPrint
+#desc:MobiPrint, a sample application used in my Master's Thesis with the topic “Comparison and evaluation of cross platform frameworks for the development of mobile business applications”
 #type:mobile
 #guid:2ccb33a9-c5b8-4d27-b111-993eef4ce063

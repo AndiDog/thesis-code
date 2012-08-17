@@ -5,13 +5,13 @@
     </modules>
     <deployment-targets>
         <target device="mobileweb">false</target>
-        <target device="iphone">false</target>
+        <target device="iphone">true</target>
         <target device="ipad">false</target>
         <target device="android">true</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>2.1.0.GA</sdk-version>
-    <id>org.dyndns.andidogs.mobiPrint</id>
+    <sdk-version>2.1.1.GA</sdk-version>
+    <id>de.andidog.MobiPrint</id>
     <name>MobiPrint</name>
     <version>1.0</version>
     <publisher>Andreas Sommer</publisher>

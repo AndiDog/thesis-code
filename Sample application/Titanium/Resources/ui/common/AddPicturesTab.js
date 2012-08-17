@@ -20,7 +20,7 @@ function AddPicturesTab()
 
         for(var folderPath in this.folders)
         {
-            var row = Titanium.UI.createTableViewRow({
+            var row = Ti.UI.createTableViewRow({
                 customData: {path: folderPath},
                 hasDetail: true,
                 height: 50
@@ -45,10 +45,10 @@ function AddPicturesTab()
 
     var self = Ti.UI.createWindow({
         title: L('addPictures'),
-        backgroundColor: '#000'
+        backgroundColor: Ti.Platform.osname == 'android' ? '#000' : '#fff'
     });
 
-    this.table = new Titanium.UI.createTableView({
+    this.table = Ti.UI.createTableView({
         headerTitle: '...',
         scrollable: true
     })
@@ -67,7 +67,7 @@ function AddPicturesTab()
         pictureScanner.scanSingleDirectory(path, scanResults, 1)
         var view = new AddPicturesFromFolderView(path, scanResults[path])
 
-        view.open({modal: true})
+        Ti.UI.currentTabGroup.activeTab.open(view)
     })
 
     self.add(this.table)

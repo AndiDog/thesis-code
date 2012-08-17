@@ -90,7 +90,7 @@ function ThumbnailDownloadCache()
             // Take Titanium points size of display as size hint
             var thumbnailSize = Math.max(5, Math.min(500, Math.max(Ti.Platform.displayCaps.getPlatformWidth(), Ti.Platform.displayCaps.getPlatformHeight())))
 
-            client.open('GET', Ti.App.globals.webServiceBaseUri + 'picture/' + id + '/thumbnail/?size=' + thumbnailSize)
+            client.open('GET', require('globals').webServiceBaseUri + 'picture/' + id + '/thumbnail/?size=' + thumbnailSize)
             client.send()
         }
         catch(e)

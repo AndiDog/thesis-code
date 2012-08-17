@@ -35,7 +35,7 @@ function OldOrdersTab()
                 var list = JSON.parse(this.responseText)
                 var orders = list['orders']
 
-                Ti.App.Properties.setList('orders', [orders, moment()])
+                Ti.App.Properties.setString('orders', JSON.stringify([orders, moment()]))
 
                 for(var i = 0; i < orders.length; ++i)
                     Ti.App.fireEvent('update-order-' + orders[i].id, {order: orders[i]})
@@ -52,13 +52,13 @@ function OldOrdersTab()
             },
             timeout: 5000
         })
-        client.open('GET', Ti.App.globals.webServiceBaseUri + 'orders/')
+        client.open('GET', require('globals').webServiceBaseUri + 'orders/')
         client.send()
     }
 
     this.updateOrdersListUi = function(forceUiRendering)
     {
-        var ordersCached = Ti.App.Properties.getList('orders', [[], null])[0]
+        var ordersCached = JSON.parse(Ti.App.Properties.getString('orders', '[[], null]'))[0]
         var tableData = []
 
         // Always send update-current-order event even if nothing changed
@@ -97,20 +97,20 @@ function OldOrdersTab()
 
         for(var i = 0; i < orders.length; ++i)
         {
-            var row = Titanium.UI.createTableViewRow({
-                title: moment(orders[i].submissionDate).format("dddd, MMMM Do YYYY"),
+            var row = Ti.UI.createTableViewRow({
                 hasDetail: true,
                 customData: {order: orders[i]},
                 height: 50
             })
 
             var labelLeft = Ti.UI.createLabel({
-                left: 10,                
+                left: 10,
                 text: moment(orders[i].submissionDate).format("dddd, MMMM Do YYYY"),
                 touchEnabled: false
             })
             var labelRight = Ti.UI.createLabel({
                 right: 10,
+                font: { fontSize: 12 },
                 text: String.format(L('numPictures'), orders[i].pictureIds.length),
                 touchEnabled: false
             })
@@ -125,10 +125,10 @@ function OldOrdersTab()
 
     var self = Ti.UI.createWindow({
         title: L('oldOrders'),
-        backgroundColor: '#000'
+        backgroundColor: Ti.Platform.osname == 'android' ? '#000' : '#fff'
     });
 
-    this.table = new Titanium.UI.createTableView({
+    this.table = Ti.UI.createTableView({
         headerTitle: '...',
         scrollable: true
     })
@@ -137,7 +137,7 @@ function OldOrdersTab()
         if(!e.row || !e.row.customData)
             return
 
-        new OrderDetailView(e.row.customData.order, false).open({modal: true})
+        Ti.UI.currentTabGroup.activeTab.open(new OrderDetailView(e.row.customData.order, false))
     })
 
     self.add(this.table)

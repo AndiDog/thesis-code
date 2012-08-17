@@ -34,7 +34,10 @@ function SubmitOrderView(order)
                 return
             }
 
-            _this.searchBar.setValue(String.format('%.5f;%.5f', e.coords.latitude, e.coords.longitude))
+			_this.searchBar.setValue(String.format('%.5f;%.5f', e.coords.latitude, e.coords.longitude))
+
+			// On iOS, the 'change' event does not get fired on manual setValue calls, so get the stores from the found location
+			_this.updateSearchBar(true)
         })
     }
 
@@ -168,7 +171,7 @@ function SubmitOrderView(order)
             timeout: 5000
         })
 
-        client.open('GET', Ti.App.globals.webServiceBaseUri + 'stores/by-location/?' + parameters)
+        client.open('GET', require('globals').webServiceBaseUri + 'stores/by-location/?' + parameters)
 
         this.hasPendingRequest = true
         this.doTimeoutConnection = true
@@ -190,7 +193,7 @@ function SubmitOrderView(order)
 
     var self = Ti.UI.createWindow({
         title: L('submitOrder'),
-        backgroundColor: '#000',
+        backgroundColor: Ti.Platform.osname == 'android' ? '#000' : '#fff',
         layout: 'vertical'
     })
 
@@ -237,7 +240,8 @@ function SubmitOrderView(order)
     var horizontalView
     horizontalView = Ti.UI.createView({
         layout: 'horizontal',
-        width: Ti.UI.SIZE
+        width: Ti.UI.SIZE,
+        height: Ti.UI.SIZE
     })
     horizontalView.add(Ti.UI.createLabel({
         text: L('username'),
@@ -251,7 +255,8 @@ function SubmitOrderView(order)
 
     var horizontalView2 = Ti.UI.createView({
         layout: 'horizontal',
-        width: Ti.UI.SIZE
+        width: Ti.UI.SIZE,
+        height: Ti.UI.SIZE
     })
     horizontalView2.add(Ti.UI.createLabel({
         text: L('password'),
@@ -265,7 +270,9 @@ function SubmitOrderView(order)
     horizontalView2.add(this.passwordTextField)
 
     var verticalView = Ti.UI.createView({
-        layout: 'vertical'
+        layout: 'vertical',
+        width: Ti.UI.FILL,
+        height: Ti.UI.SIZE
     })
     verticalView.add(horizontalView)
     verticalView.add(horizontalView2)
@@ -279,12 +286,16 @@ function SubmitOrderView(order)
     })
 
     var confirmationHorizontalView = Ti.UI.createView({
-        layout: 'horizontal'
+        layout: 'horizontal',
+        width: Ti.UI.FILL,
+        height: Ti.UI.SIZE,
     })
     var confirmationCheckbox = Ti.UI.createSwitch({
         left: 10,
-        style: Ti.UI.Android.SWITCH_STYLE_CHECKBOX,
-        value: false
+        style: Ti.Platform.osname == 'android' ? Ti.UI.Android.SWITCH_STYLE_CHECKBOX : undefined,
+        value: false,
+        width: Ti.UI.SIZE,
+        height: Ti.UI.SIZE
     })
     var confirmationLabel = Ti.UI.createLabel({
         text: L('confirmSubmission'),
@@ -343,13 +354,21 @@ function SubmitOrderView(order)
             },
             timeout: 5000
         })
-        client.open('POST', Ti.App.globals.webServiceBaseUri + 'order/' + _this.order.id + '/submit/')
+        client.open('POST', require('globals').webServiceBaseUri + 'order/' + _this.order.id + '/submit/')
         client.send({username: username, password: password, storeId: storeId})
     })
 
     this.searchBar.setValue(Ti.App.Properties.getString('storesSearch', ''))
-    this.searchBar.addEventListener('change', function() { _this.updateSearchBar(true) })
-    this.searchBar.addEventListener('return', function() { _this.updateSearchBar() })
+    // On iOS, the 'change' event does not get fired on manual setValue calls, so get the stores from the old location
+	this.updateSearchBar(true)
+
+    this.searchBar.addEventListener('change', function() {
+    	_this.updateSearchBar(true)
+    })
+    this.searchBar.addEventListener('return', function() {
+    	_this.updateSearchBar()
+    	_this.searchBar.blur()
+    })
 
     if(Ti.Geolocation.locationServicesEnabled)
         setTimeout(function() { _this.setLocation() }, 1)
