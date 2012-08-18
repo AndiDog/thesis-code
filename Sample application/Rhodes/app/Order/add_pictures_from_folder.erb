@@ -1,5 +1,8 @@
 <div data-role="page">
   <div data-role="header">
+    <% if System.get_property('platform') == 'APPLE' %>
+      <a id="backButton" href="javascript:history.back()"><%=h Localization::Views[:back] %></a>
+    <% end %>
     <h3><%=h @folderName %></h3>
   </div>
   <div data-role="content">

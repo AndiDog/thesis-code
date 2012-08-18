@@ -1,11 +1,13 @@
 module Localization
 Views = {
   :add_pictures => 'Add pictures',
+  :back => 'Back',
   :confirm_order => 'Confirm order',
   :current_order => 'Current order',
   :must_add_pictures => 'You did not add any pictures.',
   :n_folders_with_pictures => 'There are %d folders with pictures:',
   :n_pictures => '%d pictures',
+  :old_order => 'Old order',
   :old_orders => 'Old orders',
   :order_has_0_pictures => 'You did not add any pictures yet.',
   :order_has_n_pictures => 'This order contains %d pictures:',

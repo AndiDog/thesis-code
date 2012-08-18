@@ -6,6 +6,12 @@
   end
 %>
 <div data-role="page">
+  <div data-role="header">
+    <% if System.get_property('platform') == 'APPLE' and is_old_order %>
+      <a id="backButton" href="javascript:history.back()"><%=h Localization::Views[:back] %></a>
+    <% end %>
+    <h3><%=h is_old_order ? Localization::Views[:old_order] : Localization::Views[:current_order] %></h3>
+  </div>
   <div data-role="content">
     <%
       numOrderedPictures = @order['pictureIds'].length
