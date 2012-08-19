@@ -1,0 +1,1 @@
+These two Cordova files are a small hack: On iOS, the cordova-2.0.0.js (the Android one) in the build output (not in this folder) is simply overwritten because app.json references that one. Shouldn't be done like this in production.

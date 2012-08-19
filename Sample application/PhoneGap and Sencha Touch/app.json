@@ -37,7 +37,7 @@
             "update": "full"
         },
         {
-            "path": "lib/cordova-1.9.0rc1.js"
+            "path": "lib/cordova-2.0.0.js"
         },
         {
             "path": "app/extensions.js",
