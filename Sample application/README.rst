@@ -59,3 +59,15 @@ Documentation
 ~~~~~~~~~~~~~
 
 See `Rhodes documentation <http://docs.rhomobile.com/>`_.
+
+PhoneGap and Sencha Touch
+-------------------------
+
+Installation
+~~~~~~~~~~~~
+
+Download the SDK and SDK tools from Sencha's `website <http://www.sencha.com/>`_, then install the SDK tools and reboot to ensure the ``sencha`` tool is on the PATH.
+
+Create a new project with ``sencha app create doesntmatter``, then move the ``sdk`` folder to our ``PhoneGap and Sencha Touch`` folder and delete the rest of the newly created project.
+
+Both the Android and iOS projects are prepared to build the Sencha application part and copy it to the ``www`` folder before compiling the app. Make sure this is actually done. Note that the ``sencha_wrapper.py`` file is the one mentioned in my blog post `Packaging a Sencha Touch 2 application with PhoneGap for Android <http://andidog.de/blog/2012/06/packaging-a-sencha-touch-2-application-with-phonegap-for-android/>`_. It is also used in the iOS project and I didn't make any changes to it, so if the ``sencha`` command returns an error, you may not notice it with the iOS project. Just make sure the files are correctly copied to the ``www`` folder, if not you can manually build the Sencha part and watch out for errors (``sencha app build testing -d ios/www``).
