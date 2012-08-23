@@ -78,7 +78,7 @@ Changes in 0.3 from 0.2:
 * Colin also noticed that I had the ?: in -ISO8601DateStringWithTime: the wrong way around. Oops again.
 
 Changes in 0.2 from 0.1:
-* The unparser is new. The  has been munged to allow both components together, 
+* The unparser is new. The  has been munged to allow both components together,
 * The parser has not changed.
 
 Parsing
@@ -123,4 +123,4 @@ Parsing
 Copyright
 =========
 
-This code is copyright 2006–2011 Peter Hosey. It is under the BSD license; see LICENSE.txt for the full text of the license.
+This code is copyright 2006–2011 Peter Hosey. It is under the BSD license; see "ISO8601DateFormatter LICENSE.txt" for the full text of the license.
