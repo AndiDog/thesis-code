@@ -11,3 +11,6 @@ img.order-detail-thumbnail { max-width: 100%; max-height: 100%; display: block; 
 .picture-folder-file { text-align: center; padding-bottom: 10pt }
 .picture-folder-file img { max-width: 100%; display: block; margin: 0 auto; padding: 0 5px }
 .picture-folder-file-checkbox { margin-bottom: 25pt }
+
+/* Strange size issue with latest Sencha Touch version: title ellipsized because it's too small */
+.x-title { min-width: 50% }
