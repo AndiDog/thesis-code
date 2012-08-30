@@ -12,10 +12,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,8 +28,6 @@ import android.widget.Toast;
 
 public class AddPicturesSelectionActivity extends Activity
 {
-    private static String TAG = "AddPicturesSelectionActivity";
-
     private TextView heading;
 
     private Map<String, Boolean> selectedPictures = new HashMap<String, Boolean>();
@@ -120,13 +116,6 @@ public class AddPicturesSelectionActivity extends Activity
             ImageView img = (ImageView)layout.findViewById(R.id.picture_to_add);
             CheckBox checkbox = (CheckBox)layout.findViewById(R.id.picture_checkbox);
 
-            Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
-            if(bmp == null)
-            {
-                Log.e(TAG, "Failed to decode picture " + file.getName());
-                continue;
-            }
-
             final String imagePath = file.getAbsolutePath();
             checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
                 @Override
@@ -136,12 +125,7 @@ public class AddPicturesSelectionActivity extends Activity
                 }
             });
 
-            int imageWidthPx = Math.min(bmp.getWidth(), maxImageWidthPx);
-            int imageHeightPx = bmp.getHeight() * imageWidthPx / bmp.getWidth();
-
-            Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, imageWidthPx, imageHeightPx, true);
-            bmp.recycle();
-
+            Bitmap scaledBmp = MemoryEfficientPictureLoading.loadThumbnail(file, maxImageWidthPx);
             img.setImageBitmap(scaledBmp);
 
             parent.addView(layout);

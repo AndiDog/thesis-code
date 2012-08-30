@@ -11,11 +11,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,8 +36,6 @@ public class OrderDetailActivity extends Activity
     private Order orderToShow;
 
     private boolean showCurrentOrder;
-
-    private static final String TAG = "OrderDetailActivity";
 
     @Override
     public void onConfigurationChanged(Configuration newConfig)
@@ -234,32 +230,8 @@ public class OrderDetailActivity extends Activity
 
             if(i >= numOrderPictures)
             {
-                for(int n = 0; n < 2; ++n)
-                {
-                    try
-                    {
-                        Bitmap bmp = BitmapFactory.decodeFile(uploadingFilename);
-                        if(bmp == null)
-                            Log.e(TAG, "Failed to decode picture " + uploadingFilename);
-                        else
-                        {
-                            int imageWidthPx = Math.min(bmp.getWidth(), cx);
-                            int imageHeightPx = bmp.getHeight() * imageWidthPx / bmp.getWidth();
-
-                            Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, imageWidthPx, imageHeightPx, true);
-                            bmp.recycle();
-                            bmp = null;
-
-                            img.setImageBitmap(scaledBmp);
-                        }
-
-                        break;
-                    }
-                    catch(OutOfMemoryError e)
-                    {
-                        System.gc();
-                    }
-                }
+                Bitmap scaledBmp = MemoryEfficientPictureLoading.loadThumbnail(new File(uploadingFilename), cx);
+                img.setImageBitmap(scaledBmp);
             }
             else
             {
