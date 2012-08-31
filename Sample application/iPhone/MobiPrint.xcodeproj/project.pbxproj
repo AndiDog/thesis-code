@@ -42,8 +42,6 @@
 		DAD1D70015C9C6FF00B683EC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD1D6FF15C9C6FF00B683EC /* libz.dylib */; };
 		DAD1D75915C9D01D00B683EC /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD1D75815C9D01D00B683EC /* libASIHTTPRequest.a */; };
 		DAD2138715BD68B200AEC2BF /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */; };
-		DAD2138815BD68B200AEC2BF /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAD2138015BD68B200AEC2BF /* LICENSE.txt */; };
-		DAD2138A15BD68B200AEC2BF /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAD2138215BD68B200AEC2BF /* README.txt */; };
 		DAD279B915BDA21D00E31539 /* YAJLiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD279B815BDA21D00E31539 /* YAJLiOS.framework */; };
 		DAD55B7E15C6F4F300DDBE50 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD55B7D15C6F4F300DDBE50 /* OrderDetailViewController.m */; };
 /* End PBXBuildFile section */
@@ -112,8 +110,6 @@
 		DAD1D75815C9D01D00B683EC /* libASIHTTPRequest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libASIHTTPRequest.a; sourceTree = "<group>"; };
 		DAD2137E15BD68B200AEC2BF /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
 		DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISO8601DateFormatter.m; sourceTree = "<group>"; };
-		DAD2138015BD68B200AEC2BF /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		DAD2138215BD68B200AEC2BF /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		DAD279B815BDA21D00E31539 /* YAJLiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YAJLiOS.framework; sourceTree = "<group>"; };
 		DAD55B7C15C6F4F300DDBE50 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
 		DAD55B7D15C6F4F300DDBE50 /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailViewController.m; sourceTree = "<group>"; };
@@ -273,8 +269,6 @@
 			children = (
 				DAD2137E15BD68B200AEC2BF /* ISO8601DateFormatter.h */,
 				DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */,
-				DAD2138015BD68B200AEC2BF /* LICENSE.txt */,
-				DAD2138215BD68B200AEC2BF /* README.txt */,
 			);
 			name = Iso8601;
 			sourceTree = "<group>";
@@ -336,8 +330,6 @@
 				DA6E1C7615B5B43400438B26 /* ios-add-pictures-tab.png in Resources */,
 				DA6E1C7715B5B43400438B26 /* ios-current-order-tab.png in Resources */,
 				DA6E1C7815B5B43400438B26 /* ios-old-orders-tab.png in Resources */,
-				DAD2138815BD68B200AEC2BF /* LICENSE.txt in Resources */,
-				DAD2138A15BD68B200AEC2BF /* README.txt in Resources */,
 				DA9F1CD115BD7A40003CA8AD /* Localizable.strings in Resources */,
 				DA78F18815C822DD000BF03E /* test-thumbnail.jpg in Resources */,
 				DA78F18C15C83E20000BF03E /* printed.png in Resources */,
