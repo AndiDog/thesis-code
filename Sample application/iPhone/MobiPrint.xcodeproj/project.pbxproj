@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA3B677B1647152900523567 /* libasihttprequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3B677A1647152900523567 /* libasihttprequest.a */; };
 		DA6E1C7615B5B43400438B26 /* ios-add-pictures-tab.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6E1C7315B5B43400438B26 /* ios-add-pictures-tab.png */; };
 		DA6E1C7715B5B43400438B26 /* ios-current-order-tab.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6E1C7415B5B43400438B26 /* ios-current-order-tab.png */; };
 		DA6E1C7815B5B43400438B26 /* ios-old-orders-tab.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6E1C7515B5B43400438B26 /* ios-old-orders-tab.png */; };
@@ -40,7 +41,6 @@
 		DAD1D6FC15C9C6E000B683EC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD1D6FB15C9C6E000B683EC /* SystemConfiguration.framework */; };
 		DAD1D6FE15C9C6EA00B683EC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD1D6FD15C9C6EA00B683EC /* MobileCoreServices.framework */; };
 		DAD1D70015C9C6FF00B683EC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD1D6FF15C9C6FF00B683EC /* libz.dylib */; };
-		DAD1D75915C9D01D00B683EC /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD1D75815C9D01D00B683EC /* libASIHTTPRequest.a */; };
 		DAD2138715BD68B200AEC2BF /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */; };
 		DAD279B915BDA21D00E31539 /* YAJLiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD279B815BDA21D00E31539 /* YAJLiOS.framework */; };
 		DAD55B7E15C6F4F300DDBE50 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD55B7D15C6F4F300DDBE50 /* OrderDetailViewController.m */; };
@@ -48,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		DA24FB1115BD8A8200F6AAD2 /* settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
+		DA3B677A1647152900523567 /* libasihttprequest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libasihttprequest.a; sourceTree = "<group>"; };
 		DA6E1C7315B5B43400438B26 /* ios-add-pictures-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-add-pictures-tab.png"; path = "Resources/ios-add-pictures-tab.png"; sourceTree = "<group>"; };
 		DA6E1C7415B5B43400438B26 /* ios-current-order-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-current-order-tab.png"; path = "Resources/ios-current-order-tab.png"; sourceTree = "<group>"; };
 		DA6E1C7515B5B43400438B26 /* ios-old-orders-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-old-orders-tab.png"; path = "Resources/ios-old-orders-tab.png"; sourceTree = "<group>"; };
@@ -107,7 +108,6 @@
 		DAD1D6FF15C9C6FF00B683EC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		DAD1D70115C9C9A100B683EC /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		DAD1D70415C9C9DA00B683EC /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
-		DAD1D75815C9D01D00B683EC /* libASIHTTPRequest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libASIHTTPRequest.a; sourceTree = "<group>"; };
 		DAD2137E15BD68B200AEC2BF /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
 		DAD2137F15BD68B200AEC2BF /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISO8601DateFormatter.m; sourceTree = "<group>"; };
 		DAD279B815BDA21D00E31539 /* YAJLiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YAJLiOS.framework; sourceTree = "<group>"; };
@@ -122,6 +122,7 @@
 			files = (
 				DA9A2DCE15CFD8C5005E723A /* CoreLocation.framework in Frameworks */,
 				DAD1D70015C9C6FF00B683EC /* libz.dylib in Frameworks */,
+				DA3B677B1647152900523567 /* libasihttprequest.a in Frameworks */,
 				DAD1D6FE15C9C6EA00B683EC /* MobileCoreServices.framework in Frameworks */,
 				DAD1D6FC15C9C6E000B683EC /* SystemConfiguration.framework in Frameworks */,
 				DAD1D6FA15C9C6D400B683EC /* CFNetwork.framework in Frameworks */,
@@ -130,7 +131,6 @@
 				DA8A367815B59E3C003A719D /* CoreGraphics.framework in Frameworks */,
 				DA8A367A15B59E3C003A719D /* CoreData.framework in Frameworks */,
 				DAD279B915BDA21D00E31539 /* YAJLiOS.framework in Frameworks */,
-				DAD1D75915C9D01D00B683EC /* libASIHTTPRequest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,8 +256,8 @@
 		DAD2137B15BD688900AEC2BF /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DA3B677A1647152900523567 /* libasihttprequest.a */,
 				DAD1D6FF15C9C6FF00B683EC /* libz.dylib */,
-				DAD1D75815C9D01D00B683EC /* libASIHTTPRequest.a */,
 				DAD1D6DF15C9C64800B683EC /* ASIHTTPRequest */,
 				DAD2137D15BD688F00AEC2BF /* Iso8601 */,
 			);
@@ -439,6 +439,12 @@
 		DA8A369615B59E3D003A719D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					armv7s,
+					armv7,
+					armv6,
+				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -455,6 +461,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s i386 armv6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -462,7 +469,13 @@
 		DA8A369715B59E3D003A719D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Philipp Broeckl (W2N8VU75HE)";
+				ARCHS = (
+					i386,
+					armv7s,
+					armv7,
+					armv6,
+				);
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -479,6 +492,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s i386 armv6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
