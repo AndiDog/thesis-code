@@ -26,6 +26,8 @@ Deployment on simulator or device
 
 Titanium Studio includes run configurations for starting an application on the emulator (e.g. Android AVD) or to install it on a device.
 
+Building may fail if the project is located in a directory that contains spaces in its path (observed on iOS with Titanium 2.1.x).
+
 Documentation
 ~~~~~~~~~~~~~
 
@@ -55,6 +57,8 @@ Open the debug/run configurations in RhoStudio (like you would do in Eclipse) an
 
 Note: For RhoSimulator, there is an option to automatically reload code. This can be useful, although it is not reliable. It reloads Ruby code (and also ERB templates) at each request.
 
+For iOS, device/IPA deployment requires an Xcode project, see `the building documentation <http://docs.rhomobile.com/rhodes/build>`.
+
 Documentation
 ~~~~~~~~~~~~~
 
@@ -66,8 +70,15 @@ PhoneGap and Sencha Touch
 Installation
 ~~~~~~~~~~~~
 
-Download the SDK and SDK tools from Sencha's `website <http://www.sencha.com/>`_, then install the SDK tools and reboot to ensure the ``sencha`` tool is on the PATH.
+Download the SDK and SDK tools from Sencha's `website <http://www.sencha.com/>`_, then install the SDK tools and reboot to ensure the ``sencha`` tool is on the PATH and potential other environment variables are set.
 
 Create a new project with ``sencha app create doesntmatter``, then move the ``sdk`` folder to our ``PhoneGap and Sencha Touch`` folder and delete the rest of the newly created project.
 
-Both the Android and iOS projects are prepared to build the Sencha application part and copy it to the ``www`` folder before compiling the app. Make sure this is actually done. Note that the ``sencha_wrapper.py`` file is the one mentioned in my blog post `Packaging a Sencha Touch 2 application with PhoneGap for Android <http://andidog.de/blog/2012/06/packaging-a-sencha-touch-2-application-with-phonegap-for-android/>`_. It is also used in the iOS project and I didn't make any changes to it, so if the ``sencha`` command returns an error, you may not notice it with the iOS project. Just make sure the files are correctly copied to the ``www`` folder, if not you can manually build the Sencha part and watch out for errors (``sencha app build testing -d ios/www``).
+Deployment on simulator or device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Both the Android and iOS projects are prepared to build the Sencha application part and copy it to the ``www`` folder before compiling the app. Make sure this is actually done. Note that the ``sencha_wrapper.py`` file (only used by the Android project) is the one mentioned in my blog post `Packaging a Sencha Touch 2 application with PhoneGap for Android <http://andidog.de/blog/2012/06/packaging-a-sencha-touch-2-application-with-phonegap-for-android/>`_.
+
+If you get errors, make sure the files are correctly copied to the ``www`` folder by the ``sencha`` build tool, if not you can manually build the Sencha part and watch out for errors (``sencha app build testing -d ios/www`` or ``-d android/assets/www``).
+
+Deployment is done just as with a native project.
