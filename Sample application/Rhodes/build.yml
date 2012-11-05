@@ -11,12 +11,13 @@ capabilities:
   - sdcard
 iphone:
   configuration: "Release"
-  sdk: "iphonesimulator5.1"
   provisionprofile: 
-  codesignidentity: 
+  sdk: "iphoneos6.0"
+  codesignidentity: "iPhone Developer"
   entitlements: 
-  BundleIdentifier: "com.rhomobile.mobiprint"
-  BundleURLScheme: "mobiprint"
+  BundleIdentifier: "de.andidog.MobiPrint"
+  BundleURLScheme: "MobiPrint"
+  emulatortarget: "iphone"
 wp:
   productid: "8a671570-74dd-012f-3bf7-00ff3deaba80"
 symbian:
